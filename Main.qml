@@ -6,7 +6,7 @@ ApplicationWindow {
     width: 640
     height: 480
     visible: true
-    title: qsTr("text")
+    title: qsTr("text2")
     menuBar: MenuBar {
         Menu {
             title: qsTr("File")
