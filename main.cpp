@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
         &app,
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
-    engine.loadFromModule("Desktop_calendar", "Main");
+    engine.loadFromModule("Desktop_calendar", "Window");
 
     return app.exec();
 }
