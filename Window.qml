@@ -2,15 +2,16 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-ApplicationWindow{
+
+ApplicationWindow {
+    id:window
     width: 520
     height: 480
     visible: true
     title: qsTr("Calendar")
 
     MyCalendar {
-        anchors.centerIn: parent
+        id:calendar
+        anchors.fill: parent
     }
 }
-
-

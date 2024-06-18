@@ -4,7 +4,8 @@ import QtQuick.Layouts
 
 Rectangle {
     id: control
-    implicitWidth: 320
+
+    implicitWidth: 520
     implicitHeight: 350
 
     border.color: "black"
