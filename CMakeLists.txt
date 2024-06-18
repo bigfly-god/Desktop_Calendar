@@ -14,8 +14,10 @@ qt_add_qml_module(appDesktop_Calendar
     URI Desktop_Calendar
     VERSION 1.0
     QML_FILES
-        Main.qml
+    Window.qml
     SOURCES
+    QML_FILES
+    QML_FILES MyCalendar.qml
 )
 
 target_compile_features(appDesktop_Calendar PRIVATE cxx_std_20)
