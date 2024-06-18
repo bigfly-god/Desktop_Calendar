@@ -4,10 +4,6 @@ project(
   Desktop_Calendar
   VERSION 0.1
   LANGUAGES CXX)
-project(
-  Desktop_Calendar
-  VERSION 0.1
-  LANGUAGES CXX)
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS Quick)
 
@@ -48,6 +44,23 @@ install(
   BUNDLE DESTINATION .
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
+
+# qt_add_executable(Desktop_Calendar)  //Creates and finalizes an application
+# target of a platform-specific type. This command performs the following tasks:
+# 1. Create a CMake target of the appropriate type for the target platform. 2.
+# Link the target to the Qt::Core library. 3. Handle finalization of the CMake
+# target.
+
+# qt_standard_project_setup()     #set(CMAKE_AUTOUIC ON)  set(CMAKE_AUTOMOC ON)
+
+# @if %{HasTranslation} find_package(Qt6 REQUIRED COMPONENTS Core Quick
+# LinguistTools) @else find_package(Qt6 REQUIRED COMPONENTS Core Quick) @endif
+
+# target_sources(appDesktop_Calendar PRIVATE main.cpp qml.qrc @if
+# %{HasTranslation} %{TsFileName} @endif
+#
+# PUBLIC
+#
 
 # qt_add_executable(Desktop_Calendar)  //Creates and finalizes an application
 # target of a platform-specific type. This command performs the following tasks:
