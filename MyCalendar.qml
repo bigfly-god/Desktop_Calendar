@@ -7,7 +7,6 @@ Rectangle {
 
     implicitWidth: 520
     implicitHeight: 350
-
     border.color: "black"
 
     property alias font: month_grid.font
@@ -31,25 +30,11 @@ Rectangle {
     GridLayout {
         anchors.fill: parent
         anchors.margins: 2
-        columns: 2
+        columns: 1
         rows: 3
         columnSpacing: 1
         rowSpacing: 1
 
-        Rectangle {
-            implicitWidth: 30
-            implicitHeight: 40
-            color: "gray"
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    //日期复位
-                    let cur_date=new Date();
-                    month_grid.year=cur_date.getUTCFullYear();
-                    month_grid.month=cur_date.getUTCMonth();
-                }
-            }
-        }
 
         Rectangle {
             Layout.row: 0
@@ -111,131 +96,88 @@ Rectangle {
             }
         }
 
-        Rectangle {
-            implicitWidth: 30
-            implicitHeight: 40
-            color: "gray"
-        }
 
-        //星期1-7
-        DayOfWeekRow {
-            id: week_row
-            Layout.row: 1
-            Layout.column: 1
-            Layout.fillWidth: true
-            implicitHeight: 40
-            spacing: 1
-            topPadding: 0
-            bottomPadding: 0
-            font: control.font
-            //locale设置会影响显示星期数中英文
-            locale: control.locale
-            delegate: Text {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                text: shortName
-                font: week_row.font
-                color: "white"
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                required property string shortName
-            }
-            contentItem: Rectangle {
-                color: "gray"
-                border.color: "black"
-                RowLayout {
-                    anchors.fill: parent
-                    spacing: week_row.spacing
-                    Repeater {
-                        model: week_row.source
-                        delegate: week_row.delegate
-                    }
-                }
-            }
-        }
 
-        //左侧周数
-        WeekNumberColumn {
-            id: week_col
-            Layout.row: 2
-            Layout.fillHeight: true
-            implicitWidth: 30
-            spacing: 1
-            leftPadding: 0
-            rightPadding: 0
-            font: control.font
-            month: month_grid.month
-            year: month_grid.year
-            locale: control.locale
-            delegate: Text {
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-                text: weekNumber
-                font: week_col.font
-                color: "white"
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                required property int weekNumber
-            }
-            contentItem: Rectangle {
-                color: "gray"
-                border.color: "black"
-                ColumnLayout {
-                    anchors.fill: parent
-                    spacing: week_col.spacing
-                    Repeater {
-                        model: week_col.source
-                        delegate: week_col.delegate
-                    }
-                }
-            }
-        }
+            //星期1-7
+       Rectangle {
+               color: "gray"
+               Layout.fillWidth: true
+               Layout.preferredHeight: 40
 
-        //日期单元格
-        MonthGrid {
-            id: month_grid
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            //month: Calendar.December
-            //year: 2022
-            locale: Qt.locale("zh_CN")
-            spacing: 1
-            font{
-                family: "SimHei"
-                pixelSize: 14
-            }
-            delegate: Rectangle {
-                color: model.today
-                       ?"orange"
-                       :control.selectDate.valueOf()===model.date.valueOf()
-                         ?"darkCyan"
-                         :"gray"
-                border.color: "black"
-                border.width: 1
-                Rectangle {
-                    anchors.fill: parent
-                    anchors.margins: 2
-                    color: "transparent"
-                    border.color: "white"
-                    visible: item_mouse.containsMouse
-                }
-                Text {
-                    anchors.centerIn: parent
-                    text: model.day
-                    color: model.month===month_grid.month?"white":"black"
-                }
-                MouseArea {
-                    id: item_mouse
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    acceptedButtons: Qt.NoButton
-                }
-            }
-            onClicked: (date)=> {
-                           control.selectDate=date;
-                           console.log('click',month_grid.title,month_grid.year,month_grid.month,"--",
-                                       date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCDay())
+                GridLayout {
+                   columns: 7
+                   rowSpacing: 0
+                   columnSpacing: 0
+                   anchors.fill: parent
+
+                   Repeater {
+                       model: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+                       delegate: Rectangle {
+                           color: "gray"
+                           anchors.bottomMargin: 1
+                           Layout.fillWidth: true
+                           Layout.fillHeight: true
+
+                           Text {
+                               text: modelData
+                               anchors.centerIn: parent
+                               color: "white"
+                           }
                        }
-        }
+                   }
+               }
+           }
+
+
+
+
+            //日期单元格
+            MonthGrid {
+                id: month_grid
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                locale: Qt.locale("zh_CN")
+                spacing: 1
+                font{
+                    family: "SimHei"
+                    pixelSize: 14
+                }
+                delegate: Rectangle {
+                    color: model.today
+                           ?"orange"
+                           :control.selectDate.valueOf()===model.date.valueOf()
+                             ?"darkCyan"
+                             :"gray"
+                    border.color: "black"
+                    border.width: 1
+                    Rectangle {
+                        anchors.fill: parent
+                        anchors.margins: 2
+                        color: "transparent"
+                        border.color: "white"
+                        visible: item_mouse.containsMouse
+                    }
+                    Text {
+                        anchors.centerIn: parent
+                        text: model.day
+                        color: model.month===month_grid.month?"white":"black"
+                    }
+                    MouseArea {
+                        id: item_mouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        acceptedButtons: Qt.NoButton
+                    }
+                }
+                onClicked: (date)=> {
+                               control.selectDate=date;
+                               console.log('click',month_grid.title,month_grid.year,month_grid.month,"--",
+                                           date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCDay())
+                           }
+            }
+
+
     }
+
+
 }
