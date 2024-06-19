@@ -30,32 +30,17 @@ Rectangle {
 
     GridLayout {
         anchors.fill: parent
-        anchors.margins: 2
         columns: 2
         rows: 3
         columnSpacing: 1
         rowSpacing: 1
 
-        Rectangle {
-            implicitWidth: 30
-            implicitHeight: 40
-            color: "gray"
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    //日期复位
-                    let cur_date=new Date();
-                    month_grid.year=cur_date.getUTCFullYear();
-                    month_grid.month=cur_date.getUTCMonth();
-                }
-            }
-        }
-
+        //年、月切换
         Rectangle {
             Layout.row: 0
             Layout.column: 1
             Layout.fillWidth: true
-            implicitHeight: 40
+            implicitHeight: 45
             color: "gray"
             RowLayout {
                 anchors.fill: parent
@@ -79,7 +64,7 @@ Rectangle {
                     }
                 }
                 Item {
-                    implicitWidth: 20
+                    implicitWidth: 15
                 }
                 CalendarButton {
                     text: "<"
@@ -105,6 +90,28 @@ Rectangle {
                             month_grid.month=0;
                         }else{
                             month_grid.month+=1;
+                        }
+                    }
+                }
+                Rectangle{
+                    width: 45
+                    height: 45
+                    radius: width / 2
+                    Layout.alignment: Qt.AlignRight
+                    color: "orange"
+                    Text {
+                        color: "white"
+                        text:new Date().getDate()
+                        anchors.centerIn: parent
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            // Reset to current date and month when clicked
+                            let cur_date = new Date();
+                            month_grid.year = cur_date.getUTCFullYear();
+                            month_grid.month = cur_date.getUTCMonth();
+                            control.selectDate = cur_date;
                         }
                     }
                 }
@@ -197,7 +204,7 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
             //month: Calendar.December
-            //year: 2022
+            //year: 2024
             locale: Qt.locale("zh_CN")
             spacing: 1
             font{
@@ -205,11 +212,7 @@ Rectangle {
                 pixelSize: 14
             }
             delegate: Rectangle {
-                color: model.today
-                       ?"orange"
-                       :control.selectDate.valueOf()===model.date.valueOf()
-                         ?"darkCyan"
-                         :"gray"
+                color: model.today?"orange":control.selectDate.valueOf()===model.date.valueOf()?"darkCyan":"gray"
                 border.color: "black"
                 border.width: 1
                 Rectangle {
@@ -238,4 +241,5 @@ Rectangle {
                        }
         }
     }
+
 }
