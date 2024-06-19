@@ -25,8 +25,9 @@ qt_add_qml_module(
   MyCalendar.qml
   QML_FILES
   Actions.qml
-  QML_FILES Dialogs.qml
-  QML_FILES )
+  QML_FILES
+  Dialogs.qml
+  QML_FILES)
 
 target_compile_features(appDesktop_Calendar PRIVATE cxx_std_20)
 
@@ -48,42 +49,6 @@ install(
   BUNDLE DESTINATION .
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
-
-# qt_add_executable(Desktop_Calendar)  //Creates and finalizes an application
-# target of a platform-specific type. This command performs the following tasks:
-# 1. Create a CMake target of the appropriate type for the target platform. 2.
-# Link the target to the Qt::Core library. 3. Handle finalization of the CMake
-# target.
-
-# qt_standard_project_setup()     #set(CMAKE_AUTOUIC ON)  set(CMAKE_AUTOMOC ON)
-
-# @if %{HasTranslation} find_package(Qt6 REQUIRED COMPONENTS Core Quick
-# LinguistTools) @else find_package(Qt6 REQUIRED COMPONENTS Core Quick) @endif
-
-# target_sources(appDesktop_Calendar PRIVATE main.cpp qml.qrc @if
-# %{HasTranslation} %{TsFileName} @endif
-#
-# PUBLIC
-#
-
-# qt_add_executable(Desktop_Calendar)  //Creates and finalizes an application
-# target of a platform-specific type. This command performs the following tasks:
-# 1. Create a CMake target of the appropriate type for the target platform. 2.
-# Link the target to the Qt::Core library. 3. Handle finalization of the CMake
-# target.
-
-# qt_standard_project_setup()     #set(CMAKE_AUTOUIC ON)  set(CMAKE_AUTOMOC ON)
-
-# @if %{HasTranslation} find_package(Qt6 REQUIRED COMPONENTS Core Quick
-# LinguistTools) @else find_package(Qt6 REQUIRED COMPONENTS Core Quick) @endif
-
-# target_sources(appDesktop_Calendar PRIVATE main.cpp qml.qrc @if
-# %{HasTranslation} %{TsFileName} @endif
-#
-# PUBLIC
-#
-
-# )
 
 # qt_import_qml_plugins(Desktop_Calendar)
 

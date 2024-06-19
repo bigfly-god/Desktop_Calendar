@@ -16,10 +16,11 @@ ApplicationWindow {
         Menu{
              id:listMenu
              title:qsTr("List")
+             MenuItem{action:actions.save}
              MenuItem{action:actions.schedule}
              MenuItem{action:actions.modify}
              MenuItem{action:actions.countdown}
-             MenuItem{action:actions.save}
+             MenuItem{action:actions.exit}
 
         }
         Menu{
@@ -28,6 +29,7 @@ ApplicationWindow {
 
         }
     }
+
         Dialogs{
             id:dialogs
             anchors.fill: parent
@@ -38,7 +40,6 @@ ApplicationWindow {
             id:actions
             about.onTriggered: dialogs.about.open()
         }
-
 
     MyCalendar {
         id:calendar

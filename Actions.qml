@@ -8,6 +8,7 @@ Item {
     property  alias save:_save
     property  alias countdown:_countdown
 
+
     Action{
         id:_exit
         text:qsTr("&Exit")
