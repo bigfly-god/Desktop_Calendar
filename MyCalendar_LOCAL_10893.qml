@@ -29,7 +29,6 @@ Rectangle {
 
     GridLayout {
         anchors.fill: parent
-
         anchors.margins: 2
         columns: 1
         rows: 3
@@ -37,13 +36,11 @@ Rectangle {
         rowSpacing: 1
 
 
-        //年、月切换
-
         Rectangle {
             Layout.row: 0
             Layout.column: 1
             Layout.fillWidth: true
-            implicitHeight: 45
+            implicitHeight: 40
             color: "gray"
             RowLayout {
                 anchors.fill: parent
@@ -67,7 +64,7 @@ Rectangle {
                     }
                 }
                 Item {
-                    implicitWidth: 15
+                    implicitWidth: 20
                 }
                 CalendarButton {
                     text: "<"
@@ -96,28 +93,6 @@ Rectangle {
                         }
                     }
                 }
-                Rectangle{
-                    width: 45
-                    height: 45
-                    radius: width / 2
-                    Layout.alignment: Qt.AlignRight
-                    color: "orange"
-                    Text {
-                        color: "white"
-                        text:new Date().getDate()
-                        anchors.centerIn: parent
-                    }
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            // Reset to current date and month when clicked
-                            let cur_date = new Date();
-                            month_grid.year = cur_date.getUTCFullYear();
-                            month_grid.month = cur_date.getUTCMonth();
-                            control.selectDate = cur_date;
-                        }
-                    }
-                }
             }
         }
 
@@ -128,7 +103,6 @@ Rectangle {
                color: "gray"
                Layout.fillWidth: true
                Layout.preferredHeight: 40
-
 
                 GridLayout {
                    columns: 7
@@ -149,7 +123,6 @@ Rectangle {
                                anchors.centerIn: parent
                                color: "white"
                            }
-
                        }
                    }
                }
