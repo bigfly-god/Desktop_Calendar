@@ -6,8 +6,9 @@ Item {
     property  alias schedule:_schedule
     property  alias modify:_modify
     property  alias save:_save
-    property  alias countdown:_countdown
-
+    property  alias event_countdown:_event_countdown
+    property  alias schedulelist: _schedulelist
+    property  alias note: _note
 
     Action{
         id:_exit
@@ -24,7 +25,6 @@ Item {
         id:_schedule
         text:qsTr("&Add schedule")
         icon.name:"application-edit"
-
     }
     Action{
         id:_save
@@ -32,9 +32,8 @@ Item {
         icon.name: "document-save"
     }
     Action{
-        id:_countdown
+        id:_event_countdown
         text:qsTr("&Countdown")
-        // icon.name:"hourglass"
     }
 
 
@@ -42,6 +41,14 @@ Item {
         id:_modify
         text:qsTr("&Modify schedule")
         icon.name:"calendar"
+    }
+    Action{
+        id:_schedulelist
+        text: qsTr("&Schedule List")
+    }
+    Action{
+        id:_note
+        text:qsTr("&Note")
     }
 
 }
