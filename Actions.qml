@@ -7,6 +7,9 @@ Item {
     property  alias modify:_modify
     property  alias save:_save
     property  alias event_countdown:_event_countdown
+    property  alias schedulelist: _schedulelist
+    property  alias note: _note
+
 
     Action{
         id:_exit
@@ -39,6 +42,14 @@ Item {
         id:_modify
         text:qsTr("&Modify schedule")
         icon.name:"calendar"
+    }
+    Action{
+        id:_schedulelist
+        text: qsTr("&Schedule List")
+    }
+    Action{
+        id:_note
+        text:qsTr("&Note")
     }
 
 }

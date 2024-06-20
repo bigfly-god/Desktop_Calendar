@@ -24,16 +24,21 @@ ApplicationWindow {
 
         }
         Menu{
+            title:qsTr("Menu")
+            MenuItem{action:actions.schedulelist}
+            MenuItem{action:actions.note}
+
+        }
+        Menu{
             title:qsTr("&Help")
              MenuItem { action: actions.about }
 
         }
-    }
+ }
 
         Dialogs{
             id:dialogs
             anchors.fill: parent
-
         }
 
         Actions{
@@ -63,5 +68,8 @@ ApplicationWindow {
             onTriggered: {
                 window.updateDateTime()//每触发一次，更新一次label上时间显示
             }
-     }
+        }
+
 }
+
+
