@@ -1,9 +1,39 @@
 import QtQuick
 import QtCore
+import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Dialogs
+
 Item {
     property alias about: _about
+    property alias eventCountdown: _eventCountdown
+
+    Dialog {
+        id: _eventCountdown
+        title: qsTr("事件倒计时")
+        width: 200
+        height: 400
+
+        ScrollView {
+            anchors.fill: parent
+            clip: true // Ensures content is clipped to ScrollView bounds
+
+            Column {
+                // Your content goes here
+                Repeater {
+                    model: 20 // Example number of items, adjust as needed
+                    Text {
+                        text: "Item " + (index + 1)
+                        font.pixelSize: 16
+                        color: "white"
+                        padding: 10
+                    }
+                }
+            }
+        }
+    }
+
+
     MessageDialog{
         id:_about
         modality: Qt.WindowModal

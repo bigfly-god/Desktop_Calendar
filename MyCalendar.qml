@@ -37,8 +37,6 @@ Rectangle {
         rowSpacing: 1
         //年、月切换
         Rectangle {
-            Layout.row: 0
-            Layout.column: 1
             Layout.fillWidth: true
             implicitHeight: 45
             color: "gray"
@@ -101,7 +99,7 @@ Rectangle {
                     color: "orange"
                     Text {
                         color: "white"
-                        text:new Date().getDate()
+                        text: "今天"
                         anchors.centerIn: parent
                     }
                     MouseArea {
@@ -118,8 +116,6 @@ Rectangle {
                 }
             }
         }
-
-
 
             //星期1-7
        Rectangle {
@@ -192,8 +188,8 @@ Rectangle {
                 }
                 onClicked: (date)=> {
                                control.selectDate=date;
-                               console.log('click',month_grid.title,month_grid.year,month_grid.month,"--",
-                                           date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCDay())
+                               console.log('click',month_grid.title,month_grid.year,month_grid.month+1,"--",
+                                           date.getUTCFullYear(),date.getUTCMonth()+1,date.getUTCDate(),date.getUTCDay())
                            }
             }
 
