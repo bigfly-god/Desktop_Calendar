@@ -13,6 +13,7 @@ Rectangle {
     property alias font: month_grid.font
     property alias locale: month_grid.locale
     property date selectDate: new Date()
+    property bool containsMouse: false
     //自定义按钮样式
     component CalendarButton : AbstractButton {
         id: c_btn
@@ -37,8 +38,6 @@ Rectangle {
         rowSpacing: 1
         //年、月切换
         Rectangle {
-            Layout.row: 0
-            Layout.column: 1
             Layout.fillWidth: true
             implicitHeight: 45
             color: "gray"
@@ -104,6 +103,7 @@ Rectangle {
                         text:new Date().getDate()
                         anchors.centerIn: parent
                     }
+
                     MouseArea {
                         anchors.fill: parent
                         onClicked: {
@@ -178,26 +178,33 @@ Rectangle {
                         border.color: "white"
                         visible: item_mouse.containsMouse
                     }
+                    
                     Text {
                         anchors.centerIn: parent
                         text: model.day
                         color: model.month===month_grid.month?"white":"black"
                     }
+
                     MouseArea {
                         id: item_mouse
                         anchors.fill: parent
                         hoverEnabled: true
-                        acceptedButtons: Qt.NoButton
                     }
                 }
+
+
                 onClicked: (date)=> {
                                control.selectDate=date;
                                console.log('click',month_grid.title,month_grid.year,month_grid.month,"--",
                                            date.getUTCFullYear(),date.getUTCMonth(),date.getUTCDate(),date.getUTCDay())
                            }
+
+             
             }
 
 
     }
 
 }
+
+

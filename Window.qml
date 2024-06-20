@@ -39,6 +39,7 @@ ApplicationWindow {
         Actions{
             id:actions
             about.onTriggered: dialogs.about.open()
+            schedule.onTriggered: dialogs.addEventDialog.open()
         }
 
     MyCalendar {
