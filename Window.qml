@@ -14,7 +14,6 @@ ApplicationWindow {
         id:appMenuBar
 
         Menu{
-             id:listMenu
              title:qsTr("List")
              MenuItem{action:actions.save}
              MenuItem{action:actions.schedule}
@@ -24,16 +23,21 @@ ApplicationWindow {
 
         }
         Menu{
+            title:qsTr("Menu")
+            MenuItem{action:actions.schedulelist}
+            MenuItem{action:actions.note}
+
+        }
+        Menu{
             title:qsTr("&Help")
              MenuItem { action: actions.about }
 
         }
-    }
+ }
 
         Dialogs{
             id:dialogs
             anchors.fill: parent
-
         }
 
         Actions{
@@ -41,8 +45,11 @@ ApplicationWindow {
             about.onTriggered: dialogs.about.open()
         }
 
-    MyCalendar {
-        id:calendar
-        anchors.fill: parent
-    }
+
+        MyCalendar {
+            id:calendar
+            anchors.fill: parent
+        }
 }
+
+
