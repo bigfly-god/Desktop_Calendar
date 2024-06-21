@@ -9,7 +9,7 @@ Item {
     property alias addEventDialog:_addEventDialog
     property alias popup:_popup
     property alias eventCountdown: _eventCountdown
-    property alias popup1:_popup1
+    // property alias popup1:_popup1
 
     Dialog {
             id: _addEventDialog
