@@ -3,11 +3,10 @@ import QtQuick.Controls
 Item {
     property  alias exit:_exit
     property  alias about:_about
-    property  alias schedule:_schedule
-    property  alias modify:_modify
-    property  alias save:_save
-    property  alias event_countdown:_event_countdown
-    property  alias schedulelist: _schedulelist
+    property  alias addSchedule:_addSchedule
+    property  alias modifySchedule:_modifySchedule
+    property  alias deleteSchedule:_deleteSchedule
+    property  alias eventCountdown:_eventCountdown
     property  alias note: _note
 
     Action{
@@ -22,34 +21,32 @@ Item {
         icon.name:"help-about"
     }
     Action{
-        id:_schedule
+        id:_addSchedule
         text:qsTr("&Add schedule")
         icon.name:"application-edit"
     }
+
     Action{
-        id:_save
-        text:qsTr("&Save")
-        icon.name: "document-save"
-    }
-    Action{
-        id:_event_countdown
+        id:_eventCountdown
         text:qsTr("&Countdown")
     }
+    Action{
+        id:_deleteSchedule
+        text:qsTr("Delete schedule")
 
+    }
 
     Action{
-        id:_modify
+        id:_modifySchedule
         text:qsTr("&Modify schedule")
         icon.name:"calendar"
     }
-    Action{
-        id:_schedulelist
-        text: qsTr("&Schedule List")
-    }
+
     Action{
         id:_note
         text:qsTr("&Note")
     }
+
 
 }
 

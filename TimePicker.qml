@@ -20,7 +20,7 @@ Item {
     ComboBox {
         id: hourComboBox
         focus:true
-        anchors.left: start_text.right
+
         anchors.top: parent.top
         model: hoursModel
         width: 45

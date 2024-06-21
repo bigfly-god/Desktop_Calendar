@@ -29,7 +29,6 @@ qt_add_qml_module(
   Dialogs.qml
   QML_FILES
   QML_FILES
-
   QML_FILES
   DatePicker.qml
   QML_FILES
@@ -37,8 +36,16 @@ qt_add_qml_module(
   Desktop_Calendar.js
   SOURCES
   SOURCES
-  SOURCES filemanager.h filemanager.cpp
-  QML_FILES TimePicker.qml)
+  SOURCES
+  filemanager.h
+  filemanager.cpp
+  QML_FILES
+  TimePicker.qml
+  QML_FILES
+  QML_FILES
+  QML_FILES
+  QML_FILES
+  Note.qml)
 
 target_compile_features(appDesktop_Calendar PRIVATE cxx_std_20)
 
