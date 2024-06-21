@@ -8,7 +8,7 @@ Item {
     property alias dialogs: _dialogs
     property alias calendar: _calendar
 
-    Dialogs{
+    Dialogs {
         id:_dialogs
         anchors.fill: parent
     }

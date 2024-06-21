@@ -3,9 +3,13 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import "Desktop_Calendar.js" as Controller
 import QtQuick.Dialogs
-Rectangle {
-    id: control
 
+
+Item{
+    property alias control:_control
+Rectangle {
+    id:_control
+    anchors.fill: parent
     implicitWidth: 520
     implicitHeight: 350
 
@@ -95,6 +99,8 @@ Rectangle {
                 }
                 CalendarButton {
                     text: "<"
+
+                    Layout.maximumWidth: 20// 假设的最大宽度
                     onClicked: {
                         if(month_grid.month===0){
                             month_grid.year-=1;
@@ -108,9 +114,14 @@ Rectangle {
                     font: control.font
                     color: "white"
                     text: month_grid.month+1
+                    Layout.fillWidth: true
+                    Layout.maximumWidth: 20
+                    horizontalAlignment: Text.AlignHCenter // 文本水平居中
+                    verticalAlignment: Text.AlignVCenter // 文本垂直居中
                 }
                 CalendarButton {
                     text: ">"
+                                Layout.maximumWidth: 20
                     onClicked: {
                         if(month_grid.month===11){
                             month_grid.year+=1;
@@ -128,7 +139,7 @@ Rectangle {
                     color: "orange"
                     Text {
                         color: "white"
-                        text: "今天"
+                        text: "Today"
                         anchors.centerIn: parent
                     }
                     TapHandler {
@@ -158,7 +169,7 @@ Rectangle {
                    anchors.fill: parent
 
                    Repeater {
-                       model: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+                       model: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
                        delegate: Rectangle {
                            color: "gray"
                            anchors.bottomMargin: 1
@@ -219,6 +230,9 @@ Rectangle {
             }
         }
     }
+
+
+ }
 
 }
 

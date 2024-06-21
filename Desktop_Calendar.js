@@ -11,3 +11,9 @@ function updateDateTime() {
     window.title = currentTime.toLocaleString(Qt.locale("de_DE"),"yyyy-MM-dd hh:mm:ss")
 }
 
+
+function open_addEventDialog() {
+     content.dialogs.addEventDialog.open()
+     content.calendar.enabled = false  // 暂时禁用主窗口
+
+}

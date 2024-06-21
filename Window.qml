@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtQuick.Window
 import "Desktop_Calendar.js" as Controller
 
 ApplicationWindow {
@@ -14,22 +15,22 @@ ApplicationWindow {
     visible: true
     title: qsTr("Calendar")
 
+
     menuBar:MenuBar{
         id:appMenuBar
         Menu{
              id:listMenu
-             title:qsTr("&List")
-             MenuItem{action:actions.save}
-             MenuItem{action:actions.schedule}
-             MenuItem{action:actions.modify}
-             MenuItem{action:actions.event_countdown}
+             title:qsTr("&Schedule")
+             MenuItem{action:actions.addSchedule}
+             MenuItem{action:actions.modifySchedule}
+             MenuItem{action:actions.deleteSchedule}
              MenuItem{action:actions.exit}
 
         }
 
         Menu{
             title:qsTr("Menu")
-            MenuItem{action:actions.schedulelist}
+            MenuItem{action:actions.eventCountdown}
             MenuItem{action:actions.note}
 
         }
@@ -41,12 +42,12 @@ ApplicationWindow {
         }
     }
 
+
     Actions{
         id:actions
         about.onTriggered: content.dialogs.about.open()
-        schedule.onTriggered: content.dialogs.addEventDialog.open()
-        event_countdown.onTriggered: content.dialogs.eventCountdown.open()
-
+        addSchedule.onTriggered: Controller.open_addEventDialog()
+        eventCountdown.onTriggered: content.dialogs.eventCountdown.open()
     }
 
 
@@ -70,6 +71,43 @@ ApplicationWindow {
         }
     }
 
+        // 顶层窗口，放置按钮
+//         Window {
+//                id: buttonWindow
+//                visible: true
+//                width: 100
+//                height: 50
+//                flags: Qt.Tool | Qt.FramelessWindowHint
+//                x: Screen.desktopAvailableWidth - width - 10
+//                y: 10
+//                color: "transparent"
+
+//                Rectangle {
+//                    width: 100
+//                    height: 50
+//                    color: "lightblue"
+//                    border.color: "black"
+//                    radius: 10
+
+//                        MouseArea {
+//                            anchors.fill: parent
+//                            onClicked: {
+//                                // Call function from external JS file
+//                                AppFunctions.openNotePopup(buttonWindow.x, buttonWindow.y + buttonWindow.height);
+//                            }
+//                        }
+//                        }
+//                    }
+
+//                    Text {
+//                        anchors.centerIn: parent
+//                        text: "Create Note"
+//                        font.bold: true
+//                        font.pixelSize: 14
+//                    }
+//                }
+//            }
+
+// }
+
 }
-
-
