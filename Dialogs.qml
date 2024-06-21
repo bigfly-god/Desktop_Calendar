@@ -29,10 +29,10 @@ Item {
                 anchors.topMargin: 20
             }
 
-    DatePicker{
-      anchors.top:_eventMessageInput.bottom
+            DatePicker {
+                anchors.top:_eventMessageInput.bottom
+            }
     }
-}
 
     Dialog {
         id: _eventCountdown

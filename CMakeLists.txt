@@ -36,7 +36,10 @@ qt_add_qml_module(
   QML_FILES
   Desktop_Calendar.js
   SOURCES
-  SOURCES)
+  SOURCES
+  QML_FILES Content.qml
+  SOURCES
+  SOURCES filemanager.h filemanager.cpp  )
 
 target_compile_features(appDesktop_Calendar PRIVATE cxx_std_20)
 
