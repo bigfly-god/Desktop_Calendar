@@ -2,43 +2,34 @@ import QtQuick
 import QtQuick.Controls
 
 Item {
-    id: datePicker
+    id: timePicker
     property date currentDate: new Date()
 
-    Text{
-        id: start_text
-        anchors.left: parent.left
-        anchors.leftMargin: 10
-        text: "start:"
-        color:"white"
-    }
 
-
-    //从今年算起十年
+    //小时
     ListModel {
-        id: yearsModel
+        id: hoursModel
 
         Component.onCompleted: {
-            var currentYear = currentDate.getFullYear();
-            for (var i = 0; i < 11; ++i) {
-               append({ "years": currentYear + i });
+            for (var i = 0; i < 24; ++i) {
+               append({ "hours": i });
             }
         }
     }
 
     ComboBox {
-        id: yearComboBox
+        id: hourComboBox
         focus:true
         anchors.left: start_text.right
         anchors.top: parent.top
-        model: yearsModel
-        width: 60
+        model: hoursModel
+        width: 45
         delegate: Item {
-            implicitWidth: 60 // 可以根据需要调整这个值
+            implicitWidth: 45 // 可以根据需要调整这个值
             implicitHeight: 30 // 可以根据需要调整这个值
             Text {
-                id: year_text
-                text: model.years
+                id: hour_text
+                text: model.hours
                 color: "white"
                 anchors.centerIn: parent
                 horizontalAlignment: Text.AlignHCenter // 设置文本水平居中对齐
@@ -46,20 +37,19 @@ Item {
             }
 
             TapHandler {
-
-                  onTapped: {yearComboBox.currentIndex = index;
-                             yearComboBox.popup.visible = false} //手动关闭ComboBox下拉菜单
+                  onTapped: {hourComboBox.currentIndex = index;
+                             hourComboBox.popup.visible = false} //手动关闭ComboBox下拉菜单
               }
 
         }
 
         currentIndex: {
-            var year = currentDate.getFullYear();
-            for (var i = 0; i < yearsModel.count; ++i) {
-                if (yearsModel.get(i).years === year.toString())
+            var hour = currentDate.getHours();
+            for (var i = 0; i < hoursModel.count; ++i) {
+                if (hoursModel.get(i).hours === hour.toString())
                     return i;
             }
-            return 0; // 如果年份不在列表中，则返回第一项
+            return 0; // 如果时不在列表中，则返回第一项
         }
 
 
@@ -69,44 +59,46 @@ Item {
                    console.log("myItem is no longer visible");
                   // 重新启用主窗口
                   calendar.enabled = true
+
                }
         }
 
     }
 
     Text{
-        id: y_text
-        anchors.left:yearComboBox.right
+        id: h_text
+        anchors.left:hourComboBox.right
         anchors.leftMargin: 0
-        text: "Year"
+        text: "Hour"
         color:"white"
     }
 
-   //月
+
+   //分
     ListModel {
-        id: monthsModel
+        id: minutesModel
 
         Component.onCompleted: {
-            for (var i = 1; i <= 12; ++i) {
-               append({ "months":  i });
+            for (var i =0 ; i < 60; ++i) {
+               append({ "minutes":  i });
             }
         }
     }
 
     ComboBox {
-        id: monthComboBox
+        id: minuteComboBox
         focus:true
-        anchors.left: y_text.right
+        anchors.left: h_text.right
         anchors.top: parent.top
         anchors.leftMargin: 2
-        model: monthsModel
+        model: minutesModel
          width: 45
         delegate: Item {
             implicitWidth: 45 // 可以根据需要调整这个值
             implicitHeight: 30 // 可以根据需要调整这个值
             Text {
-                id: month_text
-                text: model.months
+                id: minute_text
+                text: model.minutes
                 color: "white"
                 anchors.centerIn: parent
                 horizontalAlignment: Text.AlignHCenter // 设置文本水平居中对齐
@@ -115,19 +107,19 @@ Item {
 
             TapHandler {
 
-                  onTapped: {monthComboBox.currentIndex = index;
-                             monthComboBox.popup.visible = false} //手动关闭ComboBox下拉菜单
+                  onTapped: {minuteComboBox.currentIndex = index;
+                             minuteComboBox.popup.visible = false} //手动关闭ComboBox下拉菜单
               }
 
         }
 
         currentIndex: {
-            var month = currentDate.getMonth();
-            for (var i = 0; i < monthsModel.count; ++i) {
-                if (monthsModel.get(i).months === month.toString())
+            var minute = currentDate.getMinutes();
+            for (var i = 0; i < minutesModel.count; ++i) {
+                if (minutesModel.get(i).minutes === minute.toString())
                     return i;
             }
-            return 0; // 如果月份不在列表中，则返回第一项
+            return 0; // 如果分不在列表中，则返回第一项
         }
 
 
@@ -136,60 +128,47 @@ Item {
                    console.log("myItem is no longer visible");
                   // 重新启用主窗口
                   calendar.enabled = true
+
                }
         }
 
     }
 
     Text{
-        id: m_text
-        anchors.left:monthComboBox.right
+        id: mi_text
+        anchors.left:minuteComboBox.right
         anchors.leftMargin: 0
-        text: "Month"
+        text: "Minute"
         color:"white"
     }
 
 
-    //日
+    //秒
      ListModel {
-         id: daysModel
+         id: secondsModel
 
          Component.onCompleted: {
-            // if( month_text.text===1||3||5||7||8||10||12){
-             for (var i = 1; i <= 31; ++i) {
-                append({ "months":  i });
+             for (var i = 0; i < 60; ++i) {
+                append({ "seconds":  i });
                }
-             // }else if( month_text.text===4||6||9||11){
-             //     for (var j = 1; j <= 30; ++j) {
-             //        append({ "months":  j });
-             //       }
-             //     } else if((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
-             // {
-             //     for (var h = 1; h <= 29 ; ++h) {
-             //        append({ "months":  h });
-             //       }
-             // }else{
-             //     for (var g = 1; g <= 29 ; ++g) {
-             //        append({ "months":  g });
-             //       }
-             // }
+
          }
      }
 
      ComboBox {
-         id: dayComboBox
+         id: secondComboBox
          focus:true
-         anchors.left: m_text.right
+         anchors.left: mi_text.right
          anchors.top: parent.top
          anchors.leftMargin: 2
-         model: daysModel
+         model: secondsModel
           width: 45
          delegate: Item {
              implicitWidth: 45 // 可以根据需要调整这个值
              implicitHeight: 30 // 可以根据需要调整这个值
              Text {
-                 id: day_text
-                 text: model.months
+                 id: second_text
+                 text: model.seconds
                  color: "white"
                  anchors.centerIn: parent
                  horizontalAlignment: Text.AlignHCenter // 设置文本水平居中对齐
@@ -198,19 +177,19 @@ Item {
 
              TapHandler {
 
-                   onTapped: {dayComboBox.currentIndex = index;
-                              dayComboBox.popup.visible = false} //手动关闭ComboBox下拉菜单
+                   onTapped: {secondComboBox.currentIndex = index;
+                              secondComboBox.popup.visible = false} //手动关闭ComboBox下拉菜单
                }
 
          }
 
          currentIndex: {
-             var day = currentDate.getDate();
-             for (var i = 0; i < daysModel.count; ++i) {
-                 if (daysModel.get(i).days === day.toString())
+             var second = currentDate.getSeconds();
+             for (var i = 0; i < secondsModel.count; ++i) {
+                 if (secondsModel.get(i).seconds === second.toString())
                      return i;
              }
-             return 0; // 如果月份不在列表中，则返回第一项
+             return 0; // 如果秒不在列表中，则返回第一项
          }
 
 
@@ -219,16 +198,17 @@ Item {
                     console.log("myItem is no longer visible");
                    // 重新启用主窗口
                    calendar.enabled = true
+
                 }
          }
 
      }
 
      Text{
-         id: d_text
-         anchors.left:dayComboBox.right
+         id: s_text
+         anchors.left:secondComboBox.right
          anchors.leftMargin: 0
-         text: "Day"
+         text: "Second"
          color:"white"
      }
 

@@ -8,3 +8,9 @@ function showPopup(date) {
 
 }
 
+
+function open_addEventDialog() {
+     dialogs.addEventDialog.open()
+     calendar.enabled = false  // 暂时禁用主窗口
+
+}

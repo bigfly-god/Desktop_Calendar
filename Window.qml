@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-
+import "Desktop_Calendar.js" as Controller
 
 ApplicationWindow {
     id:window
@@ -44,7 +44,7 @@ ApplicationWindow {
         Actions{
             id:actions
             about.onTriggered: dialogs.about.open()
-            schedule.onTriggered: dialogs.addEventDialog.open()
+            schedule.onTriggered: Controller.open_addEventDialog()
             event_countdown.onTriggered: dialogs.eventCountdown.open()
 
         }

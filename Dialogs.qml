@@ -10,28 +10,81 @@ Item {
     property alias popup:_popup
     property alias eventCountdown: _eventCountdown
 
+
+     //添加事件
     Dialog {
             id: _addEventDialog
             title: "Add Event"
             standardButtons: Dialog.Ok | Dialog.Cancel
             modal:true
             anchors.centerIn: parent
-            width:parent.width-20
-            height:parent.height/2
-            opacity: 0.8 // 设置透明度为 80%
 
+             width:parent.width
+             height:parent.height
+            opacity: 0.8 // 设置透明度为 80%
             TextField {
-                id: _eventMessageInput
-                placeholderText: "Enter event message..."
+                id: _title
+                placeholderText: "Title:"
                 width: parent.width - 20
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.top: parent.top
                 anchors.topMargin: 20
             }
 
-    DatePicker{
+            TextField {
+                id: _eventMessageInput
+                placeholderText: "Enter event message..."
+                width: parent.width - 20
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.top:_title.bottom
+                anchors.topMargin: 20
+            }
+            Text{
+                id: start_text
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.top: _eventMessageInput.bottom
+                anchors.topMargin: 8
+                text: "start  : "
+                color:"white"
+            }
+    TimePicker{
+      anchors.left: start_text.right
       anchors.top:_eventMessageInput.bottom
+       anchors.topMargin: 8
     }
+    Text{
+        id: end_text
+        anchors.left: parent.left
+        anchors.leftMargin: 10
+        anchors.top: start_text.bottom
+        anchors.topMargin: 8
+        text: "end   : "
+        color:"white"
+    }
+TimePicker{
+anchors.left: end_text.right
+anchors.top:start_text.bottom
+  anchors.topMargin: 8
+}
+
+
+Text{
+    id:remind_text
+    anchors.left: parent.left
+    anchors.leftMargin: 10
+    anchors.top: end_text.bottom
+    anchors.topMargin: 8
+    text: "remind(before start) : "
+    color:"white"
+}
+TimePicker{
+anchors.left: end_text.right
+anchors.top:remind_text.bottom
+anchors.topMargin: 2
+}
+
+
 }
 
     Dialog {

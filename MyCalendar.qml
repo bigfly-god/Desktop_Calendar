@@ -3,9 +3,10 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import "Desktop_Calendar.js" as Controller
 import QtQuick.Dialogs
+
 Rectangle {
     id: control
-
+    anchors.fill:parent
     implicitWidth: 520
     implicitHeight: 350
 
@@ -128,7 +129,7 @@ Rectangle {
                     color: "orange"
                     Text {
                         color: "white"
-                        text: "今天"
+                        text: "Today"
                         anchors.centerIn: parent
                     }
                     TapHandler {
@@ -158,7 +159,7 @@ Rectangle {
                    anchors.fill: parent
 
                    Repeater {
-                       model: ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+                       model: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
                        delegate: Rectangle {
                            color: "gray"
                            anchors.bottomMargin: 1
@@ -220,5 +221,5 @@ Rectangle {
         }
     }
 
-}
+ }
 

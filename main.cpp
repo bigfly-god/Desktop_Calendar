@@ -1,10 +1,12 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "filemanager.h"
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
-
     QQmlApplicationEngine engine;
+    //engine.rootContext()->setContextProperty("FileManager", &FileManager); // 注册到QML
 
     QObject::connect(
         &engine,
