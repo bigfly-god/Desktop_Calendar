@@ -170,7 +170,7 @@ Item {
                  id: second_text
                  text: model.seconds
                  color: "white"
-                 anchors.centerIn: parent
+                 // anchorsg.centerIn: parent
                  horizontalAlignment: Text.AlignHCenter // 设置文本水平居中对齐
                  verticalAlignment: Text.AlignVCenter // 设置文本垂直居中对齐
              }
@@ -188,7 +188,6 @@ Item {
              for (var i = 0; i < secondsModel.count; ++i) {
                  if (secondsModel.get(i).seconds === second.toString())
                      return i;
-             }
              return 0; // 如果秒不在列表中，则返回第一项
          }
 
@@ -211,10 +210,5 @@ Item {
          text: "Second"
          color:"white"
      }
-
-
-
-
-
-
+  }
 }

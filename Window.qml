@@ -48,7 +48,9 @@ ApplicationWindow {
         about.onTriggered: content.dialogs.about.open()
         addSchedule.onTriggered: Controller.open_addEventDialog()
         eventCountdown.onTriggered: content.dialogs.eventCountdown.open()
+        note.onTriggered:Controller.createnote()
     }
+
 
 
     //Content Area
@@ -70,44 +72,4 @@ ApplicationWindow {
             Controller.updateDateTime()//每触发一次，更新一次label上时间显示
         }
     }
-
-        // 顶层窗口，放置按钮
-//         Window {
-//                id: buttonWindow
-//                visible: true
-//                width: 100
-//                height: 50
-//                flags: Qt.Tool | Qt.FramelessWindowHint
-//                x: Screen.desktopAvailableWidth - width - 10
-//                y: 10
-//                color: "transparent"
-
-//                Rectangle {
-//                    width: 100
-//                    height: 50
-//                    color: "lightblue"
-//                    border.color: "black"
-//                    radius: 10
-
-//                        MouseArea {
-//                            anchors.fill: parent
-//                            onClicked: {
-//                                // Call function from external JS file
-//                                AppFunctions.openNotePopup(buttonWindow.x, buttonWindow.y + buttonWindow.height);
-//                            }
-//                        }
-//                        }
-//                    }
-
-//                    Text {
-//                        anchors.centerIn: parent
-//                        text: "Create Note"
-//                        font.bold: true
-//                        font.pixelSize: 14
-//                    }
-//                }
-//            }
-
-// }
-
 }
