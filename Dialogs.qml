@@ -3,17 +3,20 @@ import QtCore
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Dialogs
+import "Desktop_Calendar.js" as Controller
 
 Item {
     property alias about: _about
-    property alias addEventDialog:_addEventDialog
+    property alias addScheduleDialog:_addScheduleDialog
     property alias popup:_popup
     property alias eventCountdown: _eventCountdown
+    property alias eventMessageInput: _eventMessageInput
+
     // property alias popup1:_popup1
 
      //添加事件
     Dialog {
-        id: _addEventDialog
+        id: _addScheduleDialog
         title: "Add Event"
         standardButtons: Dialog.Ok | Dialog.Cancel
         modal:true
@@ -21,22 +24,13 @@ Item {
         width:parent.width
         height:parent.height
         opacity: 0.8 // 设置透明度为 80%
-            TextField {
-                id: _title
-                placeholderText: "Title:"
-                width: parent.width - 20
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: parent.top
-                anchors.topMargin: 20
-            }
-
 
     TextField {
         id: _eventMessageInput
         placeholderText: "Enter event message..."
         width: parent.width - 20
         anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top:_title.bottom
+          anchors.top: parent.top
         anchors.topMargin: 20
     }
 
@@ -51,6 +45,7 @@ Item {
     }
 
     TimePicker {
+       id:start_timePicker
       anchors.left: start_text.right
       anchors.top:_eventMessageInput.bottom
        anchors.topMargin: 8
@@ -67,6 +62,7 @@ Item {
     }
 
     TimePicker {
+        id:end_timePicker
         anchors.left: end_text.right
         anchors.top:start_text.bottom
         anchors.topMargin: 30
@@ -83,9 +79,28 @@ Item {
     }
 
     TimePicker {
+        id:remind_timePicker
     anchors.left: end_text.right
     anchors.top:remind_text.bottom
     anchors.topMargin: 10
+    }
+    // 处理 OK 按钮的点击事件
+    onAccepted: {
+        //处理sartTime
+        Controller.scheduleStartTime()
+        //处理endTime
+        Controller.scheduleEndTime()
+        //处理remindTime
+        Controller.scheduleRemindTime()
+        Controller.destruction()
+        eventMessageInput.text="Enter event message..."
+
+    }
+
+    onRejected: {
+        // 处理 Cancel 按钮的点击事件
+        Controller.destruction()
+        eventMessageInput.text="Enter event message..."
     }
 
   }

@@ -7,6 +7,7 @@ import QtQuick.Dialogs
 
 Item{
     property alias control:_control
+    property alias month_grid:month_grid
 Rectangle {
     id:_control
     anchors.fill: parent
@@ -199,11 +200,7 @@ Rectangle {
            }
            delegate: Rectangle {
                id:delegateRect
-               color: model.today
-                      ?"orange"
-                      :control.selectDate.valueOf()===model.date.valueOf()
-                        ?"darkCyan"
-                        :"gray"
+               color: model.today?"orange":control.selectDate.valueOf()===model.date.valueOf()?"darkCyan":"gray"
                border.color: "black"
                border.width: 1
                Rectangle {

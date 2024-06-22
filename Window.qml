@@ -5,6 +5,8 @@ import QtQuick.Window
 import "Desktop_Calendar.js" as Controller
 
 ApplicationWindow {
+    property alias content :_content
+
     id:window
     width: 520
     height: 480
@@ -46,14 +48,14 @@ ApplicationWindow {
     Actions{
         id:actions
         about.onTriggered: content.dialogs.about.open()
-        addSchedule.onTriggered: Controller.open_addEventDialog()
+        addSchedule.onTriggered: Controller.open_addScheduleDialog()
         eventCountdown.onTriggered: content.dialogs.eventCountdown.open()
     }
 
 
     //Content Area
     Content {
-        id:content
+        id:_content
         anchors.fill: parent
     }
 

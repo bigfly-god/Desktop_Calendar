@@ -2,13 +2,25 @@ import QtQuick
 import QtQuick.Controls
 
 Item {
-    id: timePicker
+    property alias hourComboBox: _hourComboBox
+    property alias minuteComboBox: _minuteComboBox
+    property alias secondComboBox: _secondComboBox
+    property alias hoursModel: _hoursModel
+    property alias minutesModel: _minutesModel
+    property alias secondsModel: _secondsModel
+
+    id: _timePicker
     property date currentDate: new Date()
-
-
+    onVisibleChanged: {
+           if (!visible) {
+               console.log("myItem is no longer visible");
+              // 重新启用主窗口
+               content.calendar.enabled = true
+           }
+    }
     //小时
     ListModel {
-        id: hoursModel
+        id: _hoursModel
 
         Component.onCompleted: {
             for (var i = 0; i < 24; ++i) {
@@ -16,13 +28,12 @@ Item {
             }
         }
     }
-
     ComboBox {
-        id: hourComboBox
+        id: _hourComboBox
         focus:true
 
         anchors.top: parent.top
-        model: hoursModel
+        model: _hoursModel
         width: 45
         delegate: Item {
             implicitWidth: 45 // 可以根据需要调整这个值
@@ -40,7 +51,6 @@ Item {
                   onTapped: {hourComboBox.currentIndex = index;
                              hourComboBox.popup.visible = false} //手动关闭ComboBox下拉菜单
               }
-
         }
 
         currentIndex: {
@@ -54,20 +64,11 @@ Item {
 
 
 
-        onVisibleChanged: {
-               if (!visible) {
-                   console.log("myItem is no longer visible");
-                  // 重新启用主窗口
-                  calendar.enabled = true
-
-               }
-        }
-
     }
 
     Text{
         id: h_text
-        anchors.left:hourComboBox.right
+        anchors.left: hourComboBox.right
         anchors.leftMargin: 0
         text: "Hour"
         color:"white"
@@ -76,7 +77,7 @@ Item {
 
    //分
     ListModel {
-        id: minutesModel
+        id: _minutesModel
 
         Component.onCompleted: {
             for (var i =0 ; i < 60; ++i) {
@@ -86,7 +87,7 @@ Item {
     }
 
     ComboBox {
-        id: minuteComboBox
+        id: _minuteComboBox
         focus:true
         anchors.left: h_text.right
         anchors.top: parent.top
@@ -122,30 +123,19 @@ Item {
             return 0; // 如果分不在列表中，则返回第一项
         }
 
-
-        onVisibleChanged: {
-               if (!visible) {
-                   console.log("myItem is no longer visible");
-                  // 重新启用主窗口
-                  calendar.enabled = true
-
-               }
-        }
-
     }
 
     Text{
         id: mi_text
-        anchors.left:minuteComboBox.right
+        anchors.left: minuteComboBox.right
         anchors.leftMargin: 0
         text: "Minute"
         color:"white"
     }
 
-
     //秒
      ListModel {
-         id: secondsModel
+         id: _secondsModel
 
          Component.onCompleted: {
              for (var i = 0; i < 60; ++i) {
@@ -156,7 +146,7 @@ Item {
      }
 
      ComboBox {
-         id: secondComboBox
+         id: _secondComboBox
          focus:true
          anchors.left: mi_text.right
          anchors.top: parent.top
@@ -192,16 +182,6 @@ Item {
              return 0; // 如果秒不在列表中，则返回第一项
          }
 
-
-         onVisibleChanged: {
-                if (!visible) {
-                    console.log("myItem is no longer visible");
-                   // 重新启用主窗口
-                   calendar.enabled = true
-
-                }
-         }
-
      }
 
      Text{
@@ -212,9 +192,5 @@ Item {
          color:"white"
      }
 
-
-
-
-
-
 }
+

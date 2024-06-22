@@ -30,7 +30,7 @@ qt_add_qml_module(
   QML_FILES
   QML_FILES
   QML_FILES
-  DatePicker.qml
+
   QML_FILES
   QML_FILES
   Desktop_Calendar.js

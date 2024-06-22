@@ -101,3 +101,16 @@ void FileManager::setStoragePath(const QString& path)
         emit storagePathChanged();
     }
 }
+
+Schedule FileManager::setSchedule(const QString& eventName,
+                                  const QTime& startTime,
+                                  const QTime& endTime,
+                                  const QTime& reminderTime) const
+{
+    Schedule schedule;
+    schedule.eventName = eventName;
+    schedule.startTime = startTime;
+    schedule.endTime = endTime;
+    schedule.reminderTime = reminderTime;
+    return schedule;
+}
