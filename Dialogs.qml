@@ -9,7 +9,9 @@ Item {
     property alias addEventDialog:_addEventDialog
     property alias popup:_popup
     property alias eventCountdown: _eventCountdown
-    // property alias popup1:_popup1
+
+
+
 
      //添加事件
     Dialog {
@@ -135,44 +137,7 @@ Item {
        }
     }
 
-    // Popup {
-    //        id: _popup1
-    //        width: 200
-    //        height: 100
-    //        focus: true
-    //        modal: true
-    //        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-
-    //        Rectangle {
-    //            width: 200
-    //            height: 100
-    //            color: "lightblue"
-    //            border.color: "black"
-    //            radius: 10
-
-    //            TextInput {
-    //                id: popupInput
-    //                anchors.fill: parent
-    //                anchors.margins: 10
-    //                font.pixelSize: 14
-    //                wrapMode: Text.WordWrap
-
-    //                onTextChanged: {
-    //                    if (popupInput.text === "") {
-    //                        popupInput.font.bold = false;
-    //                        popupInput.font.italic = true;
-    //                        popupInput.text = "Enter your note...";
-    //                    } else {
-    //                        popupInput.font.bold = true;
-    //                        popupInput.font.italic = false;
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-
 }
-
 
 
 
