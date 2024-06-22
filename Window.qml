@@ -5,16 +5,19 @@ import QtQuick.Window
 import "Desktop_Calendar.js" as Controller
 
 ApplicationWindow {
+
+    property alias actions: _actions
+    property alias content: _content
+
     id:window
     width: 520
     height: 480
     minimumHeight: 400
-    minimumWidth: 400
+    minimumWidth: 450
     maximumHeight: 600
     maximumWidth: 600
     visible: true
     title: qsTr("Calendar")
-
 
     menuBar:MenuBar{
         id:appMenuBar
@@ -25,7 +28,6 @@ ApplicationWindow {
              MenuItem{action:actions.modifySchedule}
              MenuItem{action:actions.deleteSchedule}
              MenuItem{action:actions.exit}
-
         }
 
         Menu{
@@ -44,7 +46,7 @@ ApplicationWindow {
 
 
     Actions{
-        id:actions
+        id:_actions
         about.onTriggered: content.dialogs.about.open()
         addSchedule.onTriggered: Controller.open_addEventDialog()
         eventCountdown.onTriggered: content.dialogs.eventCountdown.open()
@@ -53,7 +55,7 @@ ApplicationWindow {
 
     //Content Area
     Content {
-        id:content
+        id:_content
         anchors.fill: parent
     }
 

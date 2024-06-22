@@ -27,6 +27,10 @@ public:
     Q_INVOKABLE Schedule getSchedule(const QDate& date) const;
     Q_INVOKABLE void addOrUpdateSchedule(const QDate& date, const Schedule& schedule);
     Q_INVOKABLE void removeSchedule(const QDate& date);
+    Q_INVOKABLE Schedule setSchedule(const QString& eventName,
+                                     const QTime& startTime,
+                                     const QTime& endTime,
+                                     const QTime& reminderTime) const;
 
     QString storagePath() const;
     void setStoragePath(const QString& path);

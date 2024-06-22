@@ -232,9 +232,4 @@ Item {
          color:"white"
      }
 
-
-
-
-
-
 }

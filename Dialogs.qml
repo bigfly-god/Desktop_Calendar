@@ -22,74 +22,65 @@ Item {
         height:parent.height
         opacity: 0.8 // 设置透明度为 80%
             TextField {
-                id: _title
-                placeholderText: "Title:"
+                id: _eventMessageInput
+                placeholderText: "Enter event message..."
                 width: parent.width - 20
                 anchors.horizontalCenter: parent.horizontalCenter
-                anchors.top: parent.top
+                anchors.top:parent.top
                 anchors.topMargin: 20
             }
 
+            Text {
+                id: start_text
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.top: _eventMessageInput.bottom
+                anchors.topMargin: 30
+                text: "start  : "
+                color:"white"
+            }
 
-    TextField {
-        id: _eventMessageInput
-        placeholderText: "Enter event message..."
-        width: parent.width - 20
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top:_title.bottom
-        anchors.topMargin: 20
+            TimePicker {
+                anchors.left: start_text.right
+                anchors.top:_eventMessageInput.bottom
+                anchors.topMargin: 30
+            }
+
+            Text {
+                id: end_text
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.top: start_text.bottom
+                anchors.topMargin: 30
+                text: "end   : "
+                color:"white"
+            }
+
+            TimePicker {
+                anchors.left: end_text.right
+                anchors.top:start_text.bottom
+                anchors.topMargin: 30
+            }
+
+            Text {
+                id:remind_text
+                anchors.left: parent.left
+                anchors.leftMargin: 10
+                anchors.top: end_text.bottom
+                anchors.topMargin: 30
+                text: "remind(before start) : "
+                color:"white"
+            }
+
+            TimePicker {
+                anchors.left: end_text.right
+                anchors.top:remind_text.bottom
+                anchors.topMargin: 10
+            }
+            // onAccepted: {
+            //     content.fileManager.setSchedule(_eventMessageInput.text,)
+            // }
     }
-
-    Text {
-        id: start_text
-        anchors.left: parent.left
-        anchors.leftMargin: 10
-        anchors.top: _eventMessageInput.bottom
-        anchors.topMargin: 10
-        text: "start  : "
-        color:"white"
-    }
-
-    TimePicker {
-      anchors.left: start_text.right
-      anchors.top:_eventMessageInput.bottom
-       anchors.topMargin: 8
-    }
-
-    Text {
-        id: end_text
-        anchors.left: parent.left
-        anchors.leftMargin: 10
-        anchors.top: start_text.bottom
-        anchors.topMargin: 30
-        text: "end   : "
-        color:"white"
-    }
-
-    TimePicker {
-        anchors.left: end_text.right
-        anchors.top:start_text.bottom
-        anchors.topMargin: 30
-    }
-
-    Text {
-        id:remind_text
-        anchors.left: parent.left
-        anchors.leftMargin: 10
-        anchors.top: end_text.bottom
-        anchors.topMargin: 30
-        text: "remind(before start) : "
-        color:"white"
-    }
-
-    TimePicker {
-    anchors.left: end_text.right
-    anchors.top:remind_text.bottom
-    anchors.topMargin: 10
-    }
-
-  }
-
 
     Dialog {
         id: _eventCountdown

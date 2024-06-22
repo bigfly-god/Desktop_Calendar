@@ -7,6 +7,7 @@ Item {
 
     property alias dialogs: _dialogs
     property alias calendar: _calendar
+    property alias fileManager: _fileManager
 
     Dialogs {
         id:_dialogs
@@ -14,7 +15,11 @@ Item {
     }
 
     MyCalendar {
-    id:_calendar
-    anchors.fill:parent
+        id:_calendar
+        anchors.fill:parent
+    }
+
+    FileManager {
+        id:_fileManager
     }
 }

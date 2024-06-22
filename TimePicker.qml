@@ -5,11 +5,9 @@ Item {
     id: timePicker
     property date currentDate: new Date()
 
-
     //小时
     ListModel {
         id: hoursModel
-
         Component.onCompleted: {
             for (var i = 0; i < 24; ++i) {
                append({ "hours": i });
@@ -122,13 +120,11 @@ Item {
             return 0; // 如果分不在列表中，则返回第一项
         }
 
-
         onVisibleChanged: {
                if (!visible) {
                    console.log("myItem is no longer visible");
                   // 重新启用主窗口
                   calendar.enabled = true
-
                }
         }
 
@@ -142,7 +138,6 @@ Item {
         color:"white"
     }
 
-
     //秒
      ListModel {
          id: secondsModel
@@ -151,7 +146,6 @@ Item {
              for (var i = 0; i < 60; ++i) {
                 append({ "seconds":  i });
                }
-
          }
      }
 
@@ -176,11 +170,9 @@ Item {
              }
 
              TapHandler {
-
                    onTapped: {secondComboBox.currentIndex = index;
                               secondComboBox.popup.visible = false} //手动关闭ComboBox下拉菜单
                }
-
          }
 
          currentIndex: {
@@ -192,16 +184,13 @@ Item {
              return 0; // 如果秒不在列表中，则返回第一项
          }
 
-
          onVisibleChanged: {
                 if (!visible) {
                     console.log("myItem is no longer visible");
                    // 重新启用主窗口
                    calendar.enabled = true
-
                 }
          }
-
      }
 
      Text{
@@ -211,10 +200,4 @@ Item {
          text: "Second"
          color:"white"
      }
-
-
-
-
-
-
 }
