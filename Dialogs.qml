@@ -12,7 +12,6 @@ Item {
     property alias eventCountdown: _eventCountdown
     property alias eventMessageInput: _eventMessageInput
 
-    // property alias popup1:_popup1
 
      //添加事件
     Dialog {
@@ -24,6 +23,7 @@ Item {
         width:parent.width
         height:parent.height
         opacity: 0.8 // 设置透明度为 80%
+
 
     TextField {
         id: _eventMessageInput
@@ -93,17 +93,18 @@ Item {
         //处理remindTime
         Controller.scheduleRemindTime()
         Controller.destruction()
-        eventMessageInput.text="Enter event message..."
+        eventMessageInput.text=""
 
     }
 
     onRejected: {
         // 处理 Cancel 按钮的点击事件
         Controller.destruction()
-        eventMessageInput.text="Enter event message..."
+        eventMessageInput.text=""
     }
 
   }
+
 
 
     Dialog {
@@ -159,44 +160,7 @@ Item {
        }
     }
 
-    // Popup {
-    //        id: _popup1
-    //        width: 200
-    //        height: 100
-    //        focus: true
-    //        modal: true
-    //        closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-
-    //        Rectangle {
-    //            width: 200
-    //            height: 100
-    //            color: "lightblue"
-    //            border.color: "black"
-    //            radius: 10
-
-    //            TextInput {
-    //                id: popupInput
-    //                anchors.fill: parent
-    //                anchors.margins: 10
-    //                font.pixelSize: 14
-    //                wrapMode: Text.WordWrap
-
-    //                onTextChanged: {
-    //                    if (popupInput.text === "") {
-    //                        popupInput.font.bold = false;
-    //                        popupInput.font.italic = true;
-    //                        popupInput.text = "Enter your note...";
-    //                    } else {
-    //                        popupInput.font.bold = true;
-    //                        popupInput.font.italic = false;
-    //                    }
-    //                }
-    //            }
-    //        }
-    //    }
-
 }
-
 
 
 

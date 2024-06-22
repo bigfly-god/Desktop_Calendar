@@ -11,6 +11,7 @@ Item {
 
     id: _timePicker
     property date currentDate: new Date()
+
     onVisibleChanged: {
            if (!visible) {
                console.log("myItem is no longer visible");
@@ -21,6 +22,7 @@ Item {
     //小时
     ListModel {
         id: _hoursModel
+
 
         Component.onCompleted: {
             for (var i = 0; i < 24; ++i) {
@@ -141,7 +143,6 @@ Item {
              for (var i = 0; i < 60; ++i) {
                 append({ "seconds":  i });
                }
-
          }
      }
 
@@ -160,17 +161,15 @@ Item {
                  id: second_text
                  text: model.seconds
                  color: "white"
-                 anchors.centerIn: parent
+                 // anchorsg.centerIn: parent
                  horizontalAlignment: Text.AlignHCenter // 设置文本水平居中对齐
                  verticalAlignment: Text.AlignVCenter // 设置文本垂直居中对齐
              }
 
              TapHandler {
-
                    onTapped: {secondComboBox.currentIndex = index;
                               secondComboBox.popup.visible = false} //手动关闭ComboBox下拉菜单
                }
-
          }
 
          currentIndex: {
@@ -178,8 +177,15 @@ Item {
              for (var i = 0; i < secondsModel.count; ++i) {
                  if (secondsModel.get(i).seconds === second.toString())
                      return i;
-             }
              return 0; // 如果秒不在列表中，则返回第一项
+         }
+
+         onVisibleChanged: {
+                if (!visible) {
+                    console.log("myItem is no longer visible");
+                   // 重新启用主窗口
+                   calendar.enabled = true
+                }
          }
 
      }
@@ -191,6 +197,9 @@ Item {
          text: "Second"
          color:"white"
      }
+
+
+  }
 
 }
 

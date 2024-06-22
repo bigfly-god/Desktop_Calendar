@@ -1,8 +1,8 @@
 function showPopup(date) {
-    dialogs.popup.visible = true;
+    content.dialogs.popup.visible = true;
     // Center the popup relative to the main window
-    dialogs.popup.x = (month_grid.width - dialogs.popup.width) / 2;
-    dialogs.popup.y = (month_grid.height - dialogs.popup.height) / 2;
+    content.dialogs.popup.x = (month_grid.width - dialogs.popup.width) / 2;
+    content.dialogs.popup.y = (month_grid.height - dialogs.popup.height) / 2;
     console.log('Double-clicked date:',date);
 }
 
@@ -71,5 +71,10 @@ function destruction(){
     remind_timePicker.hourComboBox.currentIndex=0
      remind_timePicker.minuteComboBox.currentIndex=0
     remind_timePicker.secondComboBox.currentIndex=0
-    //addScheduleDialog.eventMessageInput.text="Enter event message..."
+
 }
+
+function createnote(){
+    content.notewindow.visible=true;
+}
+
