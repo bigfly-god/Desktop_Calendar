@@ -86,6 +86,8 @@ Item {
     }
     // 处理 OK 按钮的点击事件
     onAccepted: {
+         //消息存储
+         Controller.storage()
         //处理sartTime
         Controller.scheduleStartTime()
         //处理endTime
@@ -94,7 +96,6 @@ Item {
         Controller.scheduleRemindTime()
         Controller.destruction()
         eventMessageInput.text=""
-
     }
 
     onRejected: {

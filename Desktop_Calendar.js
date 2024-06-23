@@ -74,6 +74,48 @@ function destruction(){
 
 }
 
+//存储
+function storage(){
+    var selectedStartHour = start_timePicker.hourComboBox.currentIndex// 获取选中的小时
+    var selectedStartMinute = start_timePicker.minuteComboBox.currentIndex // 获取选中的分钟
+    var selectedStartSecond = start_timePicker.secondComboBox.currentIndex// 获取选中的秒数
+    var startDate = new Date();
+    startDate.setDate(content.calendar.control.selectDate.getDate())
+    startDate.setMonth(content.calendar.control.selectDate.getMonth() + 1)
+    startDate.setHours(selectedStartHour);
+    startDate.setMinutes(selectedStartMinute);
+    startDate.setSeconds(selectedStartSecond);
+
+    var selectedEndHour = end_timePicker.hourComboBox.currentIndex// 获取选中的小时
+    var selectedEndMinute = end_timePicker.minuteComboBox.currentIndex // 获取选中的分钟
+    var selectedEndSecond = end_timePicker.secondComboBox.currentIndex// 获取选中的秒数
+    var endDate = new Date();
+    endDate.setDate(content.calendar.control.selectDate.getDate())
+    endDate.setMonth(content.calendar.control.selectDate.getMonth() + 1)
+    endDate.setHours(selectedEndHour);
+    endDate.setMinutes(selectedEndMinute);
+    endDate.setSeconds(selectedEndSecond);
+
+
+    var selectedRemindHour = remind_timePicker.hourComboBox.currentIndex// 获取选中的小时
+    var selectedRemindMinute = remind_timePicker.minuteComboBox.currentIndex // 获取选中的分钟
+    var selectedRemindSecond = remind_timePicker.secondComboBox.currentIndex// 获取选中的秒数
+    var remindDate = new Date();
+    remindDate.setDate(content.calendar.control.selectDate.getDate())
+    remindDate.setMonth(content.calendar.control.selectDate.getMonth() + 1)
+    remindDate.setHours(selectedStartHour-selectedRemindHour);
+    remindDate.setMinutes(selectedStartMinute-selectedRemindMinute);
+    remindDate.setSeconds(selectedStartSecond-selectedRemindSecond);
+
+   content.fileManager.addOrUpdateSchedule(content.calendar.control.selectDate,content.fileManager.setSchedule(eventMessageInput.text,
+                                                                                                                             startDate,
+                                                                                                                             endDate,
+                                                                                                                          remindDate))
+    console.log("finish storage")
+
+}
+
+
 function createnote(){
     content.notewindow.visible=true;
 }
