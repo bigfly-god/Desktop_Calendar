@@ -13,7 +13,7 @@ bool FileManager::isValidDate(const QDate& date) const
 
 QString FileManager::generateFileName(const QDate& date) const
 {
-    return date.toString("yyyy-MM-dd") + ".txt";
+    return "/root" + date.toString("yyyy-MM-dd") + ".txt";
 }
 
 void FileManager::saveToFile(const QString& fileName, const QString& data) const
