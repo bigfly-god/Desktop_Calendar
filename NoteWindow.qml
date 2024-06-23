@@ -18,12 +18,25 @@ ApplicationWindow {
             RowLayout{
                 ToolButton{ action: actions.save }
                 ToolButton{ action: actions.exit1 }
+                ToolButton{ action: actions.exit }
+                ToolButton{ action: actions.screenshot}
             }
         }
-        Actions{
+
+        Actions {
             id:actions
             save.onTriggered: Controller.save();
             exit1.onTriggered: Controller.exitnote();
+            screenshot.onTriggered: Controller.sreenshout()
+        }
+        Loader {
+            id: screenShotCom
+            onLoaded: {
+                item.closing.connect(
+                            function (){
+                    screenShotCom.source = "";
+                });
+            }
         }
         Rectangle {
                 id: noteBackground

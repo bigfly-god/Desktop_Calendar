@@ -10,7 +10,8 @@ Item {
     property  alias deleteSchedule:_deleteSchedule
     property  alias eventCountdown:_eventCountdown
     property  alias note: _note
-    property alias save: _save
+    property  alias save: _save
+     property alias screenshot: _screenshot
     Action{
         id:_exit
         text:qsTr("&Exit")
@@ -57,6 +58,10 @@ Item {
         text: qsTr("&Save")
         shortcut: StandardKey.Save
         icon.name: "document-save"
+    }
+    Action{
+        id:_screenshot
+        text:qsTr("ScreenShot")
     }
 
 

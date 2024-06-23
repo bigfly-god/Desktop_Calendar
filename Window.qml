@@ -46,6 +46,7 @@ ApplicationWindow {
     }
 
 
+
     Actions{
         id:_actions
         about.onTriggered: content.dialogs.about.open()
