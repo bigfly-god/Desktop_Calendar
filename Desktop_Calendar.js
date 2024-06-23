@@ -77,4 +77,8 @@ function destruction(){
 function createnote(){
     content.notewindow.visible=true;
 }
+function sreenshout(){
+     screenShotCom.source = "Screenshot.qml";
+
+}
 
