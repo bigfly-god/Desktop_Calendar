@@ -1,9 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import "Desktop_Calendar.js" as Controller
 import QtQuick.Dialogs
-
+import "Desktop_Calendar.js" as Controller
 
 Item{
     property alias control:_control

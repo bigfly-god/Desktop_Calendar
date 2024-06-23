@@ -1,7 +1,9 @@
 import QtQuick
 import QtQuick.Controls
+
 Item {
     property  alias exit:_exit
+    property  alias exit1:_exit1
     property  alias about:_about
     property  alias addSchedule:_addSchedule
     property  alias modifySchedule:_modifySchedule
@@ -14,6 +16,11 @@ Item {
         text:qsTr("&Exit")
         icon.name:"application-exit"
         onTriggered: Qt.quit();
+    }
+    Action{
+        id:_exit1
+        text:qsTr("&Exit")
+        icon.name:"application-exit"
     }
     Action{
         id:_about
@@ -33,7 +40,6 @@ Item {
     Action{
         id:_deleteSchedule
         text:qsTr("Delete schedule")
-
     }
 
     Action{

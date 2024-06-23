@@ -32,7 +32,7 @@ ApplicationWindow {
         }
 
         Menu{
-            title:qsTr("Menu")
+            title:qsTr("&Menu")
             MenuItem{action:actions.eventCountdown}
             MenuItem{action:actions.note}
 
@@ -53,8 +53,6 @@ ApplicationWindow {
         eventCountdown.onTriggered: content.dialogs.eventCountdown.open()
         note.onTriggered:Controller.createnote()
     }
-
-
 
     //Content Area
     Content {

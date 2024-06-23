@@ -6,19 +6,24 @@ import "Desktop_Calendar.js" as Controller
 ApplicationWindow {
         id: _notebook
         title:qsTr("note")
-        width: 500
-        height: 400
+        width: 300
+        height: 200
+        maximumHeight: 600
+        minimumHeight: 200
+        maximumWidth: 400
+        minimumWidth: 200
         //visible: false
         property string noteText: ""
         header: ToolBar {
             RowLayout{
                 ToolButton{ action: actions.save }
-                ToolButton{ action: actions.exit }
+                ToolButton{ action: actions.exit1 }
             }
         }
         Actions{
             id:actions
             save.onTriggered: Controller.save();
+            exit1.onTriggered: Controller.exitnote();
         }
         Rectangle {
                 id: noteBackground

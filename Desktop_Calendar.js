@@ -78,3 +78,7 @@ function createnote(){
     content.notewindow.visible=true;
 }
 
+function exitnote(){
+    content.notewindow.visible=false;
+}
+
