@@ -11,7 +11,8 @@ Item {
     property  alias eventCountdown:_eventCountdown
     property  alias note: _note
     property  alias save: _save
-     property alias screenshot: _screenshot
+    property alias screenshot: _screenshot
+
     Action{
         id:_exit
         text:qsTr("&Exit")
@@ -63,6 +64,7 @@ Item {
         id:_screenshot
         text:qsTr("ScreenShot")
     }
+
 
 
 }

@@ -1,6 +1,8 @@
 #include "filemanager.h"
 #include <QDateTime>
 #include <QDebug>
+#include <QDate>
+#include <QString>
 #include <QDir>
 #include <QDirIterator>
 #include <QFile>

@@ -13,6 +13,7 @@ Item {
     property alias eventMessageInput: _eventMessageInput
     property alias failToSave: _failToSave
     property alias noschedule: _noSchedule
+    property alias failTime:_failTime
 
      //添加事件
     Dialog {
@@ -81,10 +82,12 @@ Item {
 
     TimePicker {
         id:remind_timePicker
-        anchors.left: end_text.right
-        anchors.top:remind_text.bottom
-        anchors.topMargin: 10
+
+    anchors.left: end_text.right
+    anchors.top:remind_text.bottom
+    anchors.topMargin: 10
     }
+
         // 处理 OK 按钮的点击事件
         onAccepted: {
             //判断选择日期是否正确
@@ -93,6 +96,7 @@ Item {
                 Controller.storage()
                 Controller.destruction()
                 eventMessageInput.text=""
+                Controller.update()
             }else{
                 content.dialogs.failToSave.open()
                 Controller.destruction()
@@ -106,31 +110,6 @@ Item {
         }
 
   }
-
-    // Dialog {
-    //     id: _eventCountdown
-    //     title: qsTr("Event List")
-    //     width: 200
-    //     height: 400
-
-    //     ScrollView {
-    //         anchors.fill: parent
-    //         clip: true //确保将内容剪裁到ScrollView边界
-
-    //         Column {
-    //             //此处显示您的内容
-    //             Repeater {
-    //                 model: 20 //项目数量示例，根据需要进行调整
-    //                 Text {
-    //                     text: "Item " + (index + 1)
-    //                     font.pixelSize: 14
-    //                     color: "white"
-    //                     padding: 10
-    //                 }
-    //             }
-    //         }
-    //     }
-    //  }
 
     Dialog {
         id: _eventCountdown
@@ -186,6 +165,14 @@ Item {
         buttons:MessageDialog.Ok
         text:"Desktop_Calendar is Desktop memo"
         informativeText: qsTr("      Desktop memo is a free software that allows you to set a schedule and remind you of your own schedule.It also supports multiple people sharing and modifying the same memo.")
+    }
+
+    MessageDialog{
+        id:_failTime
+        modality: Qt.WindowModal
+        buttons:MessageDialog.Ok
+        text:"Fail to save"
+        informativeText: qsTr("Sorry, start time must be before end time.")
     }
 
     MessageDialog{

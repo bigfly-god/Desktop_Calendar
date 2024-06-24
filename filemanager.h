@@ -44,10 +44,12 @@ signals:
 private:
     QString generateFileName(const QDate& date) const;
     QString generateFileName(const QDate& date, const QTime& time) const;
+
     void saveToFile(const QString& fileName,
                     const QDate& date,
                     const QTime& time,
                     const QString& data) const;
+
     Schedule readFromFile(const QString& fileName) const;
     QString serializeSchedule(const Schedule& schedule) const;
     Schedule deserializeSchedule(const QString& data) const;

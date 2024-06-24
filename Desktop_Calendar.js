@@ -84,10 +84,13 @@ function storage(){
     var startDate=startTime()
     var endDate=endTime()
     var remindDate = remindTime();
-    content.fileManager.addOrUpdateSchedule(content.calendar.control.selectDate,startDate,content.fileManager.setSchedule(eventMessageInput.text,
-                                                                                                                             startDate,
-                                                                                                                     endDate,
-                                                                                                                  remindDate))
+
+    if(startDate<endDate){
+        content.fileManager.addOrUpdateSchedule(content.calendar.control.selectDate,startDate,content.fileManager.setSchedule
+                                            (eventMessageInput.text,startDate,endDate,remindDate))
+    }else{
+        content.dialogs.failTime.open()
+    }
     console.log("finish storage")
 }
 
@@ -103,4 +106,11 @@ function sreenshout(){
 function exitnote(){
     content.notewindow.visible=false;
 }
+
+function update(){
+    content.calendar.month_grid.year+=1;
+    content.calendar.month_grid.year-=1;
+}
+
+
 
