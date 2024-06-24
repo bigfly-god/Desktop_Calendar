@@ -41,7 +41,6 @@ ApplicationWindow {
         Menu{
             title:qsTr("&Help")
              MenuItem { action: actions.about }
-
         }
     }
 
