@@ -23,8 +23,9 @@ class FileManager : public QObject
 public:
     explicit FileManager(QObject* parent = nullptr);
     Q_INVOKABLE bool isValidDate(const QDate& date) const;
-    Q_INVOKABLE bool hasSchedule(const QDate& date, const QTime& time) const;
-    Q_INVOKABLE Schedule getSchedule(const QDate& date, const QTime& time) const;
+    Q_INVOKABLE bool hasSchedule(const QDate& date) const;
+    Q_INVOKABLE Schedule getAllSchedules() const;
+    Q_INVOKABLE Schedule getSchedule(const QDate& date) const;
     Q_INVOKABLE void addOrUpdateSchedule(const QDate& date,
                                          const QTime& time,
                                          const Schedule& schedule);
@@ -41,6 +42,7 @@ signals:
     void storagePathChanged();
 
 private:
+    QString generateFileName(const QDate& date) const;
     QString generateFileName(const QDate& date, const QTime& time) const;
     void saveToFile(const QString& fileName,
                     const QDate& date,

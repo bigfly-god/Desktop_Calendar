@@ -12,7 +12,7 @@ Item {
     property alias eventCountdown: _eventCountdown
     property alias eventMessageInput: _eventMessageInput
     property alias failToSave: _failToSave
-
+    property alias noschedule: _noSchedule
 
      //添加事件
     Dialog {
@@ -95,6 +95,7 @@ Item {
                 eventMessageInput.text=""
             }else{
                 content.dialogs.failToSave.open()
+                Controller.destruction()
                 eventMessageInput.text=""
             }
         }
@@ -106,32 +107,78 @@ Item {
 
   }
 
+    // Dialog {
+    //     id: _eventCountdown
+    //     title: qsTr("Event List")
+    //     width: 200
+    //     height: 400
 
+    //     ScrollView {
+    //         anchors.fill: parent
+    //         clip: true //确保将内容剪裁到ScrollView边界
+
+    //         Column {
+    //             //此处显示您的内容
+    //             Repeater {
+    //                 model: 20 //项目数量示例，根据需要进行调整
+    //                 Text {
+    //                     text: "Item " + (index + 1)
+    //                     font.pixelSize: 14
+    //                     color: "white"
+    //                     padding: 10
+    //                 }
+    //             }
+    //         }
+    //     }
+    //  }
 
     Dialog {
         id: _eventCountdown
-        title: qsTr("事件倒计时")
-        width: 200
+        title: qsTr("Event List")
+        width: 300
         height: 400
+        property var schedule
 
         ScrollView {
             anchors.fill: parent
-            clip: true // Ensures content is clipped to ScrollView bounds
+            clip: true
 
             Column {
-                // Your content goes here
-                Repeater {
-                    model: 20 // Example number of items, adjust as needed
-                    Text {
-                        text: "Item " + (index + 1)
-                        font.pixelSize: 16
-                        color: "white"
-                        padding: 10
-                    }
+                spacing: 5
+                width: parent.width
+                Text {
+                    text:"Schedule:"+ _eventCountdown.schedule.eventName
+                    font.pixelSize: 16
+                    color: "white"
+                }
+
+                Text {
+                    text: "Start Time: " + _eventCountdown.schedule.startTime
+                    font.pixelSize: 14
+                    color: "lightgrey"
+                }
+
+                Text {
+                    text: "End Time: " + _eventCountdown.schedule.endTime
+                    font.pixelSize: 14
+                    color: "lightgrey"
                 }
             }
         }
-     }
+
+        Component.onCompleted: {
+            var schedule = content.fileManager.getAllSchedules();
+            if (schedule.eventName!== "") {
+                _eventCountdown.schedule = schedule;
+            } else {
+                _eventCountdown.schedule = {
+                eventName: "No events scheduled",
+                startTime: "",
+                endTime: ""
+                };
+            }
+        }
+    }
 
     MessageDialog{
         id:_about
@@ -147,6 +194,14 @@ Item {
         buttons:MessageDialog.Ok
         text:"Fail to save"
         informativeText: qsTr("Sorry, the date you selected should be after today. Please choose a new date")
+    }
+
+    MessageDialog {
+        id:_noSchedule
+        modality: Qt.WindowModal
+        buttons:MessageDialog.Ok
+        text:"No schedule"
+        informativeText: qsTr("Sorry, the date you have selected does not currently have a schedule")
     }
 
     Popup {

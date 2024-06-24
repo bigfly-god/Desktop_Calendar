@@ -1,10 +1,15 @@
 function showPopup(date) {
-    //if(content.fileManager.hasSchedule())
-    content.dialogs.popup.visible = true;
-    // Center the popup relative to the main window
-    content.dialogs.popup.x = (month_grid.width - dialogs.popup.width) / 2;
-    content.dialogs.popup.y = (month_grid.height - dialogs.popup.height) / 2;
-    console.log('Double-clicked date:',date);
+    if(content.fileManager.hasSchedule(content.calendar.control.selectDate)){
+        content.dialogs.popup.visible = true;
+        // Center the popup relative to the main window
+        content.dialogs.popup.x = (month_grid.width - dialogs.popup.width) / 2;
+        content.dialogs.popup.y = (month_grid.height - dialogs.popup.height) / 2;
+        console.log('Double-clicked date:',date);
+    }else{
+        content.dialogs.noschedule.open()
+    }
+
+
 }
 
 function updateDateTime() {
@@ -30,8 +35,7 @@ function destruction(){
     remind_timePicker.secondComboBox.currentIndex=0
 }
 
-//存储
-function storage(){
+function startTime(){
     var selectedStartHour = start_timePicker.hourComboBox.currentIndex// 获取选中的小时
     var selectedStartMinute = start_timePicker.minuteComboBox.currentIndex // 获取选中的分钟
     var selectedStartSecond = start_timePicker.secondComboBox.currentIndex// 获取选中的秒数
@@ -42,6 +46,10 @@ function storage(){
     startDate.setMinutes(selectedStartMinute);
     startDate.setSeconds(selectedStartSecond);
 
+    return startDate;
+}
+
+function endTime(){
     var selectedEndHour = end_timePicker.hourComboBox.currentIndex// 获取选中的小时
     var selectedEndMinute = end_timePicker.minuteComboBox.currentIndex // 获取选中的分钟
     var selectedEndSecond = end_timePicker.secondComboBox.currentIndex// 获取选中的秒数
@@ -52,6 +60,11 @@ function storage(){
     endDate.setMinutes(selectedEndMinute);
     endDate.setSeconds(selectedEndSecond);
 
+    return endDate;
+}
+
+function remindTime(){
+    var startDate=startTime()
 
     var selectedRemindHour = remind_timePicker.hourComboBox.currentIndex// 获取选中的小时
     var selectedRemindMinute = remind_timePicker.minuteComboBox.currentIndex // 获取选中的分钟
@@ -59,16 +72,23 @@ function storage(){
     var remindDate = new Date();
     remindDate.setDate(content.calendar.control.selectDate.getDate())
     remindDate.setMonth(content.calendar.control.selectDate.getMonth() + 1)
-    remindDate.setHours(selectedStartHour-selectedRemindHour);
-    remindDate.setMinutes(selectedStartMinute-selectedRemindMinute);
-    remindDate.setSeconds(selectedStartSecond-selectedRemindSecond);
+    remindDate.setHours(startDate.getHours()-selectedRemindHour);
+    remindDate.setMinutes(startDate.getMinutes()-selectedRemindMinute);
+    remindDate.setSeconds(startDate.getSeconds()-selectedRemindSecond);
 
+    return remindDate;
+}
+
+//存储
+function storage(){
+    var startDate=startTime()
+    var endDate=endTime()
+    var remindDate = remindTime();
     content.fileManager.addOrUpdateSchedule(content.calendar.control.selectDate,startDate,content.fileManager.setSchedule(eventMessageInput.text,
                                                                                                                              startDate,
-                                                                                                                             endDate,
+                                                                                                                     endDate,
                                                                                                                   remindDate))
     console.log("finish storage")
-
 }
 
 
