@@ -128,3 +128,4 @@ function exitnote(){
     content.notewindow.visible=false;
 }
 
+

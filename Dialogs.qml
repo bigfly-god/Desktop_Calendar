@@ -160,6 +160,15 @@ Item {
             }
        }
     }
+    FileDialog {
+        id: _fileSave
+        title: "Select some text files"
+        modality: Qt.ApplicationModal
+        currentFolder: StandardPaths.writableLocation
+                       (StandardPaths.DocumentsLocation)
+        fileMode: FileDialog.SaveFile
+        nameFilters: [ "Text files (*.txt *)" ]
+    }
 
 }
 

@@ -14,7 +14,7 @@ Window {
 
     color: tranparentColor
     visibility: ApplicationWindow.FullScreen
-    flags: Qt.FramelessWindowHint
+    flags: Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
 
     //四个阴影区域，笼罩未选择区域
     //一个选择区域
@@ -126,6 +126,8 @@ Window {
             width: parent.width + borderMargin * 2
             height: parent.height + borderMargin * 2
         }
+
+
 
         //LeftTop
         CusDragRect{
@@ -280,7 +282,7 @@ Window {
 
             }
         }
-    }
+ }
 
     Item{
         id: functionRect
@@ -313,13 +315,15 @@ Window {
             }
             text: "完成"
             onClicked: {
-                captureScreenshot(selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height);
+                captureScreenshot("1111",selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height);
                 close();
-            }
-        }
     }
 
-    function captureScreenshot(x, y, width, height) {
-        g_screenShot.saveImageToClipboard(x, y, width, height);
-    }
-}
+    function captureScreenshot(fileName,x, y, width, height) {
+        g_screenShot.saveImageToFile(fileName,x, y, width, height);
+        console.log("selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height",selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height)
+
+              }
+         }
+      }
+  }

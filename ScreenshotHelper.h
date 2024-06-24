@@ -14,7 +14,11 @@ class ScreenshotHelper : public QObject
 public:
     explicit ScreenshotHelper(QObject *parent = nullptr);
 
-    Q_INVOKABLE void saveImageToClipboard(int x = 0, int y = 0, int width = -1, int height = -1);
+    // 保存指定区域的屏幕截图到文件
+
+    Q_INVOKABLE void saveImageToFile(
+        const QString &fileName, int x = 0, int y = 0, int width = -1, int height = -1);
+
 signals:
 };
 
