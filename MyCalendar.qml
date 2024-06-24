@@ -12,9 +12,7 @@ Rectangle {
     anchors.fill: parent
     implicitWidth: 520
     implicitHeight: 350
-
     border.color: "black"
-
     property alias font: month_grid.font
     property alias locale: month_grid.locale
     property date selectDate: new Date()
@@ -187,61 +185,67 @@ Rectangle {
                    }
                }
            }
-            //日期单元格
-       MonthGrid {
-           id: month_grid
-           Layout.fillWidth: true
-           Layout.fillHeight: true
-           locale: Qt.locale("zh_CN")
-           spacing: 1
-           font{
-               family: "SimHei"
-               pixelSize: 14
+       //日期单元格
+  MonthGrid {
+      id: month_grid
+      Layout.fillWidth: true
+      Layout.fillHeight: true
+      locale: Qt.locale("zh_CN")
+      spacing: 1
+      font{
+          family: "SimHei"
+          pixelSize: 14
+      }
+      delegate: Rectangle {
+          id:delegateRect
+          color: model.today?"orange":control.selectDate.valueOf()===model.date.valueOf()?"darkCyan":"gray"
+          border.color: "black"
+          border.width: 1
+          Rectangle {
+              anchors.fill: parent
+              anchors.margins: 2
+              color: "transparent"
+          }
+
+
+          Rectangle{
+              id:_bluerectangle
+              width: 6
+                     height: 6
+                     radius: 3
+                     color: "blue"
+                     visible:content.fileManager.hasSchedule(model.date)
+                     anchors {
+                         horizontalCenter: parent.horizontalCenter // 水平居中
+                         bottom: parent.bottom
+                         margins: 10
+                     }
+          }
+
+
+          Text {
+              anchors.centerIn: parent
+              text: model.day
+              color: model.month===month_grid.month?"white":"black"
+          }
+
+          TapHandler{
+              onTapped: {
+                      control.selectDate = model.date;
+                      console.log('click',month_grid.title,month_grid.year,month_grid.month+1,"--",
+                      model.date.getUTCFullYear(),model.date.getUTCMonth()+1,model.date.getUTCDate(),model.date.getUTCDay())
+               }
+              onDoubleTapped: {
+                       Controller.showPopup(model.date);
+               }
            }
-           delegate: Rectangle {
-               id:delegateRect
-               color: model.today?"orange":control.selectDate.valueOf()===model.date.valueOf()?"darkCyan":"gray"
-               border.color: "black"
-               border.width: 1
-               Rectangle {
-                   anchors.fill: parent
-                   anchors.margins: 2
-                   color: "transparent"
-               }
-
-                Rectangle{
-                    width: 6
-                           height: 6
-                           radius: 3
-                           color: "blue"
-                           visible:true // 添加逻辑来决定是否显示蓝色小点
-                           anchors {
-                               horizontalCenter: parent.horizontalCenter // 水平居中
-                               bottom: parent.bottom
-                               margins: 10
-                           }
-                }
-               Text {
-                   anchors.centerIn: parent
-                   text: model.day
-                   color: model.month===month_grid.month?"white":"black"
-               }
-
-               TapHandler{
-                   onTapped: {
-                           control.selectDate = model.date;
-                           console.log('click',month_grid.title,month_grid.year,month_grid.month+1,"--",
-                           model.date.getUTCFullYear(),model.date.getUTCMonth()+1,model.date.getUTCDate(),model.date.getUTCDay())
-                    }
-                   onDoubleTapped: {
-                            Controller.showPopup(model.date);
-                    }
-                }
-            }
-        }
-    }
+       }
 
 
+   }
+
+
+   }
  }
 
 }

@@ -18,7 +18,6 @@ ApplicationWindow {
             RowLayout{
                 ToolButton{ action: actions.save }
                 ToolButton{ action: actions.exit1 }
-                ToolButton{ action: actions.exit }
                 ToolButton{ action: actions.screenshot}
             }
         }
