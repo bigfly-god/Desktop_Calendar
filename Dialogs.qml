@@ -84,22 +84,17 @@ Item {
     anchors.top:remind_text.bottom
     anchors.topMargin: 10
     }
+
     // 处理 OK 按钮的点击事件
     onAccepted: {
          //消息存储
          Controller.storage()
-        //处理sartTime
-        Controller.scheduleStartTime()
-        //处理endTime
-        Controller.scheduleEndTime()
-        //处理remindTime
-        Controller.scheduleRemindTime()
         Controller.destruction()
         eventMessageInput.text=""
     }
 
-    onRejected: {
-        // 处理 Cancel 按钮的点击事件
+// 处理 Cancel 按钮的点击事件
+    onRejected: {   
         Controller.destruction()
         eventMessageInput.text=""
     }

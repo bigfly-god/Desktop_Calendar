@@ -107,7 +107,12 @@ function storage(){
     remindDate.setMinutes(selectedStartMinute-selectedRemindMinute);
     remindDate.setSeconds(selectedStartSecond-selectedRemindSecond);
 
-   content.fileManager.addOrUpdateSchedule(content.calendar.control.selectDate,content.fileManager.setSchedule(eventMessageInput.text,
+    if (startDate.getTime() >= endDate.getTime()) {
+           console.error("End time must be after start time.");
+           return;
+       }
+
+   content.fileManager.addOrUpdateSchedule(content.calendar.control.selectDate,startDate,content.fileManager.setSchedule(eventMessageInput.text,
                                                                                                                              startDate,
                                                                                                                              endDate,
                                                                                                                           remindDate))
@@ -126,5 +131,9 @@ function sreenshout(){
 
 function exitnote(){
     content.notewindow.visible=false;
+}
+
+function file_Exists(){
+
 }
 

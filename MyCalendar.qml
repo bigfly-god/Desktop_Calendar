@@ -61,6 +61,7 @@ Rectangle {
                    }
        }
 
+
         //年、月切换
         Rectangle {
             Layout.fillWidth: true
@@ -207,6 +208,19 @@ Rectangle {
                    anchors.margins: 2
                    color: "transparent"
                }
+
+                Rectangle{
+                    width: 6
+                           height: 6
+                           radius: 3
+                           color: "blue"
+                           visible:true // 添加逻辑来决定是否显示蓝色小点
+                           anchors {
+                               horizontalCenter: parent.horizontalCenter // 水平居中
+                               bottom: parent.bottom
+                               margins: 10
+                           }
+                }
                Text {
                    anchors.centerIn: parent
                    text: model.day
