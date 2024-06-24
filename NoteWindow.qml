@@ -18,7 +18,6 @@ ApplicationWindow {
             RowLayout{
                 ToolButton{ action: actions.save }
                 ToolButton{ action: actions.exit1 }
-                ToolButton{ action: actions.exit }
                 ToolButton{ action: actions.screenshot}
             }
         }
@@ -32,10 +31,7 @@ ApplicationWindow {
         Loader {
             id: screenShotCom
             onLoaded: {
-                item.closing.connect(
-                            function (){
-                    screenShotCom.source = "";
-                });
+                item.closing.connect(function (){screenShotCom.source = "";});
             }
         }
         Rectangle {
@@ -54,11 +50,10 @@ ApplicationWindow {
 
                     font.pixelSize: 16
                     color: "black"
-                    selectByKeyboard: true
                     clip: true
 
                     onTextChanged: {
-                        mcontent.notewindow.noteText = noteTextEdit.text;
+                        content.notewindow.noteText = noteTextEdit.text;
                     }
                 }
         }
