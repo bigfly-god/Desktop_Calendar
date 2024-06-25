@@ -1,12 +1,12 @@
 #include "filemanager.h"
+#include <QDate>
 #include <QDateTime>
 #include <QDebug>
-#include <QDate>
-#include <QString>
 #include <QDir>
 #include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
+#include <QString>
 #include <QTextStream>
 
 FileManager::FileManager(QObject* parent)
@@ -34,7 +34,6 @@ void FileManager::saveToFile(const QString& fileName,
                              const QTime& time,
                              const QString& data) const
 {
-    //QFile file(fileName);
     // 提取文件的目录部分
     QString directory = QFileInfo(fileName).absolutePath() + "/" + date.toString("yyyy-MM-dd");
 
@@ -73,6 +72,7 @@ QString FileManager::serializeSchedule(const Schedule& schedule) const
 {
     QString result;
     result += schedule.eventName + ";";               // 存储事件名称
+    result += schedule.eventDate.toString() + ";";    // 存储事件日期
     result += schedule.startTime.toString() + ";";    // 存储开始时间
     result += schedule.endTime.toString() + ";";      // 存储结束时间
     result += schedule.reminderTime.toString() + ";"; // 存储提醒时间
@@ -84,10 +84,11 @@ Schedule FileManager::deserializeSchedule(const QString& data) const
 {
     QStringList parts = data.split(";");
     Schedule schedule;
-    schedule.eventName = parts[0];                       // 读取事件名称
-    schedule.startTime = QTime::fromString(parts[1]);    // 读取开始时间
-    schedule.endTime = QTime::fromString(parts[2]);      // 读取结束时间
-    schedule.reminderTime = QTime::fromString(parts[3]); // 读取提醒时间
+    schedule.eventName = parts[0]; // 读取事件名称
+    schedule.eventDate = QDate::fromString(parts[1]);
+    schedule.startTime = QTime::fromString(parts[2]);    // 读取开始时间
+    schedule.endTime = QTime::fromString(parts[3]);      // 读取结束时间
+    schedule.reminderTime = QTime::fromString(parts[4]); // 读取提醒时间
     return schedule;
 }
 
@@ -97,62 +98,85 @@ bool FileManager::hasSchedule(const QDate& date) const
     QDir dir(fileName);
     return dir.exists();
 }
+
 //读取所有日程
-Schedule FileManager::getAllSchedules() const
+QList<Schedule> FileManager::getAllSchedules()
 {
     QString directory = "/root/Desktop_Calendar/schedule/";
     QStringList filters;
     filters << "*.txt";
 
     QDirIterator it(directory, filters, QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
-    Schedule schedule;
-
     while (it.hasNext()) {
         QString fileName = it.next();
-        qDebug() << fileName << " ";
         // 从文件中读取日程信息
-        schedule = readFromFile(fileName);
-
-        // 返回日程信息
+        Schedule schedule = readFromFile(fileName);
+        allSchedules.append(schedule);
     }
-    return schedule;
+    // 返回所有日程信息列表
+    return allSchedules;
 }
 
-//读取选定日期的日程
-Schedule FileManager::getSchedule(const QDate& date) const
+QVariantList FileManager::getAllSchedulesAsVariantList()
 {
-    //QString fileName = generateFileName(date);
-    QString directory = "/root/Desktop_Calendar/schedule/";
+    QVariantList list;
+    for (const Schedule& schedule : getAllSchedules()) {
+        QVariantMap map;
+
+        map["eventName"] = schedule.eventName;
+        QString dateStr = schedule.eventDate.toString("yyyy-MM-dd");
+        QString startTimeStr = schedule.startTime.toString("hh:mm:ss");
+        QString endTimeStr = schedule.endTime.toString("hh:mm:ss");
+        QString reminderTimeStr = schedule.reminderTime.toString("hh:mm:ss");
+
+        map["eventDate"] = dateStr;
+        map["startTime"] = startTimeStr;
+        map["endTime"] = endTimeStr;
+        map["reminderTime"] = reminderTimeStr;
+
+        list.append(map);
+    }
+    return list;
+}
+
+QList<Schedule> FileManager::getSchedule(const QDate& date) const
+{
+    QString directoryPath = generateFileName(date);
     QStringList filters;
     filters << "*.txt";
 
-    QDirIterator it(directory, filters, QDir::Files, QDirIterator::Subdirectories);
+    QDirIterator it(directoryPath, filters, QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
+    QList<Schedule> schedules;
+
     while (it.hasNext()) {
         QString fileName = it.next();
-        QFileInfo fileInfo(fileName);
-
-        // 从文件名中提取时间部分，格式为 HH:mm:ss.txt
-        QString baseName = fileInfo.baseName();
-        // 提取 "HH:mm:ss"
-        QTime fileTime = QTime::fromString(baseName, "HH:mm:ss");
-
-        // 检查 QTime 是否解析成功
-        if (!fileTime.isValid()) {
-            continue; // 跳过时间格式无效的文件
-        }
-
-        // 创建 QDateTime 对象，将当前日期与文件中的时间部分结合
-        QDateTime fileDateTime(QDate::currentDate(), fileTime);
-
-        // 比较与给定日期的日期部分
-        if (fileDateTime.date() == date) {
-            Schedule schedule = readFromFile(fileName);
-            return schedule;
-        }
+        // 从文件中读取日程信息
+        Schedule schedule = readFromFile(fileName);
+        schedules.append(schedule);
     }
-    // 处理未找到给定日期日程的情况
-    Schedule emptySchedule; // 可以定义一个空的日程对象
-    return emptySchedule;
+
+    return schedules;
+}
+
+QVariantList FileManager::getSchedulesAsVariantList(const QDate& date) const
+{
+    QVariantList list;
+    for (const Schedule& schedule : getSchedule(date)) {
+        QVariantMap map;
+        map["eventName"] = schedule.eventName;
+        QString dateStr = schedule.eventDate.toString("yyyy-MM-dd");
+        QString startTimeStr = schedule.startTime.toString("hh:mm:ss");
+        QString endTimeStr = schedule.endTime.toString("hh:mm:ss");
+        QString reminderTimeStr = schedule.reminderTime.toString("hh:mm:ss");
+
+        map["eventDate"] = dateStr;
+        map["startTime"] = startTimeStr;
+        map["endTime"] = endTimeStr;
+        map["reminderTime"] = reminderTimeStr;
+
+        list.append(map);
+    }
+    return list;
 }
 
 void FileManager::addOrUpdateSchedule(const QDate& date, const QTime& time, const Schedule& schedule)
@@ -183,12 +207,14 @@ void FileManager::setStoragePath(const QString& path)
 }
 
 Schedule FileManager::setSchedule(const QString& eventName,
+                                  const QDate& eventDate,
                                   const QTime& startTime,
                                   const QTime& endTime,
                                   const QTime& reminderTime) const
 {
     Schedule schedule;
     schedule.eventName = eventName;
+    schedule.eventDate = eventDate;
     schedule.startTime = startTime;
     schedule.endTime = endTime;
     schedule.reminderTime = reminderTime;

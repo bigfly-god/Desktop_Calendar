@@ -17,8 +17,8 @@ ApplicationWindow {
         header: ToolBar {
             RowLayout{
                 ToolButton{ action: actions.save }
-                ToolButton{ action: actions.exit1 }
                 ToolButton{ action: actions.screenshot}
+                ToolButton{ action: actions.exit1 }
             }
         }
 

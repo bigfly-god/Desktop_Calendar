@@ -16,6 +16,7 @@ Item {
     property alias noschedule: _noSchedule
     property alias failTime:_failTime
      property alias failMessage:_failMessage
+    property alias fileSave: _fileSave
 
      //添加事件
     Dialog {
@@ -85,9 +86,9 @@ Item {
     TimePicker {
         id:remind_timePicker
 
-    anchors.left: end_text.right
-    anchors.top:remind_text.bottom
-    anchors.topMargin: 10
+        anchors.left: end_text.right
+        anchors.top:remind_text.bottom
+        anchors.topMargin: 10
     }
 
         // 处理 OK 按钮的点击事件
@@ -129,48 +130,133 @@ Item {
 
     Dialog {
         id: _eventCountdown
-        title: qsTr("Event List")
-        width: 300
-        height: 400
-        property var schedule
+        title: qsTr("事件列表")
+        width: 250
+        height: 300
 
         ScrollView {
             anchors.fill: parent
             clip: true
 
             Column {
-                spacing: 5
+                spacing: 10
                 width: parent.width
-                Text {
-                    text:"Schedule:"+ _eventCountdown.schedule.eventName
-                    font.pixelSize: 16
-                    color: "white"
-                }
 
-                Text {
-                    text: "Start Time: " + _eventCountdown.schedule.startTime
-                    font.pixelSize: 14
-                    color: "lightgrey"
-                }
+                Repeater {
+                    model: content.fileManager.getAllSchedulesAsVariantList()
 
-                Text {
-                    text: "End Time: " + _eventCountdown.schedule.endTime
-                    font.pixelSize: 14
-                    color: "lightgrey"
+                    delegate: Column {
+                        spacing: 5
+                        width: parent.width
+
+                        Text {
+                            text: "Schedule: " + modelData.eventName
+                            font.pixelSize: 16
+                            color: "white"
+                        }
+
+                        Text {
+                            text: "Date:" + modelData.eventDate
+                            font.pixelSize: 12
+                            color: "lightgrey"
+                        }
+
+                        Text {
+                            text: "Start Time:" + modelData.startTime
+                            font.pixelSize: 12
+                            color: "lightgrey"
+                        }
+
+                        Text {
+                            text: "End Time: " + modelData.endTime
+                            font.pixelSize: 12
+                            color: "lightgrey"
+                        }
+
+                        Text {
+                            text: "Reminder Time: " + modelData.reminderTime
+                            font.pixelSize: 12
+                            color: "lightgrey"
+                        }
+                    }
                 }
             }
         }
+        footer: Row {
+                spacing: 90
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.bottom: parent.bottom
 
-        Component.onCompleted: {
-            var schedule = content.fileManager.getAllSchedules();
-            if (schedule.eventName!== "") {
-                _eventCountdown.schedule = schedule;
-            } else {
-                _eventCountdown.schedule = {
-                eventName: "No events scheduled",
-                startTime: "",
-                endTime: ""
-                };
+                Button {
+                    text: "正序排列"
+                    //onClicked: content.fileManager.sortSchedulesAscending()
+                }
+
+                Button {
+                    text: "倒序排列"
+                    //onClicked: content.fileManager.sortSchedulesDescending()
+                }
+            }
+    }
+
+    Popup {
+        id: _popup
+        width: Math.min(window.width * 0.6, 600)
+        height: width
+        modal: false
+        visible: false
+        opacity: 1
+        anchors.centerIn: parent
+
+        contentItem: Rectangle {
+            anchors.fill: parent
+            color: "black"
+
+            ScrollView {
+                anchors.fill: parent
+
+
+                Column {
+                    id: scheduleColumn
+                    spacing: 10
+
+                    Repeater {
+                        id: scheduleRepeater
+                        model: content.fileManager.getSchedulesAsVariantList(content.calendar.control.selectDate)
+
+                        delegate: Column {
+                            Text {
+                                text: "Schedule: " + modelData.eventName
+                                font.pixelSize: 16
+                                color: "white"
+                            }
+
+                            Text {
+                                text: "Date:" + modelData.eventDate
+                                font.pixelSize: 12
+                                color: "lightgrey"
+                            }
+
+                            Text {
+                                text: "Start Time: " + modelData.startTime
+                                font.pixelSize: 12
+                                color: "lightgrey"
+                            }
+
+                            Text {
+                                text: "End Time: " + modelData.endTime
+                                font.pixelSize: 12
+                                color: "lightgrey"
+                            }
+
+                            Text {
+                                text: "Reminder Time: " + modelData.reminderTime
+                                font.pixelSize: 12
+                                color: "lightgrey"
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -215,26 +301,14 @@ Item {
         informativeText: qsTr("Sorry, the date you have selected does not currently have a schedule")
     }
 
-    Popup {
-        id:_popup
-        width: Math.min(window.width * 0.6, 600)
-        height: width
-        modal: false  // 设置为非模态
-        visible: false
-        opacity: 0.5
-        anchors.centerIn: parent
-        contentItem: Rectangle {
-            anchors.fill: parent
-            color: "grey"
-            Text {
-                anchors.centerIn: parent
-                text: "Popup Content"
-                font.pixelSize: 24
-                color: "white"
-            }
-       }
+    FileDialog {
+           id: _fileSave
+           title: "Save Photo"
+           modality: Qt.ApplicationModal
+           currentFolder: StandardPaths.writableLocation(StandardPaths.PicturesLocation)
+           fileMode: FileDialog.SaveFile
+           nameFilters: [ "JPEG files (*.jpg)", "PNG files (*.png)", "All files (*)" ]
     }
-
 }
 
 

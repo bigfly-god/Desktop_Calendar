@@ -8,8 +8,6 @@ function showPopup(date) {
     }else{
         content.dialogs.noschedule.open()
     }
-
-
 }
 
 function updateDateTime() {
@@ -89,7 +87,7 @@ function storage(){
         content.dialogs.failMessage.open()
     }else if(startDate<endDate){
         content.fileManager.addOrUpdateSchedule(content.calendar.control.selectDate,startDate,content.fileManager.setSchedule
-                                            (eventMessageInput.text,startDate,endDate,remindDate))
+                                            (eventMessageInput.text,content.calendar.control.selectDate,startDate,endDate,remindDate))
     }else{
         content.dialogs.failTime.open()
     }
@@ -128,10 +126,12 @@ function getTimestamp() {
       return year + '-' + month + '-' + day + '_' + hours + '-' + minutes + '-' + seconds + '-' + milliseconds;
   }
 
+
 function captureScreenshot(fileName,x, y, width, height) {
     g_screenShot.saveImageToFile(fileName,x, y, width, height);
     console.log("selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height",selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height)
 
           }
+
 
 
