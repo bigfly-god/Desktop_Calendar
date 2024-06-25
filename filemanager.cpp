@@ -1,5 +1,12 @@
 #include "filemanager.h"
+#include <QDateTime>
+#include <QDebug>
+#include <QDate>
+#include <QString>
+#include <QDir>
+#include <QDirIterator>
 #include <QFile>
+#include <QFileInfo>
 #include <QTextStream>
 
 FileManager::FileManager(QObject* parent)
@@ -13,12 +20,35 @@ bool FileManager::isValidDate(const QDate& date) const
 
 QString FileManager::generateFileName(const QDate& date) const
 {
-    return "/" + date.toString("yyyy-MM-dd") + ".txt";
+    return "/root/Desktop_Calendar/schedule/" + date.toString("yyyy-MM-dd");
 }
 
-void FileManager::saveToFile(const QString& fileName, const QString& data) const
+QString FileManager::generateFileName(const QDate& date, const QTime& time) const
 {
-    QFile file(fileName);
+    return "/root/Desktop_Calendar/schedule/" + date.toString("yyyy-MM-dd")
+           + time.toString("HH:mm:ss") + ".txt";
+}
+
+void FileManager::saveToFile(const QString& fileName,
+                             const QDate& date,
+                             const QTime& time,
+                             const QString& data) const
+{
+    //QFile file(fileName);
+    // 提取文件的目录部分
+    QString directory = QFileInfo(fileName).absolutePath() + "/" + date.toString("yyyy-MM-dd");
+
+    QString filePath = QDir(directory).filePath(time.toString("HH:mm:ss") + ".txt");
+
+    // 使用QDir来创建目录（如果它不存在）
+    QDir dir;
+    if (!dir.exists(directory)) {
+        if (!dir.mkpath(directory)) {
+            // 处理目录创建失败的情况
+            return;
+        }
+    }
+    QFile file(filePath);
     if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QTextStream out(&file);
         out << data;
@@ -64,27 +94,77 @@ Schedule FileManager::deserializeSchedule(const QString& data) const
 bool FileManager::hasSchedule(const QDate& date) const
 {
     QString fileName = generateFileName(date);
-    QFile file(fileName);
-    return file.exists();
+    QDir dir(fileName);
+    return dir.exists();
 }
-
-Schedule FileManager::getSchedule(const QDate& date) const
+//读取所有日程
+Schedule FileManager::getAllSchedules() const
 {
-    QString fileName = generateFileName(date);
-    Schedule schedule = readFromFile(fileName);
+    QString directory = "/root/Desktop_Calendar/schedule/";
+    QStringList filters;
+    filters << "*.txt";
+
+    QDirIterator it(directory, filters, QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
+    Schedule schedule;
+
+    while (it.hasNext()) {
+        QString fileName = it.next();
+        qDebug() << fileName << " ";
+        // 从文件中读取日程信息
+        schedule = readFromFile(fileName);
+
+        // 返回日程信息
+    }
     return schedule;
 }
 
-void FileManager::addOrUpdateSchedule(const QDate& date, const Schedule& schedule)
+//读取选定日期的日程
+Schedule FileManager::getSchedule(const QDate& date) const
 {
-    QString fileName = generateFileName(date);
-    QString data = serializeSchedule(schedule);
-    saveToFile(fileName, data);
+    //QString fileName = generateFileName(date);
+    QString directory = "/root/Desktop_Calendar/schedule/";
+    QStringList filters;
+    filters << "*.txt";
+
+    QDirIterator it(directory, filters, QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        QString fileName = it.next();
+        QFileInfo fileInfo(fileName);
+
+        // 从文件名中提取时间部分，格式为 HH:mm:ss.txt
+        QString baseName = fileInfo.baseName();
+        // 提取 "HH:mm:ss"
+        QTime fileTime = QTime::fromString(baseName, "HH:mm:ss");
+
+        // 检查 QTime 是否解析成功
+        if (!fileTime.isValid()) {
+            continue; // 跳过时间格式无效的文件
+        }
+
+        // 创建 QDateTime 对象，将当前日期与文件中的时间部分结合
+        QDateTime fileDateTime(QDate::currentDate(), fileTime);
+
+        // 比较与给定日期的日期部分
+        if (fileDateTime.date() == date) {
+            Schedule schedule = readFromFile(fileName);
+            return schedule;
+        }
+    }
+    // 处理未找到给定日期日程的情况
+    Schedule emptySchedule; // 可以定义一个空的日程对象
+    return emptySchedule;
 }
 
-void FileManager::removeSchedule(const QDate& date)
+void FileManager::addOrUpdateSchedule(const QDate& date, const QTime& time, const Schedule& schedule)
 {
-    QString fileName = generateFileName(date);
+    QString fileName = generateFileName(date, time);
+    QString data = serializeSchedule(schedule);
+    saveToFile(fileName, date, time, data);
+}
+
+void FileManager::removeSchedule(const QDate& date, const QTime& time)
+{
+    QString fileName = generateFileName(date, time);
     QFile file(fileName);
     file.remove();
 }

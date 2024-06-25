@@ -24,9 +24,12 @@ public:
     explicit FileManager(QObject* parent = nullptr);
     Q_INVOKABLE bool isValidDate(const QDate& date) const;
     Q_INVOKABLE bool hasSchedule(const QDate& date) const;
+    Q_INVOKABLE Schedule getAllSchedules() const;
     Q_INVOKABLE Schedule getSchedule(const QDate& date) const;
-    Q_INVOKABLE void addOrUpdateSchedule(const QDate& date, const Schedule& schedule);
-    Q_INVOKABLE void removeSchedule(const QDate& date);
+    Q_INVOKABLE void addOrUpdateSchedule(const QDate& date,
+                                         const QTime& time,
+                                         const Schedule& schedule);
+    Q_INVOKABLE void removeSchedule(const QDate& date, const QTime& time);
     Q_INVOKABLE Schedule setSchedule(const QString& eventName,
                                      const QTime& startTime,
                                      const QTime& endTime,
@@ -40,7 +43,13 @@ signals:
 
 private:
     QString generateFileName(const QDate& date) const;
-    void saveToFile(const QString& fileName, const QString& data) const;
+    QString generateFileName(const QDate& date, const QTime& time) const;
+
+    void saveToFile(const QString& fileName,
+                    const QDate& date,
+                    const QTime& time,
+                    const QString& data) const;
+
     Schedule readFromFile(const QString& fileName) const;
     QString serializeSchedule(const Schedule& schedule) const;
     Schedule deserializeSchedule(const QString& data) const;

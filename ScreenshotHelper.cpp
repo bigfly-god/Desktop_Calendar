@@ -18,6 +18,13 @@ void ScreenshotHelper::saveImageToFile(const QString &fileName, int x, int y, in
     }
     auto pixmap = screen->grabWindow(0, x, y, width, height);
     QString screenshotDirectory = "/root/QML期末实训/Desktop_Calendar/Screenshot";
+    QDir dir(screenshotDirectory);
+    if (!dir.exists()) {
+        if (!dir.mkpath(screenshotDirectory)) {
+            qWarning("无法创建截图目录: %s", qPrintable(screenshotDirectory));
+            return;
+        }
+    }
     QString filePath = QDir(screenshotDirectory).filePath(fileName); // 构建完整的文件路径
     // 保存到文件
     if (!pixmap.save(filePath, "png")) {

@@ -9,7 +9,6 @@ ApplicationWindow {
     property alias actions: _actions
     property alias content: _content
 
-
     id:window
     width: 520
     height: 480
@@ -41,11 +40,8 @@ ApplicationWindow {
         Menu{
             title:qsTr("&Help")
              MenuItem { action: actions.about }
-
         }
     }
-
-
 
     Actions{
         id:_actions
@@ -64,7 +60,6 @@ ApplicationWindow {
     Component.onCompleted: {
         Controller.updateDateTime() // 在控件完成初始化后立即更新时间
     }
-
 
     Timer {
         interval: 1000  // 每秒更新一次时间
