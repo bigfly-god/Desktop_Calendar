@@ -34,7 +34,9 @@ ScrollView {
         visible:false
     }
 
-
+    TextContent {
+        id:_textContent
+    }
 }
 
 

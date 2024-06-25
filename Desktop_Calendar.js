@@ -131,4 +131,21 @@ function captureScreenshot(fileName,x, y, width, height) {
 
           }
 
+function save(){
+    content.dialogs.fileSave.rejected.
+    connect(()=>{ return })//r4
+
+    content.dialogs.fileSave.accepted.
+    connect(()=>{
+                //fileSaveAcceptedHandler
+                let filepath = content.dialogs.fileSave.selectedFile
+                console.log(filepath.toString())
+
+                if(filepath.toString() !== "")
+                if(!content.textContent.saveFile(filepath))
+                content.dialogs.failToSave.open()
+                return;} )//r5,r6
+
+    content.dialogs.fileSave.open()
+}
 
