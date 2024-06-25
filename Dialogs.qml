@@ -8,12 +8,14 @@ import "Desktop_Calendar.js" as Controller
 Item {
     property alias about: _about
     property alias addScheduleDialog:_addScheduleDialog
+    property alias modifyScheduleDialog:_modifyScheduleDialog
     property alias popup:_popup
     property alias eventCountdown: _eventCountdown
     property alias eventMessageInput: _eventMessageInput
     property alias failToSave: _failToSave
     property alias noschedule: _noSchedule
     property alias failTime:_failTime
+     property alias failMessage:_failMessage
 
      //添加事件
     Dialog {
@@ -111,6 +113,20 @@ Item {
 
   }
 
+
+    Dialog{
+        id: _modifyScheduleDialog
+        title: "Modify Event"
+        modal:true
+        anchors.centerIn: parent
+        width:parent.width
+        height:parent.height
+        opacity: 0.8 // 设置透明度为 80%
+
+    }
+    
+
+
     Dialog {
         id: _eventCountdown
         title: qsTr("Event List")
@@ -173,6 +189,14 @@ Item {
         buttons:MessageDialog.Ok
         text:"Fail to save"
         informativeText: qsTr("Sorry, start time must be before end time.")
+    }
+
+    MessageDialog{
+        id:_failMessage
+        modality: Qt.WindowModal
+        buttons:MessageDialog.Ok
+        text:"Fail to save"
+        informativeText: qsTr("Sorry, message is null.")
     }
 
     MessageDialog{

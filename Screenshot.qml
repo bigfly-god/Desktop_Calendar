@@ -322,9 +322,7 @@ Window {
                 Controller.captureScreenshot(timestamp,selectionRect.x,selectionRect.y,selectionRect.width,selectionRect.height)
 
                 close();
-    }
-
-
+                  }
          }
       }
-  }
+}

@@ -85,12 +85,15 @@ function storage(){
     var endDate=endTime()
     var remindDate = remindTime();
 
-    if(startDate<endDate){
+    if(content.dialogs.eventMessageInput.text===""){
+        content.dialogs.failMessage.open()
+    }else if(startDate<endDate){
         content.fileManager.addOrUpdateSchedule(content.calendar.control.selectDate,startDate,content.fileManager.setSchedule
                                             (eventMessageInput.text,startDate,endDate,remindDate))
     }else{
         content.dialogs.failTime.open()
     }
+
     console.log("finish storage")
 }
 
