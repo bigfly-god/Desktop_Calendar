@@ -207,7 +207,6 @@ Rectangle {
               color: "transparent"
           }
 
-
           Rectangle{
               id:_bluerectangle
               width: 6
