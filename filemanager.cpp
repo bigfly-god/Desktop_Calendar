@@ -1,7 +1,10 @@
 #include "filemanager.h"
+#include <QDateTime>
+#include <QDebug>
 #include <QDate>
 #include <QString>
 #include <QDir>
+#include <QDirIterator>
 #include <QFile>
 #include <QFileInfo>
 #include <QTextStream>
@@ -94,19 +97,62 @@ bool FileManager::hasSchedule(const QDate& date) const
     QDir dir(fileName);
     return dir.exists();
 }
-
-bool FileManager::hasSchedule(const QDate& date, const QTime& time) const
+//读取所有日程
+Schedule FileManager::getAllSchedules() const
 {
-    QString fileName = generateFileName(date, time);
-    QFile file(fileName);
-    return file.exists();
+    QString directory = "/root/Desktop_Calendar/schedule/";
+    QStringList filters;
+    filters << "*.txt";
+
+    QDirIterator it(directory, filters, QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
+    Schedule schedule;
+
+    while (it.hasNext()) {
+        QString fileName = it.next();
+        qDebug() << fileName << " ";
+        // 从文件中读取日程信息
+        schedule = readFromFile(fileName);
+
+        // 返回日程信息
+    }
+    return schedule;
 }
 
-Schedule FileManager::getSchedule(const QDate& date, const QTime& time) const
+//读取选定日期的日程
+Schedule FileManager::getSchedule(const QDate& date) const
 {
-    QString fileName = generateFileName(date, time);
-    Schedule schedule = readFromFile(fileName);
-    return schedule;
+    //QString fileName = generateFileName(date);
+    QString directory = "/root/Desktop_Calendar/schedule/";
+    QStringList filters;
+    filters << "*.txt";
+
+    QDirIterator it(directory, filters, QDir::Files, QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        QString fileName = it.next();
+        QFileInfo fileInfo(fileName);
+
+        // 从文件名中提取时间部分，格式为 HH:mm:ss.txt
+        QString baseName = fileInfo.baseName();
+        // 提取 "HH:mm:ss"
+        QTime fileTime = QTime::fromString(baseName, "HH:mm:ss");
+
+        // 检查 QTime 是否解析成功
+        if (!fileTime.isValid()) {
+            continue; // 跳过时间格式无效的文件
+        }
+
+        // 创建 QDateTime 对象，将当前日期与文件中的时间部分结合
+        QDateTime fileDateTime(QDate::currentDate(), fileTime);
+
+        // 比较与给定日期的日期部分
+        if (fileDateTime.date() == date) {
+            Schedule schedule = readFromFile(fileName);
+            return schedule;
+        }
+    }
+    // 处理未找到给定日期日程的情况
+    Schedule emptySchedule; // 可以定义一个空的日程对象
+    return emptySchedule;
 }
 
 void FileManager::addOrUpdateSchedule(const QDate& date, const QTime& time, const Schedule& schedule)

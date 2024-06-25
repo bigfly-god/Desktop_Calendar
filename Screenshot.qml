@@ -1,6 +1,7 @@
  import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Window 2.14
+import "Desktop_Calendar.js" as Controller
 
 Window {
     id: root
@@ -62,6 +63,7 @@ Window {
         color: blurryColor
     }
 
+
     MouseArea {
         id: mainMouseArea
         anchors.fill: parent
@@ -92,6 +94,7 @@ Window {
             functionRect.visible = true;
         }
     }
+
 
     Rectangle {
         id: selectionRect
@@ -221,7 +224,7 @@ Window {
             posType: posTop
 
             onSigPosChanged: function(mousePoint){
-                var point = mapToGlobal(mousePoint);
+                var point = mapToGlobal( );
                 selectionRect.y = Math.min(point.y, selectionRect.endPoint.y);
                 selectionRect.height = Math.max(selectionRect.endPoint.y, point.y) - selectionRect.y;
             }
@@ -315,15 +318,12 @@ Window {
             }
             text: "完成"
             onClicked: {
-                captureScreenshot("1111",selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height);
+                 Controller.save()
+                var  timestamp =Controller. getTimestamp();
+                Controller.captureScreenshot(timestamp,selectionRect.x,selectionRect.y,selectionRect.width,selectionRect.height)
+
                 close();
-    }
-
-    function captureScreenshot(fileName,x, y, width, height) {
-        g_screenShot.saveImageToFile(fileName,x, y, width, height);
-        console.log("selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height",selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height)
-
-              }
-         }
-      }
-  }
+                 }
+            }
+        }
+}

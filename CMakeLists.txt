@@ -54,7 +54,8 @@ qt_add_qml_module(
   QML_FILES NoteWindow.qml
   SOURCES ScreenshotHelper.h ScreenshotHelper.cpp
   QML_FILES Screenshot.qml
-  QML_FILES CusDragRect.qml     )
+  QML_FILES CusDragRect.qml
+  QML_FILES      )
 
 target_compile_features(appDesktop_Calendar PRIVATE cxx_std_20)
 

@@ -33,5 +33,10 @@ ScrollView {
         id:_notewindow
         visible:false
     }
+
+    TextContent {
+        id:_textContent
+    }
 }
+
 
