@@ -8,8 +8,6 @@ function showPopup(date) {
     }else{
         content.dialogs.noschedule.open()
     }
-
-
 }
 
 function updateDateTime() {
@@ -87,7 +85,7 @@ function storage(){
 
     if(startDate<endDate){
         content.fileManager.addOrUpdateSchedule(content.calendar.control.selectDate,startDate,content.fileManager.setSchedule
-                                            (eventMessageInput.text,startDate,endDate,remindDate))
+                                            (eventMessageInput.text,content.calendar.control.selectDate,startDate,endDate,remindDate))
     }else{
         content.dialogs.failTime.open()
     }

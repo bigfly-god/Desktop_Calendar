@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QDate>
+#include <QList>
 #include <QObject>
 #include <QString>
 #include <QTime>
@@ -9,6 +10,7 @@
 struct Schedule
 {
     QString eventName;
+    QDate eventDate;
     QTime startTime;
     QTime endTime;
     QTime reminderTime;
@@ -24,13 +26,16 @@ public:
     explicit FileManager(QObject* parent = nullptr);
     Q_INVOKABLE bool isValidDate(const QDate& date) const;
     Q_INVOKABLE bool hasSchedule(const QDate& date) const;
-    Q_INVOKABLE Schedule getAllSchedules() const;
-    Q_INVOKABLE Schedule getSchedule(const QDate& date) const;
+    Q_INVOKABLE QVariantList getAllSchedulesAsVariantList();
+    Q_INVOKABLE QList<Schedule> getAllSchedules();
+    Q_INVOKABLE QList<Schedule> getSchedule(const QDate& date) const;
+    Q_INVOKABLE QVariantList getSchedulesAsVariantList(const QDate& date) const;
     Q_INVOKABLE void addOrUpdateSchedule(const QDate& date,
                                          const QTime& time,
                                          const Schedule& schedule);
     Q_INVOKABLE void removeSchedule(const QDate& date, const QTime& time);
     Q_INVOKABLE Schedule setSchedule(const QString& eventName,
+                                     const QDate& eventDate,
                                      const QTime& startTime,
                                      const QTime& endTime,
                                      const QTime& reminderTime) const;
@@ -55,4 +60,5 @@ private:
     Schedule deserializeSchedule(const QString& data) const;
 
     QString m_storagePath;
+    QList<Schedule> allSchedules; // 存储所有日程的列表
 };
