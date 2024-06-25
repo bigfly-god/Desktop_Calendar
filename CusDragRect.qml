@@ -3,7 +3,6 @@ import QtQuick 2.15
 Rectangle {
     id: root
 
-    //5.10之前, qml是不能定义枚举的，用只读的int属性代替一下。
     readonly property int posLeftTop: Qt.SizeFDiagCursor
     readonly property int posLeft: Qt.SizeHorCursor
     readonly property int posLeftBottom: Qt.SizeBDiagCursor
@@ -12,7 +11,7 @@ Rectangle {
     readonly property int posRightTop: Qt.SizeBDiagCursor
     readonly property int posRight: Qt.SizeHorCursor
     readonly property int posRightBottom: Qt.SizeFDiagCursor
-    // 将光标形状设置为枚举类型
+
     property int posType: CursorShape.Arrow
 
     property var callBackFunc

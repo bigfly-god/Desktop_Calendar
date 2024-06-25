@@ -33,5 +33,7 @@ ScrollView {
         id:_notewindow
         visible:false
     }
+
 }
+
 

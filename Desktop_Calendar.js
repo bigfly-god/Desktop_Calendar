@@ -105,10 +105,30 @@ function exitnote(){
     content.notewindow.visible=false;
 }
 
+
 function update(){
     content.calendar.month_grid.year+=1;
     content.calendar.month_grid.year-=1;
 }
+
+function getTimestamp() {
+      var now = new Date();
+      var year = now.getFullYear();
+      var month = String(now.getMonth() + 1).padStart(2, '0'); // 月份从0开始，所以需要+1并补0
+      var day = String(now.getDate()).padStart(2, '0');
+      var hours = String(now.getHours()).padStart(2, '0');
+      var minutes = String(now.getMinutes()).padStart(2, '0');
+      var seconds = String(now.getSeconds()).padStart(2, '0');
+      var milliseconds = String(now.getMilliseconds()).padStart(3, '0');
+      return year + '-' + month + '-' + day + '_' + hours + '-' + minutes + '-' + seconds + '-' + milliseconds;
+  }
+
+
+function captureScreenshot(fileName,x, y, width, height) {
+    g_screenShot.saveImageToFile(fileName,x, y, width, height);
+    console.log("selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height",selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height)
+
+          }
 
 
 

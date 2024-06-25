@@ -1,6 +1,7 @@
  import QtQuick 2.12
 import QtQuick.Controls 2.5
 import QtQuick.Window 2.14
+import "Desktop_Calendar.js" as Controller
 
 Window {
     id: root
@@ -14,7 +15,7 @@ Window {
 
     color: tranparentColor
     visibility: ApplicationWindow.FullScreen
-    flags: Qt.FramelessWindowHint
+    flags: Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
 
     //四个阴影区域，笼罩未选择区域
     //一个选择区域
@@ -62,6 +63,7 @@ Window {
         color: blurryColor
     }
 
+
     MouseArea {
         id: mainMouseArea
         anchors.fill: parent
@@ -92,6 +94,7 @@ Window {
             functionRect.visible = true;
         }
     }
+
 
     Rectangle {
         id: selectionRect
@@ -126,6 +129,8 @@ Window {
             width: parent.width + borderMargin * 2
             height: parent.height + borderMargin * 2
         }
+
+
 
         //LeftTop
         CusDragRect{
@@ -219,7 +224,7 @@ Window {
             posType: posTop
 
             onSigPosChanged: function(mousePoint){
-                var point = mapToGlobal(mousePoint);
+                var point = mapToGlobal( );
                 selectionRect.y = Math.min(point.y, selectionRect.endPoint.y);
                 selectionRect.height = Math.max(selectionRect.endPoint.y, point.y) - selectionRect.y;
             }
@@ -280,7 +285,7 @@ Window {
 
             }
         }
-    }
+ }
 
     Item{
         id: functionRect
@@ -313,13 +318,12 @@ Window {
             }
             text: "完成"
             onClicked: {
-                captureScreenshot(selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height);
+                 //Controller.save()
+                var  timestamp =Controller. getTimestamp();
+                Controller.captureScreenshot(timestamp,selectionRect.x,selectionRect.y,selectionRect.width,selectionRect.height)
+
                 close();
+                 }
             }
         }
-    }
-
-    function captureScreenshot(x, y, width, height) {
-        g_screenShot.saveImageToClipboard(x, y, width, height);
-    }
 }
