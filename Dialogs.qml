@@ -15,7 +15,7 @@ Item {
     property alias failToSave: _failToSave
     property alias noschedule: _noSchedule
     property alias failTime:_failTime
-     property alias failMessage:_failMessage
+    property alias failMessage:_failMessage
     property alias fileSave: _fileSave
 
      //添加事件
@@ -114,7 +114,6 @@ Item {
 
   }
 
-
     Dialog{
         id: _modifyScheduleDialog
         title: "Modify Event"
@@ -123,14 +122,11 @@ Item {
         width:parent.width
         height:parent.height
         opacity: 0.8 // 设置透明度为 80%
-
     }
     
-
-
     Dialog {
         id: _eventCountdown
-        title: qsTr("事件列表")
+        title: qsTr("Event List")
         width: 250
         height: 300
 
@@ -182,21 +178,6 @@ Item {
                 }
             }
         }
-        footer: Row {
-                spacing: 90
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.bottom: parent.bottom
-
-                Button {
-                    text: "正序排列"
-                    //onClicked: content.fileManager.sortSchedulesAscending()
-                }
-
-                Button {
-                    text: "倒序排列"
-                    //onClicked: content.fileManager.sortSchedulesDescending()
-                }
-            }
     }
 
     Popup {
@@ -205,12 +186,14 @@ Item {
         height: width
         modal: false
         visible: false
-        opacity: 1
+        opacity: 0.8
         anchors.centerIn: parent
 
         contentItem: Rectangle {
             anchors.fill: parent
             color: "black"
+            border.width: 2
+            border.color: "white"
 
             ScrollView {
                 anchors.fill: parent
