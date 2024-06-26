@@ -8,6 +8,7 @@
 #include <QFileInfo>
 #include <QString>
 #include <QTextStream>
+#include <QTime>
 
 FileManager::FileManager(QObject* parent)
     : QObject(parent)
@@ -27,6 +28,14 @@ QString FileManager::generateFileName(const QDate& date, const QTime& time) cons
 {
     return "/root/Desktop_Calendar/schedule/" + date.toString("yyyy-MM-dd")
            + time.toString("HH:mm:ss") + ".txt";
+}
+
+QString FileManager::generateFileName(const QDate& date, const QString& time) const
+{
+    QString directoryPath = generateFileName(date);
+    QString fileName = time + ".txt"; // 根据需要修改文件名
+    QString filePath = QDir(directoryPath).filePath(fileName);
+    return filePath;
 }
 
 void FileManager::saveToFile(const QString& fileName,
@@ -117,6 +126,45 @@ QList<Schedule> FileManager::getAllSchedules()
     return allSchedules;
 }
 
+//读取某天日程
+QList<Schedule> FileManager::getDaySchedules(const QDate& date) const
+{
+    QString directory = QString("/root/Desktop_Calendar/schedule/%1/")
+                            .arg(date.toString("yyyy-MM-dd"));
+    QStringList filters;
+    filters << "*.txt";
+
+    QList<Schedule> schedulesForDate;
+
+    QDirIterator it(directory, filters, QDir::Files | QDir::Dirs, QDirIterator::Subdirectories);
+    while (it.hasNext()) {
+        QString fileName = it.next();
+        // 从文件中读取日程信息
+        Schedule schedule = readFromFile(fileName);
+        schedulesForDate.append(schedule);
+    }
+    // 返回所有日程信息
+    return schedulesForDate;
+}
+
+QVariantList FileManager::getSchedulesAsVariantList(const QDate& date) const
+{
+    QVariantList list;
+    for (const Schedule& schedule : getDaySchedules(date)) {
+        QVariantMap map;
+
+        map["eventName"] = schedule.eventName;
+        QString startTimeStr = schedule.startTime.toString("hh:mm:ss");
+        QString endTimeStr = schedule.endTime.toString("hh:mm:ss");
+        QString reminderTimeStr = schedule.reminderTime.toString("hh:mm:ss");
+        map["startTime"] = startTimeStr;
+        map["endTime"] = endTimeStr;
+        map["reminderTime"] = reminderTimeStr;
+        list.append(map);
+    }
+    return list;
+}
+
 QVariantList FileManager::getAllSchedulesAsVariantList()
 {
     QVariantList list;
@@ -158,25 +206,24 @@ QList<Schedule> FileManager::getSchedule(const QDate& date) const
     return schedules;
 }
 
-QVariantList FileManager::getSchedulesAsVariantList(const QDate& date) const
+Schedule FileManager::getOneSchedule(const QDate& date, const QTime& time) const
 {
-    QVariantList list;
-    for (const Schedule& schedule : getSchedule(date)) {
-        QVariantMap map;
-        map["eventName"] = schedule.eventName;
-        QString dateStr = schedule.eventDate.toString("yyyy-MM-dd");
-        QString startTimeStr = schedule.startTime.toString("hh:mm:ss");
-        QString endTimeStr = schedule.endTime.toString("hh:mm:ss");
-        QString reminderTimeStr = schedule.reminderTime.toString("hh:mm:ss");
+    QString directoryPath = generateFileName(date, time);
 
-        map["eventDate"] = dateStr;
-        map["startTime"] = startTimeStr;
-        map["endTime"] = endTimeStr;
-        map["reminderTime"] = reminderTimeStr;
+    Schedule schedule;
+    schedule = readFromFile(directoryPath);
+    return schedule;
+}
+Schedule FileManager::getOneSchedule2(const QDate& date) const
+{
+    QString string = "12:00:00";
+    QString directoryPath = generateFileName(date);
+    QString fileName = string + ".txt";                        // 根据需要修改文件名
+    QString filePath = QDir(directoryPath).filePath(fileName); // 构建完整文件路径
 
-        list.append(map);
-    }
-    return list;
+    Schedule schedule;
+    schedule = readFromFile(filePath);
+    return schedule;
 }
 
 void FileManager::addOrUpdateSchedule(const QDate& date, const QTime& time, const Schedule& schedule)
@@ -219,4 +266,20 @@ Schedule FileManager::setSchedule(const QString& eventName,
     schedule.endTime = endTime;
     schedule.reminderTime = reminderTime;
     return schedule;
+}
+
+QString FileManager::getEventName(const Schedule& schedule) const
+{
+    return schedule.eventName;
+}
+
+QTime FileManager::returnStartTime(const QString& timeString) const
+{
+    QTime time = QTime::fromString(timeString, "HH:mm:ss");
+    return time;
+}
+
+QString FileManager::getString(const QString& string) const
+{
+    return string;
 }

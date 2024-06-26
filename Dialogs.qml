@@ -15,8 +15,9 @@ Item {
     property alias failToSave: _failToSave
     property alias noschedule: _noSchedule
     property alias failTime:_failTime
-     property alias failMessage:_failMessage
+    property alias failMessage:_failMessage
     property alias fileSave: _fileSave
+    property alias modifyMessageDialog:_modifyMessageDialog
 
      //添加事件
     Dialog {
@@ -115,7 +116,9 @@ Item {
   }
 
 
+//修改事件
     Dialog{
+        property alias dayScheduleScrollView: _dayScheduleScrollView
         id: _modifyScheduleDialog
         title: "Modify Event"
         modal:true
@@ -124,8 +127,152 @@ Item {
         height:parent.height
         opacity: 0.8 // 设置透明度为 80%
 
+
+        ScrollView {
+            property alias dayScheduleColumn: _dayScheduleColumn
+            id:_dayScheduleScrollView
+            anchors.fill: parent
+
+            Column {
+                property alias dayScheduleRepeater: _dayScheduleRepeater
+
+                id: _dayScheduleColumn
+                spacing: 10
+
+                Repeater {
+
+                    id:_dayScheduleRepeater
+
+                    model: content.fileManager.getSchedulesAsVariantList(content.calendar.control.selectDate)
+                    delegate: Column {
+
+                        Button{
+                            id:_modifyButton
+                        Text {
+                            text: "Schedule: " + modelData.eventName
+                            font.pixelSize: 16
+                            color: "white"
+                          }
+
+                        onClicked: {
+                            console.log("clicked")
+                            content.fileManager.getString(modelData.startTime)
+                            content.dialogs.modifyMessageDialog.open()
+                            content.dialogs.modifyMessageDialog.modifyeventMessageInput.placeholderText=modelData.eventName
+                            //console.log(content.fileManager.getString(modelData.startTime))
+                            //console.log(modelData.startTime)
+                            //console.log(content.fileManager.returnStartTime(modelData.startTime))
+                            //console.log(content.fileManager.generateFileName(content.calendar.control.selectDate,modelData.startTime))
+                            //console.log(content.fileManager.getEventName(content.fileManager.readFromFile(content.fileManager.generateFileName(content.calendar.control.selectDate,modelData.startTime))))
+                            //console.log(content.fileManager.getEventName(content.fileManager.readFromFile(content.fileManager.generateFileName(content.calendar.control.selectDate,content.dialogs.modifyScheduleDialog.dayScheduleScrollView.dayScheduleColumn.dayScheduleRepeater.model[0].startTime))))
+
+                        }
+
+
+                        }
+
+
+                        Text {
+                            id:  _startTimeText
+                            text: "Start Time: " + modelData.startTime
+                            font.pixelSize: 12
+                            color: "lightgrey"
+                        }
+
+                        Text {
+                            text: "End Time: " + modelData.endTime
+                            font.pixelSize: 12
+                            color: "lightgrey"
+                        }
+
+                        Text {
+                            text: "Reminder Time: " + modelData.reminderTime
+                            font.pixelSize: 12
+                            color: "lightgrey"
+                        }
+
+                    }
+                }
+            }
+        }
+
     }
+
+    //修改信息
+    Dialog{
+        property alias modifyeventMessageInput: _modifyeventMessageInput
+        id: _modifyMessageDialog
+        title: "Modify Message"
+        standardButtons: Dialog.Ok | Dialog.Cancel
+        modal:true
+        anchors.centerIn: parent
+        width:parent.width
+        height:parent.height
+        opacity: 0.8 // 设置透明度为 80%
+
+
+        TextField {
+            id: _modifyeventMessageInput
+            width: parent.width - 20
+            anchors.horizontalCenter: parent.horizontalCenter
+              anchors.top: parent.top
+            anchors.topMargin: 20
+        }
+        Text {
+            id: start_text2
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.top: _modifyeventMessageInput.bottom
+            anchors.topMargin: 10
+            text: "start  : "
+            color:"white"
+        }
+
+        TimePicker {
+           id:start_timePicker2
+          anchors.left: start_text2.right
+          anchors.top:_modifyeventMessageInput.bottom
+           anchors.topMargin: 8
+        }
+
+        Text {
+            id: end_text2
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.top: start_text2.bottom
+            anchors.topMargin: 30
+            text: "end   : "
+            color:"white"
+        }
+
+        TimePicker {
+            id:end_timePicker2
+            anchors.left: end_text2.right
+            anchors.top:start_text2.bottom
+            anchors.topMargin: 30
+        }
+
+        Text {
+            id:remind_text2
+            anchors.left: parent.left
+            anchors.leftMargin: 10
+            anchors.top: end_text2.bottom
+            anchors.topMargin: 30
+            text: "remind(before start) : "
+            color:"white"
+        }
+
+        TimePicker {
+            id:remind_timePicker2
+
+            anchors.left: end_text2.right
+            anchors.top:remind_text2.bottom
+            anchors.topMargin: 10
+        }
+
+
     
+      }
 
 
     Dialog {
@@ -231,11 +378,6 @@ Item {
                                 color: "white"
                             }
 
-                            Text {
-                                text: "Date:" + modelData.eventDate
-                                font.pixelSize: 12
-                                color: "lightgrey"
-                            }
 
                             Text {
                                 text: "Start Time: " + modelData.startTime
