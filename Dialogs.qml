@@ -283,15 +283,16 @@ Item {
         text:"No schedule"
         informativeText: qsTr("Sorry, the date you have selected does not currently have a schedule")
     }
-
     FileDialog {
-           id: _fileSave
-           title: "Save Photo"
-           modality: Qt.ApplicationModal
-           currentFolder: StandardPaths.writableLocation(StandardPaths.PicturesLocation)
-           fileMode: FileDialog.SaveFile
-           nameFilters: [ "JPEG files (*.jpg)", "PNG files (*.png)", "All files (*)" ]
+        id: _fileSave
+        title: "Select some text files"
+        modality: Qt.ApplicationModal
+        currentFolder: StandardPaths.writableLocation
+                       (StandardPaths.DocumentsLocation)
+        fileMode: FileDialog.SaveFile
+        nameFilters: [ "Text files (*.txt *)" ]
     }
+
 }
 
 

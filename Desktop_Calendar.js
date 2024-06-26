@@ -101,6 +101,7 @@ function createnote(){
 }
 function sreenshout(){
     screenShotCom.source = "Screenshot.qml";
+    notewindow.visible=false
 
 }
 
@@ -132,6 +133,52 @@ function captureScreenshot(fileName,x, y, width, height) {
     console.log("selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height",selectionRect.x, selectionRect.y, selectionRect.width, selectionRect.height)
 
           }
+
+function save(){
+
+    let currentStates = contente1.currentState()
+    let modified = currentStates[0]
+    let titled = currentStates[1]
+    console.log(modified, titled)
+
+    if(titled && !modified){
+        return //r1
+    }else if(titled && modified){
+        if(!content.textContent.saveFile())
+            content.dialogs.failToSave.open()
+        return  //r2,r3
+    }
+    content.dialogs.fileSave.rejected.
+    connect(()=>{ return })//r4
+
+    content.dialogs.fileSave.accepted.
+    connect(()=>{
+                //fileSaveAcceptedHandler
+                let filepath = content.dialogs.fileSave.selectedFile
+                console.log(filepath.toString())
+
+                if(filepath.toString() !== "")
+                if(!contente1.textContent.saveFile(filepath))
+                content.dialogs.failToSave.open()
+                return;} )//r5,r6
+
+    content.dialogs.fileSave.open()
+}
+function initial(){
+    content.textContent.textDocument.modifiedChanged.
+    connect(()=>{
+                   let m = content.textContent.textDocument.modified
+                   console.log("modified: ", m)
+                   if(m){
+                       window.title = content.textContent.title + "*"
+                       console.log("window title1:", content.textContent.title, "*")
+                   }else{
+                       window.title = content.textContent.title
+                       console.log("window title2:", content.textContent.title)
+                   }
+               })
+}
+
 
 
 
