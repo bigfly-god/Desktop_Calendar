@@ -122,6 +122,16 @@ QList<Schedule> FileManager::getAllSchedules()
         Schedule schedule = readFromFile(fileName);
         allSchedules.append(schedule);
     }
+
+    // 按照事件日期和开始时间排序
+    std::sort(allSchedules.begin(), allSchedules.end(), [](const Schedule& a, const Schedule& b) {
+        if (a.eventDate != b.eventDate) {
+            return a.eventDate < b.eventDate;
+        } else {
+            return a.startTime < b.startTime;
+        }
+    });
+
     // 返回所有日程信息列表
     return allSchedules;
 }
@@ -202,6 +212,15 @@ QList<Schedule> FileManager::getSchedule(const QDate& date) const
         Schedule schedule = readFromFile(fileName);
         schedules.append(schedule);
     }
+
+    // 按照事件日期和开始时间排序
+    std::sort(schedules.begin(), schedules.end(), [](const Schedule& a, const Schedule& b) {
+        if (a.eventDate != b.eventDate) {
+            return a.eventDate < b.eventDate;
+        } else {
+            return a.startTime < b.startTime;
+        }
+    });
 
     return schedules;
 }
