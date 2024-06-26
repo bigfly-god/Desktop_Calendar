@@ -321,9 +321,8 @@ Window {
                  //Controller.save()
                 var  timestamp =Controller. getTimestamp();
                 Controller.captureScreenshot(timestamp,selectionRect.x,selectionRect.y,selectionRect.width,selectionRect.height)
-
                 close();
-
+                content.notewindow.visible=true
                  }
             }
         }

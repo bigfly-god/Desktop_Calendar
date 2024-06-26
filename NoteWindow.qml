@@ -13,7 +13,7 @@ ApplicationWindow {
         maximumWidth: 400
         minimumWidth: 200
         //visible: false
-        property string noteText: ""
+        //property string noteText: ""
         header: ToolBar {
             RowLayout{
                 ToolButton{ action: actions.save }
@@ -28,33 +28,40 @@ ApplicationWindow {
             exit1.onTriggered: Controller.exitnote();
             screenshot.onTriggered: Controller.sreenshout()
         }
+
         Loader {
             id: screenShotCom
             onLoaded: {
                 item.closing.connect(function (){screenShotCom.source = "";});
             }
         }
-        Rectangle {
-                id: noteBackground
-                width: parent.width
-                height: parent.height
-                color: "lightyellow"
-                border.color: "orange"
-                border.width: 2
 
-                TextEdit {
-                    id: noteTextEdit
-                    anchors.fill: parent
-                    wrapMode: TextEdit.Wrap
-                    selectByMouse: true
-
-                    font.pixelSize: 16
-                    color: "black"
-                    clip: true
-
-                    onTextChanged: {
-                        content.notewindow.noteText = noteTextEdit.text;
-                    }
-                }
+        Content1{
+            id:contente1
+            anchors.fill: parent
         }
+
+    //     Rectangle {
+    //         id: noteBackground
+    //         width: parent.width
+    //         height: parent.height
+    //         color: "lightyellow"
+    //         border.color: "orange"
+    //         border.width: 2
+
+    //         // TextEdit {
+    //         //     id: noteTextEdit
+    //         //     anchors.fill: parent
+    //         //     wrapMode: TextEdit.Wrap
+    //         //     selectByMouse: true
+
+    //         //     font.pixelSize: 16
+    //         //     color: "black"
+    //         //     clip: true
+
+    //         //     onTextChanged: {
+    //         //         contente1.notewindow.noteText = noteTextEdit.text;
+    //         //     }
+    //         // }
+    // }
 }

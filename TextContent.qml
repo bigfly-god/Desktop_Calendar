@@ -5,9 +5,15 @@ TextArea{
     id:text
     anchors.fill: parent
     property url filepath
-
     property string title: "untitled"
+    function updateModified(m :bool){
+        textDocument.modified = m
+        textDocument.modifiedChanged()
+    }
 
+    function isTitle(){
+        return filepath.toString() !== "";
+    }
 
     function updateFilepathAndSyncTitle(newFilepath:url){
         if(newFilepath.toString() === "")
