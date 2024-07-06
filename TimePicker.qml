@@ -189,7 +189,7 @@ Item {
 
      }
 
-     Text{
+     Text {
          id: s_text
          anchors.left:secondComboBox.right
          anchors.leftMargin: 0

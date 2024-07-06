@@ -63,6 +63,40 @@ Window {
         color: blurryColor
     }
 
+    // TapHandler {
+    //     id: mainMouseArea
+    //     property int startX: 0
+    //     property int startY: 0
+    //     property int endX: 0
+    //     property int endY: 0
+
+    //     onPressedChanged: {
+    //         startX = mouse.x;
+    //         startY = mouse.y;
+    //         selectionRect.width = 0;
+    //         selectionRect.height = 0;
+    //         selectionRect.visible = true;
+    //         selectionRect.updateStartAndEndPoint();
+    //         functionRect.visible = true;
+    //     }
+
+    //     onPointChanged: {
+    //         if (mouse.pressed) {
+    //             endX = mouse.x;
+    //             endY = mouse.y;
+    //             selectionRect.width = Math.abs(endX - startX);
+    //             selectionRect.height = Math.abs(endY - startY);
+    //             selectionRect.x = Math.min(startX, endX);
+    //             selectionRect.y = Math.min(startY, endY);
+    //         }
+    //     }
+
+    //     onReleased: {
+    //         selectionRect.updateStartAndEndPoint();
+    //         functionRect.visible = true;
+    //     }
+    // }
+
 
     MouseArea {
         id: mainMouseArea
@@ -112,13 +146,9 @@ Window {
         border.width: 1
         color: tranparentColor
 
-        MouseArea {
+        TapHandler{
             id: dragItem
-            anchors.fill: parent
-            anchors.margins: 12 * 2
-            cursorShape: Qt.SizeAllCursor
-            drag.target: parent
-            onPositionChanged: {
+            onPointChanged: {
                 selectionRect.updateStartAndEndPoint();
             }
         }
@@ -129,7 +159,6 @@ Window {
             width: parent.width + borderMargin * 2
             height: parent.height + borderMargin * 2
         }
-
 
 
         //LeftTop
