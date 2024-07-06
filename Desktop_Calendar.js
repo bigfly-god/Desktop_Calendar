@@ -20,6 +20,16 @@ function open_addScheduleDialog() {
      content.calendar.enabled = false  // 暂时禁用主窗口
 }
 
+function open_modifyScheduleDialog(){
+    content.dialogs.modifyScheduleDialog.open()
+    content.calendar.enabled = false // 暂时禁用主窗口
+}
+
+function open_deleteScheduleDialog(){
+    content.dialogs.deleteScheduleDialog.open()
+    content.calendar.enabled = false
+}
+
 //恢复
 function destruction(){
     start_timePicker.hourComboBox.currentIndex=0
@@ -31,6 +41,18 @@ function destruction(){
     remind_timePicker.hourComboBox.currentIndex=0
     remind_timePicker.minuteComboBox.currentIndex=0
     remind_timePicker.secondComboBox.currentIndex=0
+}
+
+function destruction(){
+    start_timePicker2.hourComboBox.currentIndex=0
+    start_timePicker2.minuteComboBox.currentIndex=0
+    start_timePicker2.secondComboBox.currentIndex=0
+    end_timePicker2.hourComboBox.currentIndex=0
+    end_timePicker2.minuteComboBox.currentIndex=0
+    end_timePicker2.secondComboBox.currentIndex=0
+    remind_timePicker2.hourComboBox.currentIndex=0
+    remind_timePicker2.minuteComboBox.currentIndex=0
+    remind_timePicker2.secondComboBox.currentIndex=0
 }
 
 function startTime(){
@@ -46,11 +68,39 @@ function startTime(){
 
     return startDate;
 }
+function startTime2(){
+    var selectedStartHour = start_timePicker2.hourComboBox.currentIndex// 获取选中的小时
+    var selectedStartMinute = start_timePicker2.minuteComboBox.currentIndex // 获取选中的分钟
+    var selectedStartSecond = start_timePicker2.secondComboBox.currentIndex// 获取选中的秒数
+    var startDate = new Date();
+    startDate.setDate(content.calendar.control.selectDate.getDate())
+    startDate.setMonth(content.calendar.control.selectDate.getMonth() + 1)
+    startDate.setHours(selectedStartHour);
+    startDate.setMinutes(selectedStartMinute);
+    startDate.setSeconds(selectedStartSecond);
+
+    return startDate;
+}
+
 
 function endTime(){
     var selectedEndHour = end_timePicker.hourComboBox.currentIndex// 获取选中的小时
     var selectedEndMinute = end_timePicker.minuteComboBox.currentIndex // 获取选中的分钟
     var selectedEndSecond = end_timePicker.secondComboBox.currentIndex// 获取选中的秒数
+    var endDate = new Date();
+    endDate.setDate(content.calendar.control.selectDate.getDate())
+    endDate.setMonth(content.calendar.control.selectDate.getMonth() + 1)
+    endDate.setHours(selectedEndHour);
+    endDate.setMinutes(selectedEndMinute);
+    endDate.setSeconds(selectedEndSecond);
+
+    return endDate;
+}
+
+function endTime2(){
+    var selectedEndHour = end_timePicker2.hourComboBox.currentIndex// 获取选中的小时
+    var selectedEndMinute = end_timePicker2.minuteComboBox.currentIndex // 获取选中的分钟
+    var selectedEndSecond = end_timePicker2.secondComboBox.currentIndex// 获取选中的秒数
     var endDate = new Date();
     endDate.setDate(content.calendar.control.selectDate.getDate())
     endDate.setMonth(content.calendar.control.selectDate.getMonth() + 1)
@@ -76,6 +126,21 @@ function remindTime(){
 
     return remindDate;
 }
+function remindTime2(){
+    var startDate=startTime()
+
+    var selectedRemindHour = remind_timePicker2.hourComboBox.currentIndex// 获取选中的小时
+    var selectedRemindMinute = remind_timePicker2.minuteComboBox.currentIndex // 获取选中的分钟
+    var selectedRemindSecond = remind_timePicker2.secondComboBox.currentIndex// 获取选中的秒数
+    var remindDate = new Date();
+    remindDate.setDate(content.calendar.control.selectDate.getDate())
+    remindDate.setMonth(content.calendar.control.selectDate.getMonth() + 1)
+    remindDate.setHours(startDate.getHours()-selectedRemindHour);
+    remindDate.setMinutes(startDate.getMinutes()-selectedRemindMinute);
+    remindDate.setSeconds(startDate.getSeconds()-selectedRemindSecond);
+
+    return remindDate;
+}
 
 //存储
 function storage(){
@@ -88,6 +153,23 @@ function storage(){
     }else if(startDate<endDate){
         content.fileManager.addOrUpdateSchedule(content.calendar.control.selectDate,startDate,content.fileManager.setSchedule
                                             (eventMessageInput.text,content.calendar.control.selectDate,startDate,endDate,remindDate))
+    }else{
+        content.dialogs.failTime.open()
+    }
+
+    console.log("finish storage")
+}
+
+function storage2(){
+    var startDate=startTime2()
+    var endDate=endTime2()
+    var remindDate = remindTime2();
+
+    if(content.dialogs.modifyMessageDialog.modifyeventMessageInput.text===""){
+        content.dialogs.failMessage.open()
+    }else if(startDate<endDate){
+        content.fileManager.addOrUpdateSchedule(content.calendar.control.selectDate,startDate,content.fileManager.setSchedule
+                                            (modifyMessageDialog.modifyeventMessageInput.text,content.calendar.control.selectDate,startDate,endDate,remindDate))
     }else{
         content.dialogs.failTime.open()
     }
@@ -179,6 +261,19 @@ function initial(){
                })
 }
 
+
+function getStartTime(){
+    var selectedStartHour = start_timePicker2.hourComboBox.currentIndex; // 获取选中的小时索引
+       var selectedStartMinute = start_timePicker2.minuteComboBox.currentIndex; // 获取选中的分钟索引
+       var selectedStartSecond = start_timePicker2.secondComboBox.currentIndex; // 获取选中的秒数索引
+
+       // 根据选中的索引值获取对应的小时、分钟、秒数
+       var hours = ("0" + selectedStartHour).slice(-2); // 将小时格式化为两位数
+       var minutes = ("0" + selectedStartMinute).slice(-2); // 将分钟格式化为两位数
+       var seconds = ("0" + selectedStartSecond).slice(-2); // 将秒数格式化为两位数
+
+       return hours + ":" + minutes + ":" + seconds;
+}
 
 
 

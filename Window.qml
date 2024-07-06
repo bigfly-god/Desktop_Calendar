@@ -47,7 +47,8 @@ ApplicationWindow {
         id:_actions
         about.onTriggered: content.dialogs.about.open()
         addSchedule.onTriggered: Controller.open_addScheduleDialog()
-        modifySchedule.onTriggered: content.dialogs.modifyScheduleDialog.open()
+        modifySchedule.onTriggered: Controller.open_modifyScheduleDialog()
+        deleteSchedule.onTriggered: Controller.open_deleteScheduleDialog()
         eventCountdown.onTriggered: content.dialogs.eventCountdown.open()
         note.onTriggered:Controller.createnote()
     }

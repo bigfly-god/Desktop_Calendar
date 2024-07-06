@@ -18,6 +18,8 @@ Item {
     property alias failMessage:_failMessage
     property alias fileSave: _fileSave
     property alias modifyMessageDialog:_modifyMessageDialog
+    property alias deleteScheduleDialog:_deleteScheduleDialog
+
 
      //添加事件
     Dialog {
@@ -129,6 +131,12 @@ Item {
         height:parent.height
         opacity: 0.8 // 设置透明度为 80%
 
+        onVisibleChanged: {
+               if (!visible) {
+                  // 重新启用主窗口
+                   content.calendar.enabled = true
+               }
+        }
 
 
         ScrollView {
@@ -169,9 +177,7 @@ Item {
                             //console.log(content.fileManager.getEventName(content.fileManager.readFromFile(content.fileManager.generateFileName(content.calendar.control.selectDate,modelData.startTime))))
                             //console.log(content.fileManager.getEventName(content.fileManager.readFromFile(content.fileManager.generateFileName(content.calendar.control.selectDate,content.dialogs.modifyScheduleDialog.dayScheduleScrollView.dayScheduleColumn.dayScheduleRepeater.model[0].startTime))))
 
-                        }
-
-
+                         }
                         }
 
 
@@ -199,7 +205,6 @@ Item {
             }
         }
 
-
     }
 
     //修改信息
@@ -214,14 +219,14 @@ Item {
         height:parent.height
         opacity: 0.8 // 设置透明度为 80%
 
-
         TextField {
             id: _modifyeventMessageInput
             width: parent.width - 20
             anchors.horizontalCenter: parent.horizontalCenter
-              anchors.top: parent.top
+            anchors.top: parent.top
             anchors.topMargin: 20
         }
+
         Text {
             id: start_text2
             anchors.left: parent.left
@@ -234,8 +239,8 @@ Item {
 
         TimePicker {
            id:start_timePicker2
-          anchors.left: start_text2.right
-          anchors.top:_modifyeventMessageInput.bottom
+           anchors.left: start_text2.right
+           anchors.top:_modifyeventMessageInput.bottom
            anchors.topMargin: 8
         }
 
@@ -268,14 +273,115 @@ Item {
 
         TimePicker {
             id:remind_timePicker2
-
             anchors.left: end_text2.right
             anchors.top:remind_text2.bottom
             anchors.topMargin: 10
         }
 
+        // 处理 OK 按钮的点击事件
+        onAccepted: {
+            //判断选择日期是否正确
+            if(content.fileManager.isValidDate(content.calendar.control.selectDate)){
+                console.log()
+                //消息存储
+                Controller.storage2()
+                Controller.destruction()
+                content.fileManager.deleteFile(content.fileManager.generateFileName(content.calendar.control.selectDate,Controller.getStartTime()))
+                Controller.update()
+            }else{
+                content.dialogs.failToSave.open()
+                Controller.destruction()
+            }
+        }
+        onRejected: {
+            // 处理 Cancel 按钮的点击事件
+            Controller.destruction()
+        }
+
       }
 
+
+    //删除事件
+    Dialog{
+        id: _deleteScheduleDialog
+        title: "Delete Event"
+        modal:true
+        anchors.centerIn: parent
+        width:parent.width
+        height:parent.height
+        opacity: 0.8 // 设置透明度为 80%
+
+        onVisibleChanged: {
+               if (!visible) {
+                  // 重新启用主窗口
+                   content.calendar.enabled = true
+               }
+        }
+
+        ScrollView {
+            property alias dayScheduleColumn: _dayScheduleColumn2
+            id:_dayScheduleScrollView2
+            anchors.fill: parent
+
+            Column {
+                property alias dayScheduleRepeater: _dayScheduleRepeater2
+
+                id: _dayScheduleColumn2
+                spacing: 10
+
+               Repeater {
+                    id:_dayScheduleRepeater2
+                    model: content.fileManager.getSchedulesAsVariantList(content.calendar.control.selectDate)
+                    delegate: Column {
+                        Button{
+                            id:_deleteButton
+                        Text {
+                            text: "Schedule: " + modelData.eventName
+                            font.pixelSize: 16
+                            color: "white"
+                          }
+
+                        onClicked: {
+                            console.log("clicked")
+                            //content.fileManager.generateFileName(content.calendar.control.selectDate)
+
+                            var filePath = content.fileManager.generateFileName(content.calendar.control.selectDate,modelData.startTime); // 替换为你要删除的文件路径
+                                        var deleted = content.fileManager.deleteFile(filePath);
+                                        if (deleted) {
+                                            console.log("File deleted successfully:", filePath);
+                                            Controller.update()
+                                        } else {
+                                            console.error("Failed to delete file:", filePath);
+                                        }
+
+                          }
+
+                        }
+                        Text {
+                            text: "Start Time: " + modelData.startTime
+                            font.pixelSize: 12
+                            color: "lightgrey"
+                        }
+
+                        Text {
+                            text: "End Time: " + modelData.endTime
+                            font.pixelSize: 12
+                            color: "lightgrey"
+                        }
+
+                        Text {
+                            text: "Reminder Time: " + modelData.reminderTime
+                            font.pixelSize: 12
+                            color: "lightgrey"
+                        }
+
+                    }
+                }
+            }
+        }
+
+
+    }
 
 
     Dialog {
