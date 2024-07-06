@@ -499,7 +499,7 @@ Item {
         }
     }
 
-    MessageDialog{
+    MessageDialog {
         id:_about
         modality: Qt.WindowModal
         buttons:MessageDialog.Ok
@@ -507,7 +507,7 @@ Item {
         informativeText: qsTr("      Desktop memo is a free software that allows you to set a schedule and remind you of your own schedule.It also supports multiple people sharing and modifying the same memo.")
     }
 
-    MessageDialog{
+    MessageDialog {
         id:_failTime
         modality: Qt.WindowModal
         buttons:MessageDialog.Ok
