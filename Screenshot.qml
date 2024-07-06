@@ -97,7 +97,6 @@ Window {
     //     }
     // }
 
-
     MouseArea {
         id: mainMouseArea
         anchors.fill: parent

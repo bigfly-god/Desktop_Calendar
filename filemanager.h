@@ -28,7 +28,10 @@ public:
     Q_INVOKABLE bool hasSchedule(const QDate& date) const;
     Q_INVOKABLE QVariantList getAllSchedulesAsVariantList();
     Q_INVOKABLE QList<Schedule> getAllSchedules();
+    Q_INVOKABLE QList<Schedule> getDaySchedules(const QDate& date) const;
     Q_INVOKABLE QList<Schedule> getSchedule(const QDate& date) const;
+    Q_INVOKABLE Schedule getOneSchedule(const QDate& date, const QTime& time) const;
+    Q_INVOKABLE Schedule getOneSchedule2(const QDate& date) const;
     Q_INVOKABLE QVariantList getSchedulesAsVariantList(const QDate& date) const;
     Q_INVOKABLE void addOrUpdateSchedule(const QDate& date,
                                          const QTime& time,
@@ -40,6 +43,13 @@ public:
                                      const QTime& endTime,
                                      const QTime& reminderTime) const;
 
+    Q_INVOKABLE QString getEventName(const Schedule& schedule) const;
+    Q_INVOKABLE QString generateFileName(const QDate& date) const;
+    Q_INVOKABLE QString generateFileName(const QDate& date, const QString& time) const;
+    Q_INVOKABLE QTime returnStartTime(const QString& time) const;
+    Q_INVOKABLE Schedule readFromFile(const QString& fileName) const;
+    Q_INVOKABLE QString getString(const QString& string) const;
+
     QString storagePath() const;
     void setStoragePath(const QString& path);
 
@@ -47,7 +57,7 @@ signals:
     void storagePathChanged();
 
 private:
-    QString generateFileName(const QDate& date) const;
+    // QString generateFileName(const QDate& date) const;
     QString generateFileName(const QDate& date, const QTime& time) const;
 
     void saveToFile(const QString& fileName,
@@ -55,7 +65,6 @@ private:
                     const QTime& time,
                     const QString& data) const;
 
-    Schedule readFromFile(const QString& fileName) const;
     QString serializeSchedule(const Schedule& schedule) const;
     Schedule deserializeSchedule(const QString& data) const;
 

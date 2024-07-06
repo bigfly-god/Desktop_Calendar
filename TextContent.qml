@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 
-TextArea{
+TextArea {
     id:text
     anchors.fill: parent
     property url filepath
