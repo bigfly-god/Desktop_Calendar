@@ -14,12 +14,10 @@ ScrollView {
     property alias fileManager: _fileManager
     property alias notewindow: _notewindow
 
-
     Dialogs {
         id:_dialogs
         anchors.fill: parent
     }
-
 
     MyCalendar {
         id:_calendar
