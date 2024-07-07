@@ -5,10 +5,8 @@ import QtQuick.Window
 import "Desktop_Calendar.js" as Controller
 
 ApplicationWindow {
-
     property alias actions: _actions
     property alias content: _content
-
     id:window
     width: 520
     height: 480

@@ -124,6 +124,7 @@ Item {
     Dialog{
         property alias dayScheduleScrollView: _dayScheduleScrollView
         id: _modifyScheduleDialog
+        standardButtons: Dialog.Ok | Dialog.Cancel
         title: "Modify Event"
         modal:true
         anchors.centerIn: parent
@@ -169,14 +170,7 @@ Item {
                             console.log("clicked")
                             content.fileManager.getString(modelData.startTime)
                             content.dialogs.modifyMessageDialog.open()
-                            content.dialogs.modifyMessageDialog.modifyeventMessageInput.placeholderText=modelData.eventName
-                            //console.log(content.fileManager.getString(modelData.startTime))
-                            //console.log(modelData.startTime)
-                            //console.log(content.fileManager.returnStartTime(modelData.startTime))
-                            //console.log(content.fileManager.generateFileName(content.calendar.control.selectDate,modelData.startTime))
-                            //console.log(content.fileManager.getEventName(content.fileManager.readFromFile(content.fileManager.generateFileName(content.calendar.control.selectDate,modelData.startTime))))
-                            //console.log(content.fileManager.getEventName(content.fileManager.readFromFile(content.fileManager.generateFileName(content.calendar.control.selectDate,content.dialogs.modifyScheduleDialog.dayScheduleScrollView.dayScheduleColumn.dayScheduleRepeater.model[0].startTime))))
-
+                            content.dialogs.modifyMessageDialog.modifyeventMessageInput.placeholderText=modelData.eventName               
                          }
                         }
 
@@ -285,12 +279,12 @@ Item {
                 console.log()
                 //消息存储
                 Controller.storage2()
-                Controller.destruction()
+                Controller.destruction2()
                 content.fileManager.deleteFile(content.fileManager.generateFileName(content.calendar.control.selectDate,Controller.getStartTime()))
                 Controller.update()
             }else{
                 content.dialogs.failToSave.open()
-                Controller.destruction()
+                Controller.destruction2()
             }
         }
         onRejected: {
@@ -304,6 +298,7 @@ Item {
     //删除事件
     Dialog{
         id: _deleteScheduleDialog
+        standardButtons: Dialog.Ok | Dialog.Cancel
         title: "Delete Event"
         modal:true
         anchors.centerIn: parent
@@ -340,23 +335,45 @@ Item {
                             font.pixelSize: 16
                             color: "white"
                           }
-
                         onClicked: {
                             console.log("clicked")
-                            //content.fileManager.generateFileName(content.calendar.control.selectDate)
-
-                            var filePath = content.fileManager.generateFileName(content.calendar.control.selectDate,modelData.startTime); // 替换为你要删除的文件路径
-                                        var deleted = content.fileManager.deleteFile(filePath);
-                                        if (deleted) {
-                                            console.log("File deleted successfully:", filePath);
-                                            Controller.update()
-                                        } else {
-                                            console.error("Failed to delete file:", filePath);
-                                        }
+                        _checkDialog.visible=true
 
                           }
-
                         }
+
+                        Dialog {
+                         property alias checkDialog: _checkDialog
+                         id: _checkDialog
+                         standardButtons: Dialog.Ok | Dialog.Cancel
+                         title:"Check Box"
+                         visible: false // 初始时不可见
+                         contentItem: Text {
+                             text: "Are you sure you want to delete this file?"
+                             color: "white"
+                             anchors.fill: parent
+                             verticalAlignment: Text.AlignVCenter
+                             horizontalAlignment: Text.AlignHCenter
+                                             }
+                              onAccepted: {
+                              // 在这里处理文件删除的逻辑
+                              var filePath = content.fileManager.generateFileName(content.calendar.control.selectDate,modelData.startTime); // 替换为你要删除的文件路径
+                              var deleted = content.fileManager.deleteFile(filePath);
+                                     if (deleted) {
+                                     console.log("File deleted successfully:", filePath);
+                                     Controller.update()
+                                                  } else {
+                                                             console.error("Failed to delete file:", filePath);
+                                                             }
+                                  checkDialog.visible = false; // 可以选择性地隐藏对话框
+                                       }
+
+                            onRejected: {
+                              console.log("File deletion cancelled");
+                              checkDialog.visible = false; // 隐藏对话框
+                                       }
+                                    }
+
                         Text {
                             text: "Start Time: " + modelData.startTime
                             font.pixelSize: 12
