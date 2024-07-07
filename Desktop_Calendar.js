@@ -21,13 +21,21 @@ function open_addScheduleDialog() {
 }
 
 function open_modifyScheduleDialog(){
+    if(content.fileManager.hasSchedule(content.calendar.control.selectDate)){
     content.dialogs.modifyScheduleDialog.open()
     content.calendar.enabled = false // 暂时禁用主窗口
+    }else{
+        content.dialogs.noschedule.open()
+    }
 }
 
 function open_deleteScheduleDialog(){
+    if(content.fileManager.hasSchedule(content.calendar.control.selectDate)){
     content.dialogs.deleteScheduleDialog.open()
-    content.calendar.enabled = false
+    content.calendar.enabled = false // 暂时禁用主窗口
+    }else{
+        content.dialogs.noschedule.open()
+    }
 }
 
 //恢复
@@ -43,7 +51,7 @@ function destruction(){
     remind_timePicker.secondComboBox.currentIndex=0
 }
 
-function destruction(){
+function destruction2(){
     start_timePicker2.hourComboBox.currentIndex=0
     start_timePicker2.minuteComboBox.currentIndex=0
     start_timePicker2.secondComboBox.currentIndex=0
@@ -142,7 +150,7 @@ function remindTime2(){
     return remindDate;
 }
 
-//存储
+//存储（add）
 function storage(){
     var startDate=startTime()
     var endDate=endTime()
@@ -159,7 +167,7 @@ function storage(){
 
     console.log("finish storage")
 }
-
+//存储（modify）
 function storage2(){
     var startDate=startTime2()
     var endDate=endTime2()
@@ -191,10 +199,13 @@ function exitnote(){
     content.notewindow.visible=false;
 }
 
-
+//刷新页面
 function update(){
     content.calendar.month_grid.year+=1;
     content.calendar.month_grid.year-=1;
+
+    content.calendar.control.selectDate.setDate( content.calendar.control.selectDate.getDate() + 1);
+    content.calendar.control.selectDate.setDate( content.calendar.control.selectDate.getDate() - 1);
 }
 
 function getTimestamp() {
