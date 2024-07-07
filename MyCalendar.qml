@@ -228,7 +228,7 @@ Rectangle {
               color: model.month===month_grid.month?"white":"black"
           }
 
-          TapHandler{
+          TapHandler {
               onTapped: {
                       control.selectDate = model.date;
                       console.log('click',month_grid.title,month_grid.year,month_grid.month+1,"--",

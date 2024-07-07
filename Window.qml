@@ -17,7 +17,7 @@ ApplicationWindow {
     visible: true
     title: qsTr("Calendar")
 
-    menuBar:MenuBar{
+    menuBar:MenuBar {
         id:appMenuBar
         Menu{
              id:listMenu
@@ -41,7 +41,7 @@ ApplicationWindow {
         }
     }
 
-    Actions{
+    Actions {
         id:_actions
         about.onTriggered: content.dialogs.about.open()
         addSchedule.onTriggered: Controller.open_addScheduleDialog()
