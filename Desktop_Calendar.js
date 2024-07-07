@@ -274,7 +274,7 @@ function initial(){
 
 
 function getStartTime(){
-    var selectedStartHour = start_timePicker2.hourComboBox.currentIndex; // 获取选中的小时索引
+       var selectedStartHour = start_timePicker2.hourComboBox.currentIndex; // 获取选中的小时索引
        var selectedStartMinute = start_timePicker2.minuteComboBox.currentIndex; // 获取选中的分钟索引
        var selectedStartSecond = start_timePicker2.secondComboBox.currentIndex; // 获取选中的秒数索引
 
