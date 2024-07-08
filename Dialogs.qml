@@ -19,9 +19,129 @@ Item {
     property alias fileSave: _fileSave
     property alias modifyMessageDialog:_modifyMessageDialog
     property alias deleteScheduleDialog:_deleteScheduleDialog
+    property alias pop: _pop
 
+    // CustomDesktopTip {
+    //        id: _pop
+    //        title: qsTr("Schedule Reminder")
+    //        property string eventTitle: ""
+    //        property string sTime: ""
+    //        property string eTime:""
 
-     //添加事件
+    //        content: Rectangle {
+    //            width: 300
+    //            height: 200
+    //            color: "lightgray"
+
+    //            Column {
+    //                spacing: 10
+    //                anchors.fill: parent
+    //                Text {
+    //                text: qsTr("Event:") + " " + eventTitle
+    //                font.bold: true
+    //                anchors.horizontalCenter: parent.horizontalCenter
+    //            }
+    //            Text {
+    //                text: qsTr("Time:") + " " + sTime+"-"+eTime
+    //                anchors.horizontalCenter: parent.horizontalCenter
+    //            }
+    //            }
+    //        }
+    //        function showTipWithInfo(title, startTime,endTime) {
+    //            eventTitle = title;
+    //            sTime = startTime
+    //            eTime = endTime;
+    //            pop.showTip();
+    //        }
+    //    }
+
+    //    Timer {
+    //        id: scheduleTimer
+    //        interval: 1000
+    //        running: true
+    //        repeat: true
+    //        onTriggered: {
+    //            var now = new Date();
+    //            // 遍历日程数据，查找匹配当前时间的日程
+    //            var Schedules=content.fileManager.getAllSchedulesAsVariantList()
+    //            for (var i = 0; i < Schedules.length; ++i) {
+    //                var schedule = Schedules[i];
+    //                var scheduleTime = new Date(schedule.eventDate+'T'+schedule.reminderTime);
+    //                // 设置一个时间窗口，比如前后各1s
+    //                var windowStart = new Date(scheduleTime.getTime() - 1 * 1000);
+    //                var windowEnd = new Date(scheduleTime.getTime() + 1 * 1000);
+
+    //                // 检查当前时间是否在时间窗口内
+    //                if (now >= windowStart && now <= windowEnd) {
+    //                     _pop.showTipWithInfo(schedule.eventName, schedule.startTime,schedule.endTime);
+    //                     // 显示对话框
+    //                    break; // 找到匹配的日程后停止继续检查
+    //                }
+    //            }
+    //        }
+    //    }
+    CustomDesktopTip {
+           id: _pop
+           title: qsTr("Schedule")
+           content: Rectangle {
+               width: 300
+               height: 200
+               color: "green"
+               Text {
+                   anchors.centerIn: parent
+                   text: qsTr("DesktopTip")
+               }
+           }
+       }
+
+       Timer {
+           id: scheduleTimer
+           interval: 1000
+           running: true
+           repeat: true
+           onTriggered: {
+               var now = new Date();
+               // 遍历日程数据，查找匹配当前时间的日程
+               var Schedules=content.fileManager.getAllSchedulesAsVariantList()
+               for (var i = 0; i < Schedules.length; ++i) {
+                   var schedule = Schedules[i];
+                   var scheduleTime = new Date(schedule.eventDate+'T'+schedule.reminderTime);
+                   // 设置一个时间窗口，比如前后各1s
+                   var windowStart = new Date(scheduleTime.getTime() - 1 * 1000);
+                   var windowEnd = new Date(scheduleTime.getTime() + 1 * 1000);
+
+                   // 检查当前时间是否在时间窗口内
+                   if (now >= windowStart && now <= windowEnd) {
+                       // pop.content:Rectangle {
+                       //     width: 300
+                       //     height: 200
+                       //     color: "green"
+                       //     Column {
+                       //         anchors.centerIn: parent
+                       //         Text {
+                       //             text: schedule.eventName // 显示事件名称
+                       //             font.bold: true
+                       //             font.pointSize: 16
+                       //             wrapMode: Text.WordWrap
+                       //             width: parent.width
+                       //             horizontalAlignment: Text.AlignHCenter
+                       //         }
+                       //         Text {
+                       //             text: "start time: " + schedule.startTime + " to " + schedule.endTime // 显示事件时间范围
+                       //             wrapMode: Text.WordWrap
+                       //             width: parent.width
+                       //             horizontalAlignment: Text.AlignHCenter
+                       //         }
+                       //     }
+                       // }
+                       pop.showTip(); // 显示对话框
+                       break; // 找到匹配的日程后停止继续检查
+                   }
+               }
+           }
+       }
+
+    //添加事件
     Dialog {
         id: _addScheduleDialog
         title: "Add Event"
@@ -114,13 +234,9 @@ Item {
             Controller.destruction()
             eventMessageInput.text=""
         }
+}
 
-  }
-
-
-
-//修改事件
-
+    //修改事件
     Dialog{
         id: _modifyScheduleDialog
         standardButtons: Dialog.Ok | Dialog.Cancel
@@ -191,7 +307,6 @@ Item {
                 }
             }
         }
-
     }
 
     //修改信息
@@ -270,7 +385,7 @@ Item {
         onAccepted: {
             //判断选择日期是否正确
             if(content.fileManager.isValidDate(content.calendar.control.selectDate)){
-                console.log()
+                console.log("1")
                 //消息存储
                 if(Controller.storage2()){
                 content.fileManager.deleteFile(content.fileManager.generateFileName(content.calendar.control.selectDate,startTime))
@@ -290,7 +405,6 @@ Item {
         }
 
       }
-
 
     //删除事件
     Dialog{
@@ -394,10 +508,9 @@ Item {
             }
         }
 
-
     }
 
-
+    //所有日程信息查看
     Dialog {
         id: _eventCountdown
         title: qsTr("Event List")
@@ -452,6 +565,7 @@ Item {
         }
     }
 
+    //单个日程信息查看
     Popup {
         id: _popup
         width: Math.min(window.width * 0.6, 600)
@@ -511,6 +625,7 @@ Item {
         }
     }
 
+    //关于
     MessageDialog {
         id:_about
         modality: Qt.WindowModal
@@ -519,6 +634,7 @@ Item {
         informativeText: qsTr("      Desktop memo is a free software that allows you to set a schedule and remind you of your own schedule.It also supports multiple people sharing and modifying the same memo.")
     }
 
+    //判断存储时开始时间<结束时间的错误提示
     MessageDialog {
         id:_failTime
         modality: Qt.WindowModal
@@ -527,6 +643,7 @@ Item {
         informativeText: qsTr("Sorry, start time must be before end time.")
     }
 
+    //当选择存储是日程信息为空的错误提示
     MessageDialog{
         id:_failMessage
         modality: Qt.WindowModal
@@ -535,6 +652,7 @@ Item {
         informativeText: qsTr("Sorry, message is null.")
     }
 
+    //设定的时间在大于等于当天
     MessageDialog{
         id:_failToSave
         modality: Qt.WindowModal
@@ -543,13 +661,16 @@ Item {
         informativeText: qsTr("Sorry, the date you selected should be after today. Please choose a new date")
     }
 
-    MessageDialog {
+    //提示选定时间没有日程
+    MessageDialog{
         id:_noSchedule
         modality: Qt.WindowModal
         buttons:MessageDialog.Ok
         text:"No schedule"
         informativeText: qsTr("Sorry, the date you have selected does not currently have a schedule")
     }
+
+    //便签存储
     FileDialog {
         id: _fileSave
         title: "Select some text files"

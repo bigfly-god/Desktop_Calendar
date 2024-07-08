@@ -153,6 +153,17 @@ QList<Schedule> FileManager::getDaySchedules(const QDate& date) const
         Schedule schedule = readFromFile(fileName);
         schedulesForDate.append(schedule);
     }
+
+    // 按照事件日期和开始时间排序
+    std::sort(schedulesForDate.begin(),
+              schedulesForDate.end(),
+              [](const Schedule& a, const Schedule& b) {
+                  if (a.eventDate != b.eventDate) {
+                      return a.eventDate < b.eventDate;
+                  } else {
+                      return a.startTime < b.startTime;
+                  }
+              });
     // 返回所有日程信息
     return schedulesForDate;
 }
@@ -304,7 +315,6 @@ QString FileManager::getString(const QString& string) const
 }
 
 //删除文件
-
 bool FileManager::deleteFile(const QString& filePath)
 {
     QFile file(filePath);
