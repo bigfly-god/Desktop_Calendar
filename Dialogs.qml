@@ -122,7 +122,6 @@ Item {
 //修改事件
 
     Dialog{
-        property alias dayScheduleScrollView: _dayScheduleScrollView
         id: _modifyScheduleDialog
         standardButtons: Dialog.Ok | Dialog.Cancel
         title: "Modify Event"
@@ -139,27 +138,14 @@ Item {
                }
         }
 
-
         ScrollView {
-            property alias dayScheduleColumn: _dayScheduleColumn
-            id:_dayScheduleScrollView
             anchors.fill: parent
-
             Column {
-                property alias dayScheduleRepeater: _dayScheduleRepeater
-
-                id: _dayScheduleColumn
                 spacing: 10
-
                 Repeater {
-
-                    id:_dayScheduleRepeater
-
                     model: content.fileManager.getSchedulesAsVariantList(content.calendar.control.selectDate)
                     delegate: Column {
-
-                        Button{
-                            id:_modifyButton
+                        Button{                                                                                
                         Text {
                             text: "Schedule: " + modelData.eventName
                             font.pixelSize: 16
@@ -168,12 +154,19 @@ Item {
 
                         onClicked: {
                             console.log("clicked")
-                            content.fileManager.getString(modelData.startTime)
-                            content.dialogs.modifyMessageDialog.open()
-                            content.dialogs.modifyMessageDialog.modifyeventMessageInput.placeholderText=modelData.eventName               
+                            content.dialogs.modifyMessageDialog.startTime=modelData.startTime
+                            if(content.fileManager.hasSchedule(content.calendar.control.selectDate)){
+                                console.log(content.fileManager.getString(modelData.startTime))
+                                content.dialogs.modifyMessageDialog.open()
+                                content.dialogs.modifyMessageDialog.modifyeventMessageInput.placeholderText=modelData.eventName
+
+                                content.calendar.enabled = false // 暂时禁用主窗口
+
+                            }else{
+                                content.dialogs.noschedule.open()
+                            }
                          }
                         }
-
 
                         Text {
                             id:  _startTimeText
@@ -203,6 +196,7 @@ Item {
 
     //修改信息
     Dialog{
+        property var startTime
         property alias modifyeventMessageInput: _modifyeventMessageInput
         id: _modifyMessageDialog
         title: "Modify Message"
@@ -211,7 +205,7 @@ Item {
         anchors.centerIn: parent
         width:parent.width
         height:parent.height
-        opacity: 0.8 // 设置透明度为 80%
+
 
         TextField {
             id: _modifyeventMessageInput
@@ -278,18 +272,21 @@ Item {
             if(content.fileManager.isValidDate(content.calendar.control.selectDate)){
                 console.log()
                 //消息存储
-                Controller.storage2()
+                if(Controller.storage2()){
+                content.fileManager.deleteFile(content.fileManager.generateFileName(content.calendar.control.selectDate,startTime))
                 Controller.destruction2()
-                content.fileManager.deleteFile(content.fileManager.generateFileName(content.calendar.control.selectDate,Controller.getStartTime()))
                 Controller.update()
+                 modifyeventMessageInput.text=""
+                }
             }else{
                 content.dialogs.failToSave.open()
-                Controller.destruction2()
+                modifyeventMessageInput.text=""
             }
         }
         onRejected: {
             // 处理 Cancel 按钮的点击事件
-            Controller.destruction()
+            Controller.destruction2()
+            modifyeventMessageInput.text=""
         }
 
       }
@@ -365,7 +362,7 @@ Item {
                                                   } else {
                                                              console.error("Failed to delete file:", filePath);
                                                              }
-                                  checkDialog.visible = false; // 可以选择性地隐藏对话框
+                                  checkDialog.visible = false; // 隐藏对话框
                                        }
 
                             onRejected: {
@@ -414,10 +411,8 @@ Item {
             Column {
                 spacing: 10
                 width: parent.width
-
                 Repeater {
                     model: content.fileManager.getAllSchedulesAsVariantList()
-
                     delegate: Column {
                         spacing: 5
                         width: parent.width

@@ -38,6 +38,7 @@ function open_deleteScheduleDialog(){
     }
 }
 
+
 //恢复
 function destruction(){
     start_timePicker.hourComboBox.currentIndex=0
@@ -158,14 +159,17 @@ function storage(){
 
     if(content.dialogs.eventMessageInput.text===""){
         content.dialogs.failMessage.open()
+         console.log("fail to storage")
     }else if(startDate<endDate){
         content.fileManager.addOrUpdateSchedule(content.calendar.control.selectDate,startDate,content.fileManager.setSchedule
                                             (eventMessageInput.text,content.calendar.control.selectDate,startDate,endDate,remindDate))
+         console.log("finish storage")
     }else{
         content.dialogs.failTime.open()
+         console.log("fail to storage")
     }
 
-    console.log("finish storage")
+
 }
 //存储（modify）
 function storage2(){
@@ -175,14 +179,17 @@ function storage2(){
 
     if(content.dialogs.modifyMessageDialog.modifyeventMessageInput.text===""){
         content.dialogs.failMessage.open()
+         console.log("fail to storage")
     }else if(startDate<endDate){
         content.fileManager.addOrUpdateSchedule(content.calendar.control.selectDate,startDate,content.fileManager.setSchedule
                                             (modifyMessageDialog.modifyeventMessageInput.text,content.calendar.control.selectDate,startDate,endDate,remindDate))
+
+        console.log("finish storage")
+        return true
     }else{
         content.dialogs.failTime.open()
+         console.log("fail to storage")
     }
-
-    console.log("finish storage")
 }
 
 
@@ -206,6 +213,8 @@ function update(){
 
     content.calendar.control.selectDate.setDate( content.calendar.control.selectDate.getDate() + 1);
     content.calendar.control.selectDate.setDate( content.calendar.control.selectDate.getDate() - 1);
+
+
 }
 
 function getTimestamp() {

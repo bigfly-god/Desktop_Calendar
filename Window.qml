@@ -66,7 +66,7 @@ ApplicationWindow {
         running: true   // 定时器运行
         repeat: true    // 重复执行
         onTriggered: {
-            Controller.updateDateTime()//每触发一次，更新一次label上时间显示
+         Controller.updateDateTime()//每触发一次，更新一次label上时间显示
         }
     }
 }
