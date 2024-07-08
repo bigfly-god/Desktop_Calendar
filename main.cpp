@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include "MouseTracker.h"
 #include "ScreenshotHelper.h"
 #include "filemanager.h"
 
@@ -10,7 +11,7 @@ int main(int argc, char *argv[])
     ScreenshotHelper Screenshot;
     // 注册 FileManager 类到 QML
     qmlRegisterType<FileManager>("FileManager", 1, 0, "FileManager");
-
+    qmlRegisterType<MouseTracker>("MouseTracker", 1, 0, "MouseTracker");
     QQmlApplicationEngine engine;
     QObject::connect(
         &engine,

@@ -41,27 +41,5 @@ ApplicationWindow {
             anchors.fill: parent
         }
 
-    //     Rectangle {
-    //         id: noteBackground
-    //         width: parent.width
-    //         height: parent.height
-    //         color: "lightyellow"
-    //         border.color: "orange"
-    //         border.width: 2
 
-    //         // TextEdit {
-    //         //     id: noteTextEdit
-    //         //     anchors.fill: parent
-    //         //     wrapMode: TextEdit.Wrap
-    //         //     selectByMouse: true
-
-    //         //     font.pixelSize: 16
-    //         //     color: "black"
-    //         //     clip: true
-
-    //         //     onTextChanged: {
-    //         //         contente1.notewindow.noteText = noteTextEdit.text;
-    //         //     }
-    //         // }
-    // }
 }

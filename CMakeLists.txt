@@ -58,7 +58,8 @@ qt_add_qml_module(
   QML_FILES
   QML_FILES TextContent.qml
   QML_FILES
-  QML_FILES Content1.qml       )
+  QML_FILES Content1.qml
+  SOURCES MouseTracker.h MouseTracker.cpp       )
 
 target_compile_features(appDesktop_Calendar PRIVATE cxx_std_20)
 

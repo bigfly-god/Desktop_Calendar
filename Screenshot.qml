@@ -1,6 +1,6 @@
- import QtQuick 2.12
-import QtQuick.Controls 2.5
-import QtQuick.Window 2.14
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Window
 import "Desktop_Calendar.js" as Controller
 
 Window {
@@ -63,39 +63,71 @@ Window {
         color: blurryColor
     }
 
+    // SelectionItem {
+    //     id: selectionItem
+    //     anchors.fill: parent
 
-    MouseArea {
-        id: mainMouseArea
-        anchors.fill: parent
-        property int startX: 0
-        property int startY: 0
-        property int endX: 0
-        property int endY: 0
+    //     onSelectionStarted: {
+    //         var startX = selectionItem.startX;
+    //         var startY = selectionItem.startY;
+    //          console.log("Selection started - startX:", startX, "startY:", startY);
+    //         selectionRect.width = 0;
+    //         selectionRect.height = 0;
+    //         selectionRect.visible = true;
+    //     }
 
-        onPressed: function (mouse){
-            startX = mouse.x;
-            startY = mouse.y;
-            selectionRect.width = 0;
-            selectionRect.height = 0;
-            selectionRect.visible = true;
-        }
-        onPositionChanged: function (mouse){
-            if (pressed) {
-                endX = mouse.x;
-                endY = mouse.y;
-                selectionRect.width = Math.abs(endX - startX);
-                selectionRect.height = Math.abs(endY - startY);
-                selectionRect.x = Math.min(startX, endX);
-                selectionRect.y = Math.min(startY, endY);
-            }
-        }
-        onReleased: function (mouse){
-            selectionRect.updateStartAndEndPoint();
-            functionRect.visible = true;
-        }
-    }
+    //     onSelectionUpdated: {
+    //         var endX = selectionItem.endX;
+    //         var endY = selectionItem.endY;
+    //          console.log("Selection updated - startX:", selectionItem.startX, "startY:", selectionItem.startY, "endX:", endX, "endY:", endY);
+    //         selectionRect.width = Math.abs(endX - selectionItem.startX);
+    //         selectionRect.height = Math.abs(endY - selectionItem.startY);
+    //         selectionRect.x = Math.min(selectionItem.startX, endX);
+    //         selectionRect.y = Math.min(selectionItem.startY, endY);
+    //     }
 
+    //     onSelectionFinished: {
+    //         console.log("Selection finished - startX:", selectionItem.startX, "startY:", selectionItem.startY, "endX:", selectionItem.endX, "endY:", selectionItem.endY);
+    //         selectionRect.updateStartAndEndPoint();
+    //         functionRect.visible = true;
+    //     }
+    // }
 
+Rectangle{
+   color:tranparentColor
+   anchors.fill: parent
+    TapHandler
+    {
+          id:taparea
+          property int startX
+          property int startY
+          property int endX
+          property int endY
+          onPressedChanged: {
+              if(pressed)
+              {
+                  startX = point.position.x;
+                  startY = point.position.y;
+                  selectionRect.width = 0;
+                  selectionRect.height = 0;
+                  selectionRect.visible = true;
+                  console.log("startY",startY)
+              }
+              else
+                  selectionRect.updateStartAndEndPoint();
+                  functionRect.visible = true;
+          }
+          onPointChanged:  {
+                  endX = point.position.x;
+                  endY = point.position.y;
+                 console.log("endY",endY)
+                  selectionRect.width = Math.abs(endX - startX);
+                  selectionRect.height = Math.abs(endY - startY);
+                  selectionRect.x = Math.min(startX, endX);
+                  selectionRect.y = Math.min(startY, endY);
+              }
+          }
+      }
     Rectangle {
         id: selectionRect
 
@@ -112,16 +144,28 @@ Window {
         border.width: 1
         color: tranparentColor
 
-        MouseArea {
-            id: dragItem
-            anchors.fill: parent
-            anchors.margins: 12 * 2
-            cursorShape: Qt.SizeAllCursor
-            drag.target: parent
-            onPositionChanged: {
-                selectionRect.updateStartAndEndPoint();
-            }
-        }
+ DragHandler{
+    target:parent
+    cursorShape :Qt.SizeAllCursor
+    onActiveChanged: if (active){
+                    selectionRect.updateStartAndEndPoint();
+          }
+       }
+
+}
+
+        //     MouseArea {
+        //         id: dragItem
+        //         anchors.fill: parent
+        //         anchors.margins: 12 * 2
+        //         cursorShape: Qt.SizeAllCursor
+        //         drag.target: parent
+        //         onPositionChanged: {
+        //             selectionRect.updateStartAndEndPoint();
+        //         }
+        //     }
+        // }
+
 
         Item{
             id: resizeBorderItem
@@ -285,7 +329,7 @@ Window {
 
             }
         }
- }
+
 
     Item{
         id: functionRect

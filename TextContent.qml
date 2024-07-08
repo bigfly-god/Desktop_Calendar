@@ -11,6 +11,7 @@ TextArea{
         textDocument.modifiedChanged()
     }
 
+
     function isTitle(){
         return filepath.toString() !== "";
     }
