@@ -41,7 +41,7 @@ Item {
     }
     Action{
         id:_deleteSchedule
-        text:qsTr("Delete schedule")
+        text:qsTr("&Delete schedule")
     }
 
     Action{
