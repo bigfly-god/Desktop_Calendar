@@ -26,6 +26,7 @@ ScrollView {
 
     FileManager {
         id:_fileManager
+
     }
 
     NoteWindow{

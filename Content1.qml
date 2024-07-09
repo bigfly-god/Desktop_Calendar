@@ -10,10 +10,10 @@ ScrollView {
 
     property alias textContent: _textContent
 
-    function currentState(){
-        return [_textContent.textDocument.modified,
-                _textContent.isTitle()];
-    }
+    // function currentState(){
+    //     return [_textContent.textDocument.modified,
+    //             _textContent.isTitle()];
+    // }
 
     TextContent {
         id:_textContent

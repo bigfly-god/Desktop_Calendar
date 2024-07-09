@@ -14,8 +14,7 @@ ApplicationWindow {
         minimumWidth: 320
         header: ToolBar {
             RowLayout{
-                ToolButton{ action: actions.save }
-                ToolButton{ action: actions.open }
+                //ToolButton{ action: actions.save }
                 ToolButton{ action: actions.screenshot}
                 ToolButton{ action: actions.exit1 }
             }
@@ -23,8 +22,7 @@ ApplicationWindow {
 
         Actions {
             id:actions
-            save.onTriggered: Controller.save();
-            open.onTriggered: Controller.open();
+            //save.onTriggered: Controller.save();
             exit1.onTriggered: Controller.exitnote();
             screenshot.onTriggered: Controller.sreenshout();
         }

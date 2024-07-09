@@ -66,7 +66,6 @@ Item {
         text: qsTr("&Open...")
         icon.name: "document-open"
         shortcut: StandardKey.Open
-        // onTriggered: console.log("Open action triggered");
     }
     Action{
         id:_screenshot
