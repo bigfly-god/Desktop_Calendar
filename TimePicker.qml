@@ -181,7 +181,7 @@ Item {
 
          onVisibleChanged: {
                 if (!visible) {
-                    console.log("myItem is no longer visible");
+                    //console.log("myItem is no longer visible");
                    // 重新启用主窗口
                    calendar.enabled = true
                 }
@@ -189,7 +189,7 @@ Item {
 
      }
 
-     Text{
+     Text {
          id: s_text
          anchors.left:secondComboBox.right
          anchors.leftMargin: 0

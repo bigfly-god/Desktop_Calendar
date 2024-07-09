@@ -153,6 +153,17 @@ QList<Schedule> FileManager::getDaySchedules(const QDate& date) const
         Schedule schedule = readFromFile(fileName);
         schedulesForDate.append(schedule);
     }
+
+    // 按照事件日期和开始时间排序
+    std::sort(schedulesForDate.begin(),
+              schedulesForDate.end(),
+              [](const Schedule& a, const Schedule& b) {
+                  if (a.eventDate != b.eventDate) {
+                      return a.eventDate < b.eventDate;
+                  } else {
+                      return a.startTime < b.startTime;
+                  }
+              });
     // 返回所有日程信息
     return schedulesForDate;
 }
@@ -228,11 +239,11 @@ QList<Schedule> FileManager::getSchedule(const QDate& date) const
 Schedule FileManager::getOneSchedule(const QDate& date, const QTime& time) const
 {
     QString directoryPath = generateFileName(date, time);
-
     Schedule schedule;
     schedule = readFromFile(directoryPath);
     return schedule;
 }
+
 Schedule FileManager::getOneSchedule2(const QDate& date) const
 {
     QString string = "12:00:00";
@@ -301,4 +312,35 @@ QTime FileManager::returnStartTime(const QString& timeString) const
 QString FileManager::getString(const QString& string) const
 {
     return string;
+}
+
+//删除文件
+bool FileManager::deleteFile(const QString& filePath)
+{
+    QFile file(filePath);
+    if (file.exists()) {
+        if (file.remove()) {
+            qDebug() << "File deleted successfully:" << filePath;
+
+            // 获取文件所在的目录路径
+            QDir dir(QFileInfo(filePath).absoluteDir());
+
+            // 如果目录下没有其他文件，删除该目录
+            if (dir.entryList(QDir::Files).isEmpty()) {
+                if (dir.rmdir(dir.absolutePath())) {
+                    qDebug() << "Directory removed successfully:" << dir.absolutePath();
+                } else {
+                    qDebug() << "Failed to remove directory:" << dir.absolutePath();
+                }
+            }
+
+            return true;
+        } else {
+            qDebug() << "Failed to remove file:" << file.errorString();
+            return false;
+        }
+    } else {
+        qDebug() << "File does not exist:" << filePath;
+        return false;
+    }
 }

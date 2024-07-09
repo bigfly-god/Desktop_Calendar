@@ -5,10 +5,8 @@ import QtQuick.Window
 import "Desktop_Calendar.js" as Controller
 
 ApplicationWindow {
-
     property alias actions: _actions
     property alias content: _content
-
     id:window
     width: 520
     height: 480
@@ -19,7 +17,7 @@ ApplicationWindow {
     visible: true
     title: qsTr("Calendar")
 
-    menuBar:MenuBar{
+    menuBar:MenuBar {
         id:appMenuBar
         Menu{
              id:listMenu
@@ -43,11 +41,12 @@ ApplicationWindow {
         }
     }
 
-    Actions{
+    Actions {
         id:_actions
         about.onTriggered: content.dialogs.about.open()
         addSchedule.onTriggered: Controller.open_addScheduleDialog()
-        modifySchedule.onTriggered: content.dialogs.modifyScheduleDialog.open()
+        modifySchedule.onTriggered: Controller.open_modifyScheduleDialog()
+        deleteSchedule.onTriggered: Controller.open_deleteScheduleDialog()
         eventCountdown.onTriggered: content.dialogs.eventCountdown.open()
         note.onTriggered:Controller.createnote()
     }
@@ -67,7 +66,7 @@ ApplicationWindow {
         running: true   // 定时器运行
         repeat: true    // 重复执行
         onTriggered: {
-            Controller.updateDateTime()//每触发一次，更新一次label上时间显示
+         Controller.updateDateTime()//每触发一次，更新一次label上时间显示
         }
     }
 }

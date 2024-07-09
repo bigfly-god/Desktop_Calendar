@@ -49,6 +49,7 @@ public:
     Q_INVOKABLE QTime returnStartTime(const QString& time) const;
     Q_INVOKABLE Schedule readFromFile(const QString& fileName) const;
     Q_INVOKABLE QString getString(const QString& string) const;
+    Q_INVOKABLE bool deleteFile(const QString& filePath);
 
     QString storagePath() const;
     void setStoragePath(const QString& path);

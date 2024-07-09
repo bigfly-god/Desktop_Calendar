@@ -15,8 +15,6 @@ ScrollView {
                 _textContent.isTitle()];
     }
 
-
-
     TextContent {
         id:_textContent
     }

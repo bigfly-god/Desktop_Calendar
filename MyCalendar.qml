@@ -12,7 +12,7 @@ Rectangle {
     anchors.fill: parent
     implicitWidth: 520
     implicitHeight: 350
-    border.color: "black"
+    border.color: "#404040"
     property alias font: month_grid.font
     property alias locale: month_grid.locale
     property date selectDate: new Date()
@@ -59,12 +59,11 @@ Rectangle {
                    }
        }
 
-
         //年、月切换
         Rectangle {
             Layout.fillWidth: true
             implicitHeight: 45
-            color: "gray"
+            color:"#404040"
             RowLayout {
                 anchors.fill: parent
                 anchors.leftMargin: 20
@@ -84,6 +83,7 @@ Rectangle {
                     color: "white"
                     text: month_grid.year
                 }
+
                 CalendarButton {
                     text: ">"
                     TapHandler{
@@ -135,7 +135,7 @@ Rectangle {
                     height: 45
                     radius: width / 2
                     Layout.alignment: Qt.AlignRight
-                    color: "orange"
+                    color: "#E32636"
                     Text {
                         color: "white"
                         text: "Today"
@@ -156,7 +156,7 @@ Rectangle {
 
             //星期1-7
        Rectangle {
-               color: "gray"
+               color: "white"
                Layout.fillWidth: true
                Layout.preferredHeight: 40
 
@@ -170,7 +170,7 @@ Rectangle {
                    Repeater {
                        model: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
                        delegate: Rectangle {
-                           color: "gray"
+                           color: "#404040"
                            anchors.bottomMargin: 1
                            Layout.fillWidth: true
                            Layout.fillHeight: true
@@ -198,8 +198,8 @@ Rectangle {
       }
       delegate: Rectangle {
           id:delegateRect
-          color: model.today?"orange":control.selectDate.valueOf()===model.date.valueOf()?"darkCyan":"gray"
-          border.color: "black"
+          color: model.today?"#E32636":control.selectDate.valueOf()===model.date.valueOf()?"mediumturquoise":"#404040"
+          border.color: "#404040"
           border.width: 1
           Rectangle {
               anchors.fill: parent
@@ -228,7 +228,7 @@ Rectangle {
               color: model.month===month_grid.month?"white":"black"
           }
 
-          TapHandler{
+          TapHandler {
               onTapped: {
                       control.selectDate = model.date;
                       console.log('click',month_grid.title,month_grid.year,month_grid.month+1,"--",
