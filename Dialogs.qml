@@ -13,6 +13,7 @@ Item {
     property alias eventCountdown: _eventCountdown
     property alias eventMessageInput: _eventMessageInput
     property alias failToSave: _failToSave
+    property alias failToOpen: _failToOpen
     property alias noschedule: _noSchedule
     property alias failTime:_failTime
     property alias failMessage:_failMessage
@@ -20,81 +21,45 @@ Item {
     property alias modifyMessageDialog:_modifyMessageDialog
     property alias deleteScheduleDialog:_deleteScheduleDialog
     property alias pop: _pop
+    property alias fileOpen: _fileOpen
 
-    // CustomDesktopTip {
-    //        id: _pop
-    //        title: qsTr("Schedule Reminder")
-    //        property string eventTitle: ""
-    //        property string sTime: ""
-    //        property string eTime:""
-
-    //        content: Rectangle {
-    //            width: 300
-    //            height: 200
-    //            color: "lightgray"
-
-    //            Column {
-    //                spacing: 10
-    //                anchors.fill: parent
-    //                Text {
-    //                text: qsTr("Event:") + " " + eventTitle
-    //                font.bold: true
-    //                anchors.horizontalCenter: parent.horizontalCenter
-    //            }
-    //            Text {
-    //                text: qsTr("Time:") + " " + sTime+"-"+eTime
-    //                anchors.horizontalCenter: parent.horizontalCenter
-    //            }
-    //            }
-    //        }
-    //        function showTipWithInfo(title, startTime,endTime) {
-    //            eventTitle = title;
-    //            sTime = startTime
-    //            eTime = endTime;
-    //            pop.showTip();
-    //        }
-    //    }
-
-    //    Timer {
-    //        id: scheduleTimer
-    //        interval: 1000
-    //        running: true
-    //        repeat: true
-    //        onTriggered: {
-    //            var now = new Date();
-    //            // 遍历日程数据，查找匹配当前时间的日程
-    //            var Schedules=content.fileManager.getAllSchedulesAsVariantList()
-    //            for (var i = 0; i < Schedules.length; ++i) {
-    //                var schedule = Schedules[i];
-    //                var scheduleTime = new Date(schedule.eventDate+'T'+schedule.reminderTime);
-    //                // 设置一个时间窗口，比如前后各1s
-    //                var windowStart = new Date(scheduleTime.getTime() - 1 * 1000);
-    //                var windowEnd = new Date(scheduleTime.getTime() + 1 * 1000);
-
-    //                // 检查当前时间是否在时间窗口内
-    //                if (now >= windowStart && now <= windowEnd) {
-    //                     _pop.showTipWithInfo(schedule.eventName, schedule.startTime,schedule.endTime);
-    //                     // 显示对话框
-    //                    break; // 找到匹配的日程后停止继续检查
-    //                }
-    //            }
-    //        }
-    //    }
     CustomDesktopTip {
            id: _pop
            title: qsTr("Schedule")
-           content: Rectangle {
+           content:Rectangle {
+               id: _rect
                width: 300
                height: 200
                color: "green"
-               Text {
-                   anchors.centerIn: parent
-                   text: qsTr("DesktopTip")
-               }
+               property alias eventText: _event.text
+               property alias timeText: _time.text
+               ColumnLayout {
+                    anchors.centerIn: parent
+                    Text {
+                    id:_event
+                    text: "" // 显示事件名称
+                    font.bold: true
+                    font.pointSize: 16
+                    wrapMode: Text.WordWrap
+                    width: parent.width
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                Text {
+                    id:_time
+                    text: "" // 显示事件时间范围
+                    wrapMode: Text.WordWrap
+                    width: parent.width
+                    horizontalAlignment: Text.AlignHCenter
+                }
+              }
+           }
+           function updateText(eventText, timeText) {
+             content_loader.item.eventText= eventText;
+             content_loader.item.timeText = timeText;
            }
        }
 
-       Timer {
+    Timer {
            id: scheduleTimer
            interval: 1000
            running: true
@@ -112,29 +77,8 @@ Item {
 
                    // 检查当前时间是否在时间窗口内
                    if (now >= windowStart && now <= windowEnd) {
-                       // pop.content:Rectangle {
-                       //     width: 300
-                       //     height: 200
-                       //     color: "green"
-                       //     Column {
-                       //         anchors.centerIn: parent
-                       //         Text {
-                       //             text: schedule.eventName // 显示事件名称
-                       //             font.bold: true
-                       //             font.pointSize: 16
-                       //             wrapMode: Text.WordWrap
-                       //             width: parent.width
-                       //             horizontalAlignment: Text.AlignHCenter
-                       //         }
-                       //         Text {
-                       //             text: "start time: " + schedule.startTime + " to " + schedule.endTime // 显示事件时间范围
-                       //             wrapMode: Text.WordWrap
-                       //             width: parent.width
-                       //             horizontalAlignment: Text.AlignHCenter
-                       //         }
-                       //     }
-                       // }
-                       pop.showTip(); // 显示对话框
+                       _pop.updateText("Schedule:"+schedule.eventName, "Satrt time：" + schedule.startTime + " to " + schedule.endTime);
+                       _pop.showTip(); // 显示对话框
                        break; // 找到匹配的日程后停止继续检查
                    }
                }
@@ -455,6 +399,7 @@ Item {
 
                         Dialog {
                          property alias checkDialog: _checkDialog
+                         implicitWidth: 300
                          id: _checkDialog
                          standardButtons: Dialog.Ok | Dialog.Cancel
                          title:"Check Box"
@@ -661,6 +606,14 @@ Item {
         informativeText: qsTr("Sorry, the date you selected should be after today. Please choose a new date")
     }
 
+    MessageDialog{
+        id:_failToOpen
+        modality: Qt.WindowModal
+        buttons:MessageDialog.Ok
+        text:"Fail to open"
+        informativeText: qsTr("Sorry, you didn't open the file correctly")
+    }
+
     //提示选定时间没有日程
     MessageDialog{
         id:_noSchedule
@@ -678,6 +631,15 @@ Item {
         currentFolder: StandardPaths.writableLocation
                        (StandardPaths.DocumentsLocation)
         fileMode: FileDialog.SaveFile
+        nameFilters: [ "Text files (*.txt *)" ]
+    }
+
+    FileDialog {
+        id: _fileOpen
+        title: "Select some text files"
+        currentFolder: StandardPaths.standardLocations
+                       (StandardPaths.DocumentsLocation)[0]
+        fileMode: FileDialog.OpenFiles
         nameFilters: [ "Text files (*.txt *)" ]
     }
 

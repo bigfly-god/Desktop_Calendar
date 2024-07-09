@@ -199,7 +199,6 @@ function createnote(){
 function sreenshout(){
     screenShotCom.source = "Screenshot.qml";
     notewindow.visible=false
-
 }
 
 function exitnote(){
@@ -266,6 +265,46 @@ function save(){
 
     content.dialogs.fileSave.open()
 }
+
+function open() {
+    let currentStates = contente1.currentState();
+    let modified = currentStates[0];
+    let titled = currentStates[1];
+    console.log(modified, titled);
+
+    if (titled && !modified) {
+        return; // 处理已命名但未修改的情况
+    } else if (titled && modified) {
+        if (!content.textContent.saveFile()) {
+            content.dialogs.failToSave.open();
+        }
+        return; // 处理已命名且已修改的情况
+    }
+
+    // 连接拒绝信号
+    content.dialogs.fileOpen.rejected.connect(() => {
+        return; // 处理拒绝逻辑
+    });
+
+    // 连接接受信号
+    content.dialogs.fileOpen.accepted.connect(() => {
+        // fileOpenAcceptedHandler
+        let filepath = content.dialogs.fileOpen.selectedFile;
+        console.log(filepath.toString());
+
+        if (filepath.toString() !== "") {
+            if (!contente1.textContent.openFile(filepath)) {
+                content.dialogs.failToOpen.open();
+            }
+        }
+        return;
+    });
+
+    // 打开对话框
+    content.dialogs.fileOpen.open();
+}
+
+
 function initial(){
     content.textContent.textDocument.modifiedChanged.
     connect(()=>{

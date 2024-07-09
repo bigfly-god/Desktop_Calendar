@@ -3,6 +3,7 @@ import QtQuick.Window
 import QtQuick.Controls
 
 Window {
+    property alias content_loader: content_loader
     id: control
     visible: false
     color: "transparent"
@@ -89,8 +90,8 @@ Window {
             }
         }
     }
-    //用于加载内容
-    Loader{
+    // //用于加载内容
+    Loader {
         id: content_loader
         anchors.top: title_item.bottom
     }

@@ -11,6 +11,7 @@ Item {
     property  alias eventCountdown:_eventCountdown
     property  alias note: _note
     property  alias save: _save
+    property alias open: _open
     property alias screenshot: _screenshot
 
     Action{
@@ -34,8 +35,6 @@ Item {
         text:qsTr("&Add schedule")
         icon.name:"application-edit"
     }
-
-
     Action{
         id:_eventCountdown
         text:qsTr("&Countdown")
@@ -61,13 +60,18 @@ Item {
         shortcut: StandardKey.Save
         icon.name: "document-save"
     }
+
+    Action {
+        id: _open
+        text: qsTr("&Open...")
+        icon.name: "document-open"
+        shortcut: StandardKey.Open
+        // onTriggered: console.log("Open action triggered");
+    }
     Action{
         id:_screenshot
         text:qsTr("ScreenShot")
     }
-
-
-
 }
 
 

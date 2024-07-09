@@ -6,17 +6,16 @@ import "Desktop_Calendar.js" as Controller
 ApplicationWindow {
         id: _notebook
         title:qsTr("note")
-        width: 300
+        width: 350
         height: 200
         maximumHeight: 600
         minimumHeight: 200
         maximumWidth: 400
-        minimumWidth: 200
-        //visible: false
-        //property string noteText: ""
+        minimumWidth: 320
         header: ToolBar {
             RowLayout{
                 ToolButton{ action: actions.save }
+                ToolButton{ action: actions.open }
                 ToolButton{ action: actions.screenshot}
                 ToolButton{ action: actions.exit1 }
             }
@@ -25,8 +24,9 @@ ApplicationWindow {
         Actions {
             id:actions
             save.onTriggered: Controller.save();
+            open.onTriggered: Controller.open();
             exit1.onTriggered: Controller.exitnote();
-            screenshot.onTriggered: Controller.sreenshout()
+            screenshot.onTriggered: Controller.sreenshout();
         }
 
         Loader {
@@ -36,32 +36,10 @@ ApplicationWindow {
             }
         }
 
-        Content1{
+        Content1 {
             id:contente1
             anchors.fill: parent
         }
 
-    //     Rectangle {
-    //         id: noteBackground
-    //         width: parent.width
-    //         height: parent.height
-    //         color: "lightyellow"
-    //         border.color: "orange"
-    //         border.width: 2
 
-    //         // TextEdit {
-    //         //     id: noteTextEdit
-    //         //     anchors.fill: parent
-    //         //     wrapMode: TextEdit.Wrap
-    //         //     selectByMouse: true
-
-    //         //     font.pixelSize: 16
-    //         //     color: "black"
-    //         //     clip: true
-
-    //         //     onTextChanged: {
-    //         //         contente1.notewindow.noteText = noteTextEdit.text;
-    //         //     }
-    //         // }
-    // }
 }
