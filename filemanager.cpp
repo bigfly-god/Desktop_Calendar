@@ -19,6 +19,11 @@ bool FileManager::isValidDate(const QDate& date) const
     return date >= QDate::currentDate();
 }
 
+QString FileManager::generateFileName(const QString& date, const QString& time) const
+{
+    return "/root/Desktop_Calendar/schedule/" + date + "/" + time + ".txt";
+}
+
 QString FileManager::generateFileName(const QDate& date) const
 {
     return "/root/Desktop_Calendar/schedule/" + date.toString("yyyy-MM-dd");

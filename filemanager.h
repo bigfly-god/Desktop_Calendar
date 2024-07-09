@@ -27,6 +27,7 @@ public:
     Q_INVOKABLE bool isValidDate(const QDate& date) const;
     Q_INVOKABLE bool hasSchedule(const QDate& date) const;
     Q_INVOKABLE QVariantList getAllSchedulesAsVariantList();
+    Q_INVOKABLE QString generateFileName(const QString& date, const QString& time) const;
     Q_INVOKABLE QList<Schedule> getAllSchedules();
     Q_INVOKABLE QList<Schedule> getDaySchedules(const QDate& date) const;
     Q_INVOKABLE QList<Schedule> getSchedule(const QDate& date) const;

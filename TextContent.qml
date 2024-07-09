@@ -27,7 +27,7 @@ TextArea {
         }
     }
 
-    function saveFile(newFilepath : url): bool{
+    function saveFile(newFilepath : url): bool {
         if(newFilepath.toString() === ""){
             textDocument.save()
             if(textDocument.status === TextDocument.WriteError)
@@ -54,7 +54,6 @@ TextArea {
                 console.error("Failed to open file:", file.errorString());
                 return false;
             }
-
             let fileContent = file.readAll();
             file.close();
 
@@ -72,7 +71,4 @@ TextArea {
             return true;
         }
     }
-
-
-
 }

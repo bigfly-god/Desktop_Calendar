@@ -79,6 +79,8 @@ Item {
                    if (now >= windowStart && now <= windowEnd) {
                        _pop.updateText("Schedule:"+schedule.eventName, "Satrt time：" + schedule.startTime + " to " + schedule.endTime);
                        _pop.showTip(); // 显示对话框
+                       content.fileManager.deleteFile(content.fileManager.generateFileName(schedule.eventDate,schedule.startTime));
+                       Controller.update()
                        break; // 找到匹配的日程后停止继续检查
                    }
                }
