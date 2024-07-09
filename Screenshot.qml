@@ -63,77 +63,92 @@ Window {
         color: blurryColor
     }
 
-    // SelectionItem {
-    //     id: selectionItem
-    //     anchors.fill: parent
-
-    //     onSelectionStarted: {
-    //         var startX = selectionItem.startX;
-    //         var startY = selectionItem.startY;
-    //          console.log("Selection started - startX:", startX, "startY:", startY);
-    //         selectionRect.width = 0;
-    //         selectionRect.height = 0;
-    //         selectionRect.visible = true;
-    //     }
-
-    //     onSelectionUpdated: {
-    //         var endX = selectionItem.endX;
-    //         var endY = selectionItem.endY;
-    //          console.log("Selection updated - startX:", selectionItem.startX, "startY:", selectionItem.startY, "endX:", endX, "endY:", endY);
-    //         selectionRect.width = Math.abs(endX - selectionItem.startX);
-    //         selectionRect.height = Math.abs(endY - selectionItem.startY);
-    //         selectionRect.x = Math.min(selectionItem.startX, endX);
-    //         selectionRect.y = Math.min(selectionItem.startY, endY);
-    //     }
-
-    //     onSelectionFinished: {
-    //         console.log("Selection finished - startX:", selectionItem.startX, "startY:", selectionItem.startY, "endX:", selectionItem.endX, "endY:", selectionItem.endY);
-    //         selectionRect.updateStartAndEndPoint();
-    //         functionRect.visible = true;
-    //     }
-    // }
-
-Rectangle{
-   color:tranparentColor
-   anchors.fill: parent
-    TapHandler
-    {
-          id:taparea
-          property int startX
-          property int startY
-          property int endX
-          property int endY
-          onPressedChanged: {
-              if(pressed)
-              {
-                  startX = point.position.x;
-                  startY = point.position.y;
-                  selectionRect.width = 0;
-                  selectionRect.height = 0;
-                  selectionRect.visible = true;
-                  console.log("startY",startY)
+    Rectangle{
+       color:tranparentColor
+       anchors.fill: parent
+        TapHandler
+        {
+              id:taparea
+              property int startX:0
+              property int startY:0
+              property int endX:0
+              property int endY:0
+              onPressedChanged: {
+                  if(pressed)
+                  {
+                      startX = point.position.x;
+                      startY = point.position.y;
+                      selectionRect.width = 0;
+                      selectionRect.height = 0;
+                      selectionRect.visible = true;
+                      console.log("startY",startY)
+                      console.log("startX",startX)
+                  }
+                  else
+                      selectionRect.updateStartAndEndPoint();
+                      functionRect.visible = true;
               }
-              else
-                  selectionRect.updateStartAndEndPoint();
-                  functionRect.visible = true;
-          }
-          onPointChanged:  {
-                  endX = point.position.x;
-                  endY = point.position.y;
-                 console.log("endY",endY)
-                  selectionRect.width = Math.abs(endX - startX);
-                  selectionRect.height = Math.abs(endY - startY);
-                  selectionRect.x = Math.min(startX, endX);
-                  selectionRect.y = Math.min(startY, endY);
+              onPointChanged:  {
+                      endX = point.position.x;
+                      endY = point.position.y;
+                     console.log("endY",endY)
+                      selectionRect.width = Math.abs(endX - startX);
+                      selectionRect.height = Math.abs(endY - startY);
+                      selectionRect.x = Math.min(startX, endX);
+                      selectionRect.y = Math.min(startY, endY);
+                  }
               }
           }
-      }
+//     Rectangle{
+//     id:taparea
+//     color:tranparentColor
+//     anchors.fill: parent
+//     PointHandler{
+//     id:handler
+//     acceptedDevices: PointerDevice.TouchScreen
+//     target: Rectangle{
+//     parent: taparea
+//     color: tranparentColor
+//     TapHandler{
+//         property int startX:0
+//         property int startY:0
+//         property int endX:0
+//         property int endY:0
+//         onPressedChanged: {
+//             if(pressed)
+//             {
+//                 startX = handler.point.position.x;
+//                 startY = handler.point.position.y;
+//                 selectionRect.width = 0;
+//                 selectionRect.height = 0;
+//                 selectionRect.visible = true;
+//                 console.log("startY",startY)
+//                 console.log("startX",startX)
+//             }
+//             else
+//                 selectionRect.updateStartAndEndPoint();
+//                 functionRect.visible = true;
+//         }
+//         onPointChanged:  {
+//                 endX = handler.point.position.x;
+//                 endY = handler.point.position.y;
+//                console.log("endY",endY)
+//                 selectionRect.width = Math.abs(endX - startX);
+//                 selectionRect.height = Math.abs(endY - startY);
+//                 selectionRect.x = Math.min(startX, endX);
+//                 selectionRect.y = Math.min(startY, endY);
+//             }
+// }
+//     }
+
+
+//     }
+
+//     }
     Rectangle {
         id: selectionRect
-
         property var startPoint
         property var endPoint
-
         function updateStartAndEndPoint() {
             startPoint = Qt.point(x, y);
             endPoint = Qt.point(x + width, y + height);
@@ -143,192 +158,170 @@ Rectangle{
         border.color: selectBorderColor
         border.width: 1
         color: tranparentColor
-
  DragHandler{
     target:parent
     cursorShape :Qt.SizeAllCursor
-    onActiveChanged: if (active){
-                    selectionRect.updateStartAndEndPoint();
-          }
        }
-
 }
-
-        //     MouseArea {
-        //         id: dragItem
-        //         anchors.fill: parent
-        //         anchors.margins: 12 * 2
-        //         cursorShape: Qt.SizeAllCursor
-        //         drag.target: parent
-        //         onPositionChanged: {
-        //             selectionRect.updateStartAndEndPoint();
-        //         }
-        //     }
-        // }
-
-
         Item{
             id: resizeBorderItem
             anchors.centerIn: parent
             width: parent.width + borderMargin * 2
             height: parent.height + borderMargin * 2
         }
+        // //LeftTop
+        // CusDragRect{
+        //     id: dragLeftTop
+        //     anchors{
+        //         left: resizeBorderItem.left
+        //         top: resizeBorderItem.top
+        //     }
+        //     visible: selectionRect.visible
+        //     callBackFunc : selectionRect.updateStartAndEndPoint
+        //     posType: posLeftTop
 
+        //     onSigPosChanged: function(mousePoint){
+        //         var point = mapToGlobal(mousePoint);
+        //         selectionRect.x = Math.min(point.x, selectionRect.endPoint.x);
+        //         selectionRect.y = Math.min(point.y, selectionRect.endPoint.y);
+        //         selectionRect.width = Math.max(selectionRect.endPoint.x, point.x)  - selectionRect.x;
+        //         selectionRect.height = Math.max(selectionRect.endPoint.y, point.y) - selectionRect.y;
+        //     }
+        // }
 
+        // //LeftBottom
+        // CusDragRect{
+        //     id: dragLeftBottom
+        //     anchors{
+        //         left: resizeBorderItem.left
+        //         bottom: resizeBorderItem.bottom
+        //     }
+        //     visible: selectionRect.visible
+        //     callBackFunc : selectionRect.updateStartAndEndPoint
+        //     posType: posLeftBottom
 
-        //LeftTop
-        CusDragRect{
-            id: dragLeftTop
-            anchors{
-                left: resizeBorderItem.left
-                top: resizeBorderItem.top
-            }
-            visible: selectionRect.visible
-            callBackFunc : selectionRect.updateStartAndEndPoint
-            posType: posLeftTop
+        //     onSigPosChanged: function(mousePoint){
+        //         var point = mapToGlobal(mousePoint);
+        //         selectionRect.x = Math.min(point.x, selectionRect.endPoint.x);
+        //         selectionRect.y = Math.min(point.y, selectionRect.startPoint.y);
+        //         selectionRect.width = Math.max(selectionRect.endPoint.x, point.x)  - selectionRect.x;
+        //         selectionRect.height = Math.max(selectionRect.startPoint.y, point.y) - selectionRect.y;
+        //     }
+        // }
 
-            onSigPosChanged: function(mousePoint){
-                var point = mapToGlobal(mousePoint);
-                selectionRect.x = Math.min(point.x, selectionRect.endPoint.x);
-                selectionRect.y = Math.min(point.y, selectionRect.endPoint.y);
-                selectionRect.width = Math.max(selectionRect.endPoint.x, point.x)  - selectionRect.x;
-                selectionRect.height = Math.max(selectionRect.endPoint.y, point.y) - selectionRect.y;
-            }
-        }
+        // //RightTop
+        // CusDragRect{
+        //     id: dragRightTop
+        //     anchors{
+        //         right: resizeBorderItem.right
+        //         top: resizeBorderItem.top
+        //     }
+        //     visible: selectionRect.visible
+        //     callBackFunc : selectionRect.updateStartAndEndPoint
+        //     posType: posRightTop
 
-        //LeftBottom
-        CusDragRect{
-            id: dragLeftBottom
-            anchors{
-                left: resizeBorderItem.left
-                bottom: resizeBorderItem.bottom
-            }
-            visible: selectionRect.visible
-            callBackFunc : selectionRect.updateStartAndEndPoint
-            posType: posLeftBottom
+        //     onSigPosChanged: function(mousePoint){
+        //         var point = mapToGlobal(mousePoint);
+        //         selectionRect.x = Math.min(point.x, selectionRect.startPoint.x);
+        //         selectionRect.y = Math.min(point.y, selectionRect.endPoint.y);
+        //         selectionRect.width = Math.max(selectionRect.startPoint.x, point.x)  - selectionRect.x;
+        //         selectionRect.height = Math.max(selectionRect.endPoint.y, point.y) - selectionRect.y;
+        //     }
+        // }
 
-            onSigPosChanged: function(mousePoint){
-                var point = mapToGlobal(mousePoint);
-                selectionRect.x = Math.min(point.x, selectionRect.endPoint.x);
-                selectionRect.y = Math.min(point.y, selectionRect.startPoint.y);
-                selectionRect.width = Math.max(selectionRect.endPoint.x, point.x)  - selectionRect.x;
-                selectionRect.height = Math.max(selectionRect.startPoint.y, point.y) - selectionRect.y;
-            }
-        }
+        // //RightBottom
+        // CusDragRect{
+        //     id: dragRightBottom
+        //     anchors{
+        //         right: resizeBorderItem.right
+        //         bottom: resizeBorderItem.bottom
+        //     }
+        //     visible: selectionRect.visible
+        //     callBackFunc : selectionRect.updateStartAndEndPoint
+        //     posType: posRightBottom
 
-        //RightTop
-        CusDragRect{
-            id: dragRightTop
-            anchors{
-                right: resizeBorderItem.right
-                top: resizeBorderItem.top
-            }
-            visible: selectionRect.visible
-            callBackFunc : selectionRect.updateStartAndEndPoint
-            posType: posRightTop
+        //     onSigPosChanged: function(mousePoint){
+        //         var point = mapToGlobal(mousePoint);
+        //         selectionRect.x = Math.min(point.x, selectionRect.startPoint.x);
+        //         selectionRect.y = Math.min(point.y, selectionRect.startPoint.y);
+        //         selectionRect.width = Math.max(selectionRect.startPoint.x, point.x)  - selectionRect.x;
+        //         selectionRect.height = Math.max(selectionRect.startPoint.y, point.y) - selectionRect.y;
+        //     }
+        // }
 
-            onSigPosChanged: function(mousePoint){
-                var point = mapToGlobal(mousePoint);
-                selectionRect.x = Math.min(point.x, selectionRect.startPoint.x);
-                selectionRect.y = Math.min(point.y, selectionRect.endPoint.y);
-                selectionRect.width = Math.max(selectionRect.startPoint.x, point.x)  - selectionRect.x;
-                selectionRect.height = Math.max(selectionRect.endPoint.y, point.y) - selectionRect.y;
-            }
-        }
+        // //Top
+        // CusDragRect{
+        //     id: dragTop
+        //     anchors{
+        //         top: resizeBorderItem.top
+        //         horizontalCenter: resizeBorderItem.horizontalCenter
+        //     }
+        //     visible: selectionRect.visible
+        //     callBackFunc : selectionRect.updateStartAndEndPoint
+        //     posType: posTop
 
-        //RightBottom
-        CusDragRect{
-            id: dragRightBottom
-            anchors{
-                right: resizeBorderItem.right
-                bottom: resizeBorderItem.bottom
-            }
-            visible: selectionRect.visible
-            callBackFunc : selectionRect.updateStartAndEndPoint
-            posType: posRightBottom
+        //     onSigPosChanged: function(mousePoint){
+        //         var point = mapToGlobal( );
+        //         selectionRect.y = Math.min(point.y, selectionRect.endPoint.y);
+        //         selectionRect.height = Math.max(selectionRect.endPoint.y, point.y) - selectionRect.y;
+        //     }
+        // }
 
-            onSigPosChanged: function(mousePoint){
-                var point = mapToGlobal(mousePoint);
-                selectionRect.x = Math.min(point.x, selectionRect.startPoint.x);
-                selectionRect.y = Math.min(point.y, selectionRect.startPoint.y);
-                selectionRect.width = Math.max(selectionRect.startPoint.x, point.x)  - selectionRect.x;
-                selectionRect.height = Math.max(selectionRect.startPoint.y, point.y) - selectionRect.y;
-            }
-        }
+        // //Bottom
+        // CusDragRect{
+        //     id: dragBottom
+        //     anchors{
+        //         bottom: resizeBorderItem.bottom
+        //         horizontalCenter: resizeBorderItem.horizontalCenter
+        //     }
+        //     visible: selectionRect.visible
+        //     callBackFunc : selectionRect.updateStartAndEndPoint
+        //     posType: posBottom
 
-        //Top
-        CusDragRect{
-            id: dragTop
-            anchors{
-                top: resizeBorderItem.top
-                horizontalCenter: resizeBorderItem.horizontalCenter
-            }
-            visible: selectionRect.visible
-            callBackFunc : selectionRect.updateStartAndEndPoint
-            posType: posTop
+        //     onSigPosChanged: function(mousePoint){
+        //         var point = mapToGlobal(mousePoint);
+        //         selectionRect.y = Math.min(point.y, selectionRect.startPoint.y);
+        //         selectionRect.height = Math.max(selectionRect.startPoint.y, point.y) - selectionRect.y;
+        //     }
+        // }
 
-            onSigPosChanged: function(mousePoint){
-                var point = mapToGlobal( );
-                selectionRect.y = Math.min(point.y, selectionRect.endPoint.y);
-                selectionRect.height = Math.max(selectionRect.endPoint.y, point.y) - selectionRect.y;
-            }
-        }
+        // //Left
+        // CusDragRect{
+        //     id: dragLeft
+        //     anchors{
+        //         left: resizeBorderItem.left
+        //         verticalCenter: resizeBorderItem.verticalCenter
+        //     }
+        //     visible: selectionRect.visible
+        //     callBackFunc : selectionRect.updateStartAndEndPoint
+        //     posType: posLeft
 
-        //Bottom
-        CusDragRect{
-            id: dragBottom
-            anchors{
-                bottom: resizeBorderItem.bottom
-                horizontalCenter: resizeBorderItem.horizontalCenter
-            }
-            visible: selectionRect.visible
-            callBackFunc : selectionRect.updateStartAndEndPoint
-            posType: posBottom
+        //     onSigPosChanged: function(mousePoint){
+        //         var point = mapToGlobal(mousePoint);
+        //         selectionRect.x = Math.min(point.x, selectionRect.endPoint.x);
+        //         selectionRect.width = Math.max(selectionRect.endPoint.x, point.x)  - selectionRect.x;
 
-            onSigPosChanged: function(mousePoint){
-                var point = mapToGlobal(mousePoint);
-                selectionRect.y = Math.min(point.y, selectionRect.startPoint.y);
-                selectionRect.height = Math.max(selectionRect.startPoint.y, point.y) - selectionRect.y;
-            }
-        }
+        //     }
+        // }
 
-        //Left
-        CusDragRect{
-            id: dragLeft
-            anchors{
-                left: resizeBorderItem.left
-                verticalCenter: resizeBorderItem.verticalCenter
-            }
-            visible: selectionRect.visible
-            callBackFunc : selectionRect.updateStartAndEndPoint
-            posType: posLeft
+        // //Right
+        // CusDragRect{
+        //     id: dragRight
+        //     anchors{
+        //         right: resizeBorderItem.right
+        //         verticalCenter: resizeBorderItem.verticalCenter
+        //     }
+        //     visible: selectionRect.visible
+        //     callBackFunc : selectionRect.updateStartAndEndPoint
+        //     posType: posLeft
 
-            onSigPosChanged: function(mousePoint){
-                var point = mapToGlobal(mousePoint);
-                selectionRect.x = Math.min(point.x, selectionRect.endPoint.x);
-                selectionRect.width = Math.max(selectionRect.endPoint.x, point.x)  - selectionRect.x;
+        //     onSigPosChanged: function(mousePoint){
+        //         var point = mapToGlobal(mousePoint);
+        //         selectionRect.x = Math.min(point.x, selectionRect.startPoint.x);
+        //         selectionRect.width = Math.max(selectionRect.startPoint.x, point.x)  - selectionRect.x;
 
-            }
-        }
-
-        //Right
-        CusDragRect{
-            id: dragRight
-            anchors{
-                right: resizeBorderItem.right
-                verticalCenter: resizeBorderItem.verticalCenter
-            }
-            visible: selectionRect.visible
-            callBackFunc : selectionRect.updateStartAndEndPoint
-            posType: posLeft
-
-            onSigPosChanged: function(mousePoint){
-                var point = mapToGlobal(mousePoint);
-                selectionRect.x = Math.min(point.x, selectionRect.startPoint.x);
-                selectionRect.width = Math.max(selectionRect.startPoint.x, point.x)  - selectionRect.x;
-
-            }
-        }
+        //     }
+        // }
 
 
     Item{

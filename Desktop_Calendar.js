@@ -102,7 +102,6 @@ function createnote(){
 function sreenshout(){
     screenShotCom.source = "Screenshot.qml";
     notewindow.visible=false
-
 }
 
 function exitnote(){
