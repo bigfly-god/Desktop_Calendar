@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Desktop_Calendar
+Exec=/root/Desktop_Calendar/build/Desktop_Qt_6_7_1-Debug/appDesktop_Calendar
+Icon=/root/Desktop_Calendar/icons/logo.jpg
+Terminal=false
+Categories=Utility;Calendar;
